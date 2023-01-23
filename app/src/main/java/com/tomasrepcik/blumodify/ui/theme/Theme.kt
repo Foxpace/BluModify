@@ -66,3 +66,10 @@ fun BluModifyTheme(
             content = content
     )
 }
+
+@Composable
+fun AppTheme(content: @Composable () -> Unit){
+    BluModifyTheme {
+        content()
+    }
+}

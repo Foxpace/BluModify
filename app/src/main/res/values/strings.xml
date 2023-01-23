@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BluModify</string>
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_text">Welcome to the app</string>
+    <string name="welcome_button">Next</string>
+    <string name="welcome_image_description">BluModify app icon</string>
 </resources>

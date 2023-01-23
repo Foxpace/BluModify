@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.tomasrepcik.blumodify.ui.theme.AppTheme
 
 @Composable
 fun MotivationScreen(navController: NavController) {
@@ -31,13 +32,14 @@ fun MotivationScreen(navController: NavController) {
             Text("Go Back")
         }
     }
-
 }
 
 @Preview
 @Composable
 fun MotivationPreview() {
     val navController = rememberNavController()
-    MotivationScreen(navController = navController)
+    AppTheme {
+        MotivationScreen(navController = navController)
+    }
 }
 
