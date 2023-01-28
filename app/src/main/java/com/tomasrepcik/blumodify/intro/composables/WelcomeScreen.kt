@@ -1,9 +1,8 @@
-package com.tomasrepcik.blumodify.intro
+package com.tomasrepcik.blumodify.intro.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.ui.theme.AppTheme
+import com.tomasrepcik.blumodify.intro.IntroNav
 import com.tomasrepcik.blumodify.ui.previews.BrightScreens
 import com.tomasrepcik.blumodify.ui.previews.DarkScreens
 
@@ -66,10 +65,7 @@ fun WelcomeScreen(navController: NavController) {
 @DarkScreens
 @Composable
 fun WelcomeScreenPreview() {
-    AppTheme {
-        Surface {
-            val navController = rememberNavController()
-            WelcomeScreen(navController = navController)
-        }
-    }
+    val navController = rememberNavController()
+    WelcomeScreen(navController = navController)
 }
+
