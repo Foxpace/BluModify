@@ -55,6 +55,7 @@ fun BluModifyTheme(
 
         SideEffect {
             (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            (view.context as Activity).window.navigationBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightStatusBars =
                 darkTheme
         }

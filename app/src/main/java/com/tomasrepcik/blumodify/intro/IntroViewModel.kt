@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.intro.model.UserOnboarded
 import com.tomasrepcik.blumodify.storage.datastore.AppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class IntroViewModel @Inject constructor(private val dataStore: DataStore<AppSet
     val userOnboarded = _userOnboarded.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(context = Dispatchers.IO) {
             dataStore.data.collect {
                 Log.e("Splash", "Loaded in $it")
                 processAppSettings(it)
