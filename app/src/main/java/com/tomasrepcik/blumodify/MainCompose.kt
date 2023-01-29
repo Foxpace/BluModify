@@ -11,7 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.intro.IntroNav
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.intro.introGraph
-import com.tomasrepcik.blumodify.intro.model.UserOnboarded
 import com.tomasrepcik.blumodify.main.MainNav
 import com.tomasrepcik.blumodify.main.mainGraph
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
@@ -19,14 +18,14 @@ import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 @Composable
 fun MainCompose(
     navController: NavHostController = rememberNavController(),
-    introViewModel: IntroViewModel = hiltViewModel()
+    vm: IntroViewModel = hiltViewModel()
 ) {
     BluModifyTheme {
         Surface {
-            val onboarded = introViewModel.userOnboarded.collectAsState()
+            val onboarded = vm.isOnboarded.collectAsState()
             NavHost(
                 navController,
-                startDestination = if (onboarded.value == UserOnboarded.Onboarded) MainNav.MAIN_ROUTE else IntroNav.INTRO_ROUTE
+                startDestination = if (onboarded.value) MainNav.MAIN_ROUTE else IntroNav.INTRO_ROUTE
             ) {
                 introGraph(navController)
                 mainGraph(navController)

@@ -11,7 +11,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.tomasrepcik.blumodify.intro.IntroViewModel
-import com.tomasrepcik.blumodify.intro.model.UserOnboarded
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -26,16 +25,12 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                return@setKeepOnScreenCondition viewModel.userOnboarded.value == UserOnboarded.Loading
+                return@setKeepOnScreenCondition !viewModel.isLoaded.value
             }
-            setOnExitAnimationListener{ splashScreen ->
-                val slideUp = ObjectAnimator.ofFloat(
-                        splashScreen.view,
-                View.TRANSLATION_Y,
-                0f,
-                splashScreen.view.height.toFloat()
-                )
-                slideUp.apply {
+            setOnExitAnimationListener { splashScreen ->
+                ObjectAnimator.ofFloat(
+                    splashScreen.view, View.TRANSLATION_Y, 0f, splashScreen.view.height.toFloat()
+                ).apply {
                     interpolator = AnticipateInterpolator()
                     duration = 500L
                     doOnEnd { splashScreen.remove() }
@@ -47,6 +42,5 @@ class MainActivity : ComponentActivity() {
             MainCompose()
         }
     }
-
 }
 

@@ -1,46 +1,55 @@
 package com.tomasrepcik.blumodify.intro
 
-import android.util.Log
-import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.intro.model.UserOnboarded
-import com.tomasrepcik.blumodify.storage.datastore.AppSettings
+import com.tomasrepcik.blumodify.storage.AppCache
+import com.tomasrepcik.blumodify.storage.AppCacheState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class IntroViewModel @Inject constructor(private val dataStore: DataStore<AppSettings>): ViewModel() {
+class IntroViewModel @Inject constructor(private val appCache: AppCache<AppCacheState>): ViewModel() {
 
-    private val _userOnboarded = MutableStateFlow(UserOnboarded.Loading)
-    val userOnboarded = _userOnboarded.asStateFlow()
+    private val _isLoaded: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    var isLoaded = _isLoaded.asStateFlow()
+
+    private val _isOnboarded: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    var isOnboarded = _isOnboarded.asStateFlow()
 
     init {
-        viewModelScope.launch(context = Dispatchers.IO) {
-            dataStore.data.collect {
-                Log.e("Splash", "Loaded in $it")
-                processAppSettings(it)
+
+        viewModelScope.launch {
+            appCache.state.collect{
+                when(it){
+                    AppCacheState.Error -> {
+                        _isLoaded.value = true
+                        _isOnboarded.value = false
+                    }
+                    is AppCacheState.Loaded -> {
+                        _isLoaded.value = true
+                        _isOnboarded.value = it.settings.onboarded
+                    }
+                    AppCacheState.Loading -> {
+                        _isLoaded.value = false
+                        _isOnboarded.value = false
+                    }
+                }
             }
+        }
+
+        viewModelScope.launch(context = Dispatchers.IO) {
+            appCache.loadInCache()
         }
     }
 
 
     fun saveUserOnboarding() {
-        viewModelScope.launch {
-            val newSettings = dataStore.updateData { actualSettings: AppSettings ->
-                actualSettings.copy(onboarded = true)
-            }
-            processAppSettings(newSettings)
+        viewModelScope.launch(context = Dispatchers.IO) {
+            appCache.storeOnboarding(true)
         }
-    }
-
-    private fun processAppSettings(appSettings: AppSettings) {
-        _userOnboarded.value =
-            if (appSettings.onboarded) UserOnboarded.Onboarded else UserOnboarded.NotOnboarded
     }
 }
