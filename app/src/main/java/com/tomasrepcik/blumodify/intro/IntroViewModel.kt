@@ -14,8 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class IntroViewModel @Inject constructor(private val appCache: AppCache<AppCacheState>): ViewModel() {
 
-    private val _isLoaded: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    var isLoaded = _isLoaded.asStateFlow()
+    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    var isLoading = _isLoading.asStateFlow()
 
     private val _isOnboarded: MutableStateFlow<Boolean> = MutableStateFlow(false)
     var isOnboarded = _isOnboarded.asStateFlow()
@@ -26,22 +26,22 @@ class IntroViewModel @Inject constructor(private val appCache: AppCache<AppCache
             appCache.state.collect{
                 when(it){
                     AppCacheState.Error -> {
-                        _isLoaded.value = true
+                        _isLoading.value = false
                         _isOnboarded.value = false
                     }
                     is AppCacheState.Loaded -> {
-                        _isLoaded.value = true
+                        _isLoading.value = false
                         _isOnboarded.value = it.settings.onboarded
                     }
                     AppCacheState.Loading -> {
-                        _isLoaded.value = false
-                        _isOnboarded.value = false
+                        _isLoading.value = true
+                        _isOnboarded.value = true
                     }
                 }
             }
         }
 
-        viewModelScope.launch(context = Dispatchers.IO) {
+        viewModelScope.launch {
             appCache.loadInCache()
         }
     }

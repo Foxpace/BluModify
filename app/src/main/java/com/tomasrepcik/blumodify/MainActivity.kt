@@ -3,7 +3,7 @@ package com.tomasrepcik.blumodify
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnticipateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -25,13 +25,13 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                return@setKeepOnScreenCondition !viewModel.isLoaded.value
+                return@setKeepOnScreenCondition viewModel.isLoading.value
             }
             setOnExitAnimationListener { splashScreen ->
                 ObjectAnimator.ofFloat(
                     splashScreen.view, View.TRANSLATION_Y, 0f, splashScreen.view.height.toFloat()
                 ).apply {
-                    interpolator = AnticipateInterpolator()
+                    interpolator = DecelerateInterpolator()
                     duration = 500L
                     doOnEnd { splashScreen.remove() }
                     start()

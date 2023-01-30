@@ -2,14 +2,14 @@
 <resources>
     <!-- Splash Screen Theme. -->
     <style name="Theme.AppSplash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <item name="windowSplashScreenBackground">#8BAED0</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app_empty</item>
         <item name="windowSplashScreenAnimationDuration">500</item>
         <item name="postSplashScreenTheme">@style/Theme.BluModify</item>
 
         <!-- Status bar and Nav bar configs -->
-        <item name="android:statusBarColor" >@color/white</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor" >#8BAED0</item>
+        <item name="android:navigationBarColor">#8BAED0</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
