@@ -2,7 +2,8 @@ package com.tomasrepcik.blumodify.intro.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,62 +11,60 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.IntroNav
-import com.tomasrepcik.blumodify.ui.previews.BrightScreens
-import com.tomasrepcik.blumodify.ui.previews.DarkScreens
+import com.tomasrepcik.blumodify.ui.components.AppButton
+import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
-fun WelcomeScreen(navController: NavController) {
+fun WelcomeScreen(navController: NavController = rememberNavController()) = Surface {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.weight(0.2f))
+        Spacer(modifier = Modifier.weight(1f))
         Image(
-            painter = painterResource(id = R.drawable.bluetooth_icon),
+            painter = painterResource(id = R.drawable.ic_app_empty),
             contentDescription = stringResource(id = R.string.welcome_image_description),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.FillHeight,
+            modifier = Modifier.weight(5f)
         )
-        Spacer(modifier = Modifier.weight(0.3f))
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             stringResource(id = R.string.welcome_title),
-            fontWeight = FontWeight.Bold,
-            fontSize = 45.sp,
-            modifier = Modifier.padding(8.dp)
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.fillMaxWidth()
         )
         Text(
             stringResource(id = R.string.welcome_text),
-            fontWeight = FontWeight.Normal,
-            fontSize = 18.sp
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.weight(0.1f))
-        Button(onClick = {
+
+        Spacer(modifier = Modifier.weight(1f))
+        AppButton(text = R.string.welcome_button) {
             navController.navigate(IntroNav.INTRO_MOTIVATION_SCREEN)
-        }) {
-            Text(
-                stringResource(id = R.string.welcome_button),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(12.dp)
-            )
         }
-        Spacer(modifier = Modifier.weight(0.2f))
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 
-@BrightScreens
-@DarkScreens
+@AllScreenPreview
 @Composable
 fun WelcomeScreenPreview() {
-    val navController = rememberNavController()
-    WelcomeScreen(navController = navController)
+    BluModifyTheme {
+        WelcomeScreen()
+    }
 }
 
