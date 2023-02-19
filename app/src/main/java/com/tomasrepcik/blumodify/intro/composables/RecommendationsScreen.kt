@@ -1,48 +1,34 @@
 package com.tomasrepcik.blumodify.intro.composables
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.tomasrepcik.blumodify.main.MainNav
-import androidx.hilt.navigation.compose.hiltViewModel
+import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.IntroNav
 import com.tomasrepcik.blumodify.intro.IntroViewModel
+import com.tomasrepcik.blumodify.main.MainNav
+import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 
 @Composable
-fun RecommendationScreen(navController: NavController, viewModel: IntroViewModel = hiltViewModel()) {
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Recommendations")
-        Button(onClick = {
-            viewModel.saveUserOnboarding()
-            navController.navigate(MainNav.MAIN_ROUTE) {
-                popUpTo(IntroNav.INTRO_ROUTE)
-            }
-        }) {
-            Text("Go to main")
-        }
-        Button(onClick = {
-            navController.popBackStack(route = IntroNav.INTRO_WELCOME_SCREEN, inclusive = false)
-        }) {
-            Text("Go to beginning")
-        }
+fun RecommendationScreen(
+    navController: NavController,
+    viewModel: IntroViewModel = hiltViewModel()
+) = IntroCompose(
+    navController = navController,
+    image = R.drawable.ic_bt_inactive,
+    imageDescription = R.string.recommendation_image,
+    textTitle = R.string.recommendation_title,
+    textDescription = R.string.recommendation_text,
+    buttonText = R.string.start_app
+) {
+    viewModel.saveUserOnboarding()
+    navController.navigate(MainNav.MAIN_ROUTE) {
+        popUpTo(IntroNav.INTRO_ROUTE)
     }
-
 }
 
-@Preview
+@AllScreenPreview
 @Composable
 fun RecommendationScreenPreview() {
     val navController = rememberNavController()

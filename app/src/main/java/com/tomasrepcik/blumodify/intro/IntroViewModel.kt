@@ -2,17 +2,18 @@ package com.tomasrepcik.blumodify.intro
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.storage.AppCache
 import com.tomasrepcik.blumodify.storage.AppCacheState
+import com.tomasrepcik.blumodify.storage.AppCacheTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class IntroViewModel @Inject constructor(private val appCache: AppCache<AppCacheState>): ViewModel() {
+class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<AppCacheState>): ViewModel() {
 
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     var isLoading = _isLoading.asStateFlow()

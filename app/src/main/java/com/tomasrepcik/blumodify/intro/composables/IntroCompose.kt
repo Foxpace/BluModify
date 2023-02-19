@@ -1,5 +1,7 @@
 package com.tomasrepcik.blumodify.intro.composables
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,16 +14,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.intro.IntroNav
 import com.tomasrepcik.blumodify.ui.components.AppButton
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.ui.components.BackButton
+import com.tomasrepcik.blumodify.ui.components.OnClickFunction
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaffold {
+fun IntroCompose(
+    navController: NavController,
+    @DrawableRes image: Int,
+    @StringRes imageDescription: Int,
+    @StringRes textTitle: Int,
+    @StringRes textDescription: Int,
+    @StringRes buttonText: Int = R.string.next,
+    onNext: OnClickFunction
+
+) = Scaffold(topBar = {
+    TopAppBar(title = {}, navigationIcon = {
+        BackButton(iconDescription = R.string.ic_arrow_back) {
+            navController.popBackStack()
+        }
+    })
+}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -32,20 +48,20 @@ fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaf
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
-            painter = painterResource(id = R.drawable.ic_app_empty),
-            contentDescription = stringResource(id = R.string.welcome_image_description),
-            contentScale = ContentScale.FillHeight,
-            modifier = Modifier.weight(5f)
+            painter = painterResource(id = image),
+            contentDescription = stringResource(id = imageDescription),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.weight(2f)
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            stringResource(id = R.string.welcome_title),
+            stringResource(id = textTitle),
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            stringResource(id = R.string.welcome_text),
+            stringResource(id = textDescription),
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.fillMaxWidth()
@@ -54,18 +70,9 @@ fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaf
         Spacer(modifier = Modifier.weight(1f))
         AppButton(
             modifier = Modifier.padding(bottom = 30.dp),
-            text = R.string.next) {
-            navController.navigate(IntroNav.INTRO_MOTIVATION_ENERGY_SCREEN)
-        }
-    }
-}
-
-
-@AllScreenPreview
-@Composable
-fun WelcomeScreenPreview() {
-    BluModifyTheme {
-        WelcomeScreen()
+            text = buttonText,
+            onClick = onNext
+        )
     }
 }
 

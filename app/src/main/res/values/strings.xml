@@ -1,7 +1,49 @@
 <resources>
     <string name="app_name">BluModify</string>
+
+    <!-- ICON DESCRIPTIONS -->
+    <string name="ic_arrow_back">Back button</string>
+
+    <!-- GENERAL PURPOSE TEXT-->
+    <string name="next">Next</string>
+    <string name="start_app">Start using the app</string>
+
+    <!-- WELCOME SCREEN -->
     <string name="welcome_title">Welcome</string>
-    <string name="welcome_text">Welcome to the app</string>
-    <string name="welcome_button">Next</string>
+    <string name="welcome_text">
+        This is BluModify app, which protects your devices from battery drain
+        and redundant sharing of the Bluetooth signal.
+    </string>
     <string name="welcome_image_description">BluModify app icon</string>
+
+    <!-- ENERGY MOTIVATION SCREEN -->
+    <string name="motivation_energy_title">Battery saving</string>
+    <string name="motivation_energy_text">
+        Imagine you go to work listening to your favourite music.
+        You go through mall to buy snacks, stop by in park and end up at work desk.
+        You turn off the earbuds, but Bluetooth is still on and drains your battery.
+    </string>
+    <string name="motivation_energy_image">
+        Icon describing how the Bluetooth is draining the battery.
+    </string>
+
+    <!-- PRIVACY MOTIVATION SCREEN -->
+    <string name="motivation_privacy_title">Be incognito</string>
+    <string name="motivation_privacy_text">
+        Active Bluetooth can be tracked and abused from outside.
+        Shopping malls can track your entrances into a shop or someone can abuse its vulnerabilities within close range.
+        Even your own apps can determine location based on Bluetooth or abuse it in many other ways.
+    </string>
+    <string name="motivation_privacy_image">
+        Icon describing how the Bluetooth is draining the battery.
+    </string>
+
+    <!-- RECOMMENDATION SCREEN -->
+    <string name="recommendation_title">What to do?</string>
+    <string name="recommendation_text">
+        Turn off the Bluetooth and that is it.\n\nWith BluModify you can set up events,
+        which will turn off the Bluetooth, so you do not have to think about it.
+        The BluModify is event driven, so the battery consumption of the app itself is minimal.
+    </string>
+    <string name="recommendation_image">Sleeping Bluetooth icon.</string>
 </resources>

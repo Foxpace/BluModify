@@ -20,8 +20,8 @@ object CacheDI {
         context.settingsDataStore
 
     @Provides
-    fun provideAppCache(dataStore: DataStore<AppSettings>): AppCache<AppCacheState> =
-        AppCacheImp(dataStore)
+    fun provideAppCache(dataStore: DataStore<AppSettings>): AppCacheTemplate<AppCacheState> =
+        AppCache(dataStore)
 
 
 }

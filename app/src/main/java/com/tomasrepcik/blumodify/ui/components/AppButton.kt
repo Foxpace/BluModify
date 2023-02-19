@@ -21,9 +21,11 @@ import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 typealias OnClickFunction = () -> Unit
 
 @Composable
-fun AppButton(@StringRes text: Int, onClick: OnClickFunction) {
+fun AppButton(
+    modifier: Modifier = Modifier,
+    @StringRes text: Int, onClick: OnClickFunction) {
     Button(
-        modifier = Modifier
+        modifier = modifier
             .height(60.dp)
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
@@ -43,6 +45,6 @@ fun AppButton(@StringRes text: Int, onClick: OnClickFunction) {
 @Composable
 fun AppButtonPreview() {
     BluModifyTheme {
-        AppButton(text = R.string.welcome_text) {}
+        AppButton(text = R.string.next) {}
     }
 }
