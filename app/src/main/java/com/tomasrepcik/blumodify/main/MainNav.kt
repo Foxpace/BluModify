@@ -1,5 +1,6 @@
 package com.tomasrepcik.blumodify.main
 
+import androidx.compose.material3.DrawerState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -8,16 +9,16 @@ import com.tomasrepcik.blumodify.main.about.AboutScreen
 import com.tomasrepcik.blumodify.main.home.HomeScreen
 import com.tomasrepcik.blumodify.main.settings.SettingsScreen
 
-fun NavGraphBuilder.mainGraph(navController: NavController) {
+fun NavGraphBuilder.mainGraph(navController: NavController, drawerState: DrawerState) {
     navigation(startDestination = MainNav.MAIN_HOME_SCREEN, route = MainNav.MAIN_ROUTE) {
         composable(MainNav.MAIN_HOME_SCREEN){
-            HomeScreen(navController)
+            HomeScreen(navController, drawerState)
         }
         composable(MainNav.MAIN_SETTINGS_SCREEN){
-            SettingsScreen()
+            SettingsScreen(navController, drawerState)
         }
         composable(MainNav.MAIN_ABOUT_SCREEN){
-            AboutScreen()
+            AboutScreen(navController, drawerState)
         }
     }
 }

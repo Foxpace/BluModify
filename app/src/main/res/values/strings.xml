@@ -46,4 +46,9 @@
         The BluModify is event driven, so the battery consumption of the app itself is minimal.
     </string>
     <string name="recommendation_image">Sleeping Bluetooth icon.</string>
+
+    <!-- DRAWER SCREEN VALUES -->
+    <string name="drawer_home">Home</string>
+    <string name="drawer_settings">Settings</string>
+    <string name="drawer_about">About</string>
 </resources>
