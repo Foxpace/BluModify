@@ -15,9 +15,10 @@ import com.tomasrepcik.blumodify.intro.IntroNav
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.intro.introGraph
 import com.tomasrepcik.blumodify.main.MainNav
-import com.tomasrepcik.blumodify.main.home.HomeScreenParams
-import com.tomasrepcik.blumodify.main.home.appdrawer.AppDrawerContent
 import com.tomasrepcik.blumodify.main.mainGraph
+import com.tomasrepcik.blumodify.ui.components.appdrawer.AppDrawerContent
+import com.tomasrepcik.blumodify.ui.components.appdrawer.AppDrawerItemInfo
+import com.tomasrepcik.blumodify.ui.components.appdrawer.DrawerOption
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
@@ -36,7 +37,7 @@ fun MainCompose(
                     AppDrawerContent(
                         drawerState = drawerState,
                         navController = navController,
-                        menuItems = HomeScreenParams.drawerOptions
+                        menuItems = DrawerParams.drawerOptions
                     )
                 }
             ) {
@@ -45,11 +46,34 @@ fun MainCompose(
                     startDestination = if (onboarded.value) MainNav.MAIN_ROUTE else IntroNav.INTRO_ROUTE
                 ) {
                     introGraph(navController)
-                    mainGraph(navController, drawerState)
+                    mainGraph(drawerState)
                 }
             }
         }
     }
+}
+
+object DrawerParams {
+    val drawerOptions = arrayListOf(
+        AppDrawerItemInfo(
+            DrawerOption.Home,
+            R.string.drawer_home,
+            R.drawable.ic_home,
+            R.string.drawer_home_description
+        ),
+        AppDrawerItemInfo(
+            DrawerOption.Settings,
+            R.string.drawer_settings,
+            R.drawable.ic_settings,
+            R.string.drawer_settings_description
+        ),
+        AppDrawerItemInfo(
+            DrawerOption.About,
+            R.string.drawer_about,
+            R.drawable.ic_info,
+            R.string.drawer_info_description
+        )
+    )
 }
 
 @Preview

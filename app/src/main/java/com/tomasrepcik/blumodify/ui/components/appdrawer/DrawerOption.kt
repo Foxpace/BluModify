@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.main.home.appdrawer
+package com.tomasrepcik.blumodify.ui.components.appdrawer
 
 enum class DrawerOption {
     Home,
