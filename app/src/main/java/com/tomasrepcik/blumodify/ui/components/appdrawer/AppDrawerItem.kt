@@ -14,17 +14,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.DrawerParams
+import com.tomasrepcik.blumodify.main.MainNavOption
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @ExperimentalMaterial3Api
 @Composable
-fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: DrawerOption) -> Unit) =
+fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit) =
     Surface(
         color = MaterialTheme.colorScheme.onPrimary,
         modifier = Modifier
             .width(150.dp),
         onClick = { onClick(item.drawerOption) },
-        shape = RoundedCornerShape(50), //
+        shape = RoundedCornerShape(50),
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,
@@ -48,9 +49,9 @@ fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: DrawerOption) -> U
     }
 
 
-class MainStateProvider : PreviewParameterProvider<AppDrawerItemInfo> {
+class MainStateProvider : PreviewParameterProvider<AppDrawerItemInfo<MainNavOption>> {
     override val values = sequence {
-        DrawerParams.drawerOptions.forEach { element ->
+        DrawerParams.drawerButtons.forEach { element ->
             yield(element)
         }
     }
@@ -59,7 +60,7 @@ class MainStateProvider : PreviewParameterProvider<AppDrawerItemInfo> {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun AppDrawerItemPreview(@PreviewParameter(MainStateProvider::class) state: AppDrawerItemInfo) {
+fun AppDrawerItemPreview(@PreviewParameter(MainStateProvider::class) state: AppDrawerItemInfo<MainNavOption>) {
     BluModifyTheme {
         AppDrawerItem(item = state, onClick = {})
     }

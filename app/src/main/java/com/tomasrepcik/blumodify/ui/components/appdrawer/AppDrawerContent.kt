@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.tomasrepcik.blumodify.ui.components.appdrawer
 
@@ -16,23 +16,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.tomasrepcik.blumodify.main.MainNav
 import kotlinx.coroutines.launch
 
 @Composable
-fun AppDrawerContent(
+fun <T : Enum<T>> AppDrawerContent(
     drawerState: DrawerState,
-    navController: NavController,
-    menuItems: List<AppDrawerItemInfo>
+    menuItems: List<AppDrawerItemInfo<T>>,
+    defaultPick: T,
+    onClick: (T) -> Unit
 ) {
-    var currentPick by remember { mutableStateOf(DrawerOption.Home) }
+    var currentPick by remember { mutableStateOf(defaultPick) }
     val coroutineScope = rememberCoroutineScope()
 
     Surface(color = MaterialTheme.colorScheme.onPrimary) {
-        Column(modifier = Modifier
-            .fillMaxHeight()
-            .width(200.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(200.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AppDrawerTitle()
@@ -41,34 +41,17 @@ fun AppDrawerContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(menuItems) { item ->
-                    AppDrawerItem(item = item) {
+                    AppDrawerItem(item = item) { navOption ->
 
-                        if (currentPick == it) {
+                        if (currentPick == navOption) {
                             return@AppDrawerItem
                         }
 
-                        currentPick = it
+                        currentPick = navOption
                         coroutineScope.launch {
                             drawerState.close()
                         }
-
-                        when (it) {
-                            DrawerOption.Home -> {
-                                navController.navigate(MainNav.MAIN_HOME_SCREEN) {
-                                    popUpTo(MainNav.MAIN_ROUTE)
-                                }
-                            }
-                            DrawerOption.Settings -> {
-                                navController.navigate(MainNav.MAIN_SETTINGS_SCREEN) {
-                                    popUpTo(MainNav.MAIN_ROUTE)
-                                }
-                            }
-                            DrawerOption.About -> {
-                                navController.navigate(MainNav.MAIN_ABOUT_SCREEN) {
-                                    popUpTo(MainNav.MAIN_ROUTE)
-                                }
-                            }
-                        }
+                        onClick(navOption)
                     }
                 }
             }

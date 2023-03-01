@@ -4,32 +4,32 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.intro.composables.RecommendationScreen
 import com.tomasrepcik.blumodify.intro.composables.WelcomeScreen
 import com.tomasrepcik.blumodify.intro.composables.motivation.MotivationEnergyScreen
 import com.tomasrepcik.blumodify.intro.composables.motivation.MotivationPrivacyScreen
 
 fun NavGraphBuilder.introGraph(navController: NavController) {
-    navigation(startDestination = IntroNav.INTRO_WELCOME_SCREEN, route = IntroNav.INTRO_ROUTE) {
-        composable(IntroNav.INTRO_WELCOME_SCREEN){
+    navigation(startDestination = IntroNavOption.WelcomeScreen.name, route = NavRoutes.IntroRoute.name) {
+        composable(IntroNavOption.WelcomeScreen.name){
             WelcomeScreen(navController)
         }
-        composable(IntroNav.INTRO_MOTIVATION_ENERGY_SCREEN){
+        composable(IntroNavOption.MotivationEnergyScreen.name){
             MotivationEnergyScreen(navController)
         }
-        composable(IntroNav.INTRO_MOTIVATION_PRIVACY_SCREEN){
+        composable(IntroNavOption.MotivationPrivacyScreen.name){
             MotivationPrivacyScreen(navController)
         }
-        composable(IntroNav.INTRO_RECOMMENDATION_SCREEN){
+        composable(IntroNavOption.RecommendationScreen.name){
             RecommendationScreen(navController)
         }
     }
 }
 
-object IntroNav {
-    const val INTRO_ROUTE = "intro"
-    const val INTRO_WELCOME_SCREEN = "welcome"
-    const val INTRO_MOTIVATION_PRIVACY_SCREEN = "motivation_privacy"
-    const val INTRO_MOTIVATION_ENERGY_SCREEN = "motivation_energy"
-    const val INTRO_RECOMMENDATION_SCREEN = "recommendation"
+enum class IntroNavOption {
+    WelcomeScreen,
+    MotivationPrivacyScreen,
+    MotivationEnergyScreen,
+    RecommendationScreen
 }

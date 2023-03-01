@@ -4,10 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.intro.IntroNav
 import com.tomasrepcik.blumodify.intro.IntroViewModel
-import com.tomasrepcik.blumodify.main.MainNav
 import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 
 @Composable
@@ -23,8 +22,8 @@ fun RecommendationScreen(
     buttonText = R.string.start_app
 ) {
     viewModel.saveUserOnboarding()
-    navController.navigate(MainNav.MAIN_ROUTE) {
-        popUpTo(IntroNav.INTRO_ROUTE)
+    navController.navigate(NavRoutes.MainRoute.name) {
+        popUpTo(NavRoutes.IntroRoute.name)
     }
 }
 

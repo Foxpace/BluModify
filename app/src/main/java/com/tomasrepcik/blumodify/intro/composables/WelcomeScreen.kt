@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.intro.IntroNav
+import com.tomasrepcik.blumodify.intro.IntroNavOption
 import com.tomasrepcik.blumodify.ui.components.AppButton
 import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
@@ -55,7 +55,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaf
         AppButton(
             modifier = Modifier.padding(bottom = 30.dp),
             text = R.string.next) {
-            navController.navigate(IntroNav.INTRO_MOTIVATION_ENERGY_SCREEN)
+            navController.navigate(IntroNavOption.MotivationEnergyScreen.name)
         }
     }
 }

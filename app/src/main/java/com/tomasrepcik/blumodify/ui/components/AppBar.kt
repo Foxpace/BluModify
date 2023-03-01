@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(drawerState: DrawerState) {
+fun AppBar(drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
     TopAppBar(
         title = {},
