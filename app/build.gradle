@@ -9,6 +9,8 @@ plugins {
 android {
     namespace 'com.tomasrepcik.blumodify'
     compileSdk 33
+    buildToolsVersion '34.0.0 rc1'
+    ndkVersion '21.1.6352462'
 
     defaultConfig {
         applicationId "com.tomasrepcik.blumodify"
@@ -88,4 +90,5 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }
