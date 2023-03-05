@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyViewModel
-import com.tomasrepcik.blumodify.ui.components.AppBar
+import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
 
 @Composable
 fun HomeScreen(

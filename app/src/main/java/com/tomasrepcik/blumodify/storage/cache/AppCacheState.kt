@@ -1,6 +1,4 @@
-package com.tomasrepcik.blumodify.storage
-
-import com.tomasrepcik.blumodify.storage.datastore.AppSettings
+package com.tomasrepcik.blumodify.storage.cache
 
 sealed class AppCacheState {
     object Loading: AppCacheState()

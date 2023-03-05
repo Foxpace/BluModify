@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.storage
+package com.tomasrepcik.blumodify.storage.cache
 
 import kotlinx.coroutines.flow.StateFlow
 

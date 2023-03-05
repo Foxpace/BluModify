@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.storage.datastore
+package com.tomasrepcik.blumodify.storage.cache
 
 import kotlinx.serialization.Serializable
 

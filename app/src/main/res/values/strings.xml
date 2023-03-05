@@ -56,4 +56,11 @@
     <string name="drawer_home_description">Home navigation button</string>
     <string name="drawer_settings_description">Settings navigation button</string>
     <string name="drawer_info_description">About navigation button</string>
+
+    <!-- SETTINGS SCREEN -->
+    <string name="settings_tracked_devices">Tracked devices</string>
+    <string name="settings_tracked_button_description">Button to add tracked device</string>
+
+    <!-- ABOUT SCREEN -->
+    <string name="about_screen_title">About BluModify</string>
 </resources>

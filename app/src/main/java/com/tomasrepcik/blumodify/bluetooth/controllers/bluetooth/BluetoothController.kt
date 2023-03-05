@@ -1,5 +1,6 @@
 package com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -10,10 +11,12 @@ import android.content.IntentFilter
 import android.util.Log
 
 
-class BluetoothController (private val context: Context): BluetoothControllerTemplate() {
+@SuppressLint("MissingPermission")
+class BluetoothController(private val context: Context) : BluetoothControllerTemplate {
 
     private val tag: String = "BluetoothController"
-    private val bluetoothManager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+    private val bluetoothManager: BluetoothManager =
+        context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private val bluetoothAdapter: BluetoothAdapter = bluetoothManager.adapter
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -38,7 +41,7 @@ class BluetoothController (private val context: Context): BluetoothControllerTem
     }
 
 
-    override fun initialize(){
+    override fun initialize() {
 
     }
 
@@ -46,7 +49,11 @@ class BluetoothController (private val context: Context): BluetoothControllerTem
         removeObserver()
     }
 
-    private fun registerReceiver(){
+
+    override fun getPairedBtDevices(): List<BluetoothDevice> =
+        bluetoothAdapter.bondedDevices.filter { it.bondState == BluetoothDevice.BOND_BONDED }
+
+    private fun registerReceiver() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
         intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
@@ -64,12 +71,11 @@ class BluetoothController (private val context: Context): BluetoothControllerTem
 
     private fun onBtStateChange(action: String) {
         Log.i(tag, "Received action: $action")
-        if (lastState != isBtOn()){
+        if (lastState != isBtOn()) {
             lastState = isBtOn()
             btObserver?.onBtChange()
         }
     }
-
 
 
 }

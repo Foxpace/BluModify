@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.storage.datastore
+package com.tomasrepcik.blumodify.storage.cache
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException

@@ -1,26 +1,20 @@
 package com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth
 
+import android.bluetooth.BluetoothDevice
 
-abstract class BluetoothControllerTemplate {
 
-    open fun isBtOn(): Boolean {
-        throw NotImplementedError()
-    }
+interface  BluetoothControllerTemplate {
 
-    open fun registerObserver(btObserver: BluetoothObserver){
-        throw NotImplementedError()
-    }
+    fun isBtOn(): Boolean
 
-    open fun removeObserver(){
-        throw NotImplementedError()
-    }
+    fun initialize()
 
-    open fun initialize(){
-        throw NotImplementedError()
-    }
+    fun dispose()
 
-    open fun dispose() {
-        throw NotImplementedError()
-    }
+    fun registerObserver(btObserver: BluetoothObserver)
+
+    fun removeObserver()
+
+    fun getPairedBtDevices(): List<BluetoothDevice>
 
 }

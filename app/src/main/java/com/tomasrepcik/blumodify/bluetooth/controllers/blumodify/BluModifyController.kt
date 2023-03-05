@@ -1,12 +1,15 @@
 package com.tomasrepcik.blumodify.bluetooth.controllers.blumodify
 
-import android.content.Context
 import android.util.Log
 import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BluetoothControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BluetoothObserver
+import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
 
 
-class BluModifyController(context: Context, private val btController: BluetoothControllerTemplate) :
+class BluModifyController(
+    private val btController: BluetoothControllerTemplate,
+    private val btWorkManagerTemplate: BtWorkManagerTemplate
+) :
     BluModifyControllerTemplate(), BluetoothObserver {
 
     private val tag: String = "BluModifyController"
@@ -15,6 +18,7 @@ class BluModifyController(context: Context, private val btController: BluetoothC
         running.value = true
         btController.initialize()
         btController.registerObserver(this)
+        btWorkManagerTemplate.initWorkers()
     }
 
     override suspend fun dispose() {

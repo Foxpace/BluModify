@@ -1,7 +1,6 @@
-package com.tomasrepcik.blumodify.storage
+package com.tomasrepcik.blumodify.storage.cache
 
 import androidx.datastore.core.DataStore
-import com.tomasrepcik.blumodify.storage.datastore.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject

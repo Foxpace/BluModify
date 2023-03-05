@@ -9,12 +9,8 @@ abstract class BluModifyControllerTemplate {
     protected val running: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isRunning = running.asStateFlow()
 
-    open suspend fun initialize(){
-        throw NotImplementedError()
-    }
+    abstract suspend fun initialize()
 
-    open suspend fun dispose(){
-        throw NotImplementedError()
-    }
+    abstract suspend fun dispose()
 
 }

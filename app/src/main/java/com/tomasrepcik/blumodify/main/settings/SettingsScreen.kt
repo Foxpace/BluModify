@@ -1,24 +1,34 @@
 package com.tomasrepcik.blumodify.main.settings
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.tomasrepcik.blumodify.ui.components.AppBar
+import androidx.compose.ui.unit.dp
+import com.tomasrepcik.blumodify.main.settings.contents.DevicesBottomSheet
+import com.tomasrepcik.blumodify.main.settings.contents.SettingsScreenContent
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(drawerState: DrawerState) {
-    Scaffold(
-        topBar = { AppBar(drawerState = drawerState) }
-    ) {
-        Text("Settings", modifier = Modifier.padding(it))
-    }
-}
 
-@Preview
-@Composable
-fun SettingsScreenPreview() {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    SettingsScreen(drawerState)
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+        skipHalfExpanded = true,
+    )
+
+    ModalBottomSheetLayout(
+        sheetState = modalSheetState,
+        sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
+        sheetContent = {
+            DevicesBottomSheet(modalSheetState = modalSheetState)
+        },
+        content = {
+            SettingsScreenContent(drawerState = drawerState, modalSheetState = modalSheetState)
+        }
+    )
 }

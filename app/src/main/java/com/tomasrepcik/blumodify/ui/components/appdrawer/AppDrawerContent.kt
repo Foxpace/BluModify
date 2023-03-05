@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.tomasrepcik.blumodify.ui.components.appdrawer
 
@@ -44,6 +44,9 @@ fun <T : Enum<T>> AppDrawerContent(
                     AppDrawerItem(item = item) { navOption ->
 
                         if (currentPick == navOption) {
+                            coroutineScope.launch {
+                                drawerState.close()
+                            }
                             return@AppDrawerItem
                         }
 
