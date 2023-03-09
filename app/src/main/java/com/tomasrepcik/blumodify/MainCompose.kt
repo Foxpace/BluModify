@@ -12,9 +12,11 @@ import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.intro.introGraph
 import com.tomasrepcik.blumodify.main.MainNavOption
 import com.tomasrepcik.blumodify.main.mainGraph
+import com.tomasrepcik.blumodify.main.settings.settingsGraph
 import com.tomasrepcik.blumodify.ui.components.appdrawer.AppDrawerContent
 import com.tomasrepcik.blumodify.ui.components.appdrawer.AppDrawerItemInfo
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+
 
 @Composable
 fun MainCompose(
@@ -58,7 +60,8 @@ fun MainCompose(
                     startDestination = if (isOnboarded.value) NavRoutes.MainRoute.name else NavRoutes.IntroRoute.name
                 ) {
                     introGraph(navController)
-                    mainGraph(drawerState)
+                    mainGraph(navController, drawerState)
+                    settingsGraph(navController)
                 }
             }
         }
@@ -67,7 +70,8 @@ fun MainCompose(
 
 enum class NavRoutes {
     IntroRoute,
-    MainRoute
+    MainRoute,
+    SettingsRoute
 }
 
 object DrawerParams {

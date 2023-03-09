@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tomasrepcik.blumodify.intro.composables
 
 import androidx.compose.foundation.Image
@@ -19,7 +21,6 @@ import com.tomasrepcik.blumodify.ui.components.AppButton
 import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaffold {
     Column(

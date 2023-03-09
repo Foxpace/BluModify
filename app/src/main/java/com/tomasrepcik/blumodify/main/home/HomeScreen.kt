@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tomasrepcik.blumodify.main.home
 
 import androidx.compose.foundation.layout.Column

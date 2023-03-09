@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.tomasrepcik.blumodify.ui.components.appbar
 
 import androidx.annotation.StringRes
@@ -17,11 +19,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
-    drawerState: DrawerState,
+    drawerState: DrawerState? = null,
+    navigationIcon: (@Composable () -> Unit)? = null,
     @StringRes title: Int? = null,
     appBarActions: List<AppBarAction>? = null
 ) {
-    val coroutineScope = rememberCoroutineScope()
     TopAppBar(
         title = {
             title?.let {
@@ -39,18 +41,28 @@ fun AppBar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = {
-                coroutineScope.launch {
-                    drawerState.open()
-                }
-            }) {
-                Icon(
-                    Icons.Rounded.Menu,
-                    contentDescription = stringResource(id = R.string.drawer_menu_description)
-                )
+            if (drawerState != null && navigationIcon == null){
+                DrawerIcon(drawerState = drawerState)
+            } else {
+                navigationIcon?.invoke()
             }
         },
     )
+}
+
+@Composable
+private fun DrawerIcon(drawerState: DrawerState) {
+    val coroutineScope = rememberCoroutineScope()
+    IconButton(onClick = {
+        coroutineScope.launch {
+            drawerState.open()
+        }
+    }) {
+        Icon(
+            Icons.Rounded.Menu,
+            contentDescription = stringResource(id = R.string.drawer_menu_description)
+        )
+    }
 }
 
 @Composable

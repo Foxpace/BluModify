@@ -1,32 +1,26 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
-package com.tomasrepcik.blumodify.main.settings.contents
+package com.tomasrepcik.blumodify.main.settings.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.main.settings.SettingsNavOption
 import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
-import kotlinx.coroutines.launch
 
 @Composable
-fun SettingsScreenContent(drawerState: DrawerState, modalSheetState: ModalBottomSheetState) {
-    val coroutineScope = rememberCoroutineScope()
+fun SettingsScreen(navController: NavHostController, drawerState: DrawerState) {
     Scaffold(
         topBar = {
             AppBar(
@@ -37,9 +31,7 @@ fun SettingsScreenContent(drawerState: DrawerState, modalSheetState: ModalBottom
                         R.drawable.ic_add,
                         R.string.settings_tracked_button_description
                     ) {
-                        coroutineScope.launch {
-                            modalSheetState.show()
-                        }
+                        navController.navigate(SettingsNavOption.SettingsBtPicker.name)
                     }
                 )
             )
@@ -60,9 +52,9 @@ fun SettingsScreenContent(drawerState: DrawerState, modalSheetState: ModalBottom
 @AllScreenPreview
 @Composable
 fun SettingsScreenPreview() {
+    val navigator = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     BluModifyTheme {
-        SettingsScreenContent(drawerState, modalSheetState)
+        SettingsScreen(navigator, drawerState)
     }
 }

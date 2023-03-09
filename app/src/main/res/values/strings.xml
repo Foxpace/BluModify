@@ -60,6 +60,7 @@
     <!-- SETTINGS SCREEN -->
     <string name="settings_tracked_devices">Tracked devices</string>
     <string name="settings_tracked_button_description">Button to add tracked device</string>
+    <string name="settings_bt_picker">Add device</string>
 
     <!-- ABOUT SCREEN -->
     <string name="about_screen_title">About BluModify</string>
