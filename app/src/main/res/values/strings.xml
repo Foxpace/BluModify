@@ -9,6 +9,7 @@
     <string name="ic_bt">Bluetooth button</string>
     <string name="ic_refresh">Refresh button</string>
     <string name="ic_battery_happy">Happy battery</string>
+    <string name="ic_arrow_forward">Arrow forward</string>
 
 
     <!-- GENERAL PURPOSE TEXT-->
@@ -65,6 +66,9 @@
     <string name="drawer_info_description">About navigation button</string>
 
     <!-- SETTINGS SCREEN -->
+
+    <string name="settings_devices">Devices</string>
+    <string name="settings_devices_list">Tracked devices list</string>
     <string name="settings_tracked_devices">Tracked devices</string>
     <string name="settings_tracked_button_description">Button to add tracked device</string>
     <string name="settings_bt_picker">Add device</string>

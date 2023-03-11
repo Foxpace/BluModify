@@ -1,14 +1,16 @@
-package com.tomasrepcik.blumodify.main.settings.ui
+package com.tomasrepcik.blumodify.main.settings.devicelist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -20,19 +22,28 @@ import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
-fun SettingsScreen(
+fun DeviceListScreen(
     navController: NavHostController,
-    drawerState: DrawerState,
 ) {
     Scaffold(
         topBar = {
             AppBar(
-                drawerState = drawerState,
                 title = R.string.settings_tracked_devices,
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_back),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            contentDescription = stringResource(id = R.string.ic_arrow_back)
+                        )
+                    }
+                },
                 appBarActions = arrayListOf(
                     AppBarAction(
                         R.drawable.ic_add,
-                        R.string.settings_tracked_button_description
+                        R.string.settings_bt_picker
                     ) {
                         navController.navigate(SettingsNavOption.SettingsBtPicker.name)
                     }
@@ -54,10 +65,9 @@ fun SettingsScreen(
 
 @AllScreenPreview
 @Composable
-fun SettingsScreenPreview() {
+fun DeviceListScreenPreview() {
     val navigator = rememberNavController()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     BluModifyTheme {
-        SettingsScreen(navigator, drawerState)
+        DeviceListScreen(navigator)
     }
 }
