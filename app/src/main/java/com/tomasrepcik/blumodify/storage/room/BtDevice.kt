@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class BtDevice(
-    @PrimaryKey(autoGenerate = false) val macAddress: String,
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "macAddress") val macAddress: String,
     @ColumnInfo(name = "deviceName") val name: String,
     @ColumnInfo(name = "wasConnected") val wasConnected: Boolean,
     @ColumnInfo(name = "lastCheck") val lastConnection: Long

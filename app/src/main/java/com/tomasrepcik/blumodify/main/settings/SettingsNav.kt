@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.main.MainNavOption
-import com.tomasrepcik.blumodify.main.settings.ui.btpicker.SettingsBtPickerScreen
+import com.tomasrepcik.blumodify.main.settings.btpicker.SettingsBtPickerScreen
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     navigation(

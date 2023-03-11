@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.main.settings.ui.btpicker.states
+package com.tomasrepcik.blumodify.main.settings.btpicker.ui.states
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

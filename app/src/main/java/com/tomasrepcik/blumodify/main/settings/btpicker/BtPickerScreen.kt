@@ -1,6 +1,6 @@
 
 
-package com.tomasrepcik.blumodify.main.settings.ui.btpicker
+package com.tomasrepcik.blumodify.main.settings.btpicker
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,9 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.main.settings.model.TrackedDevicePickerState
-import com.tomasrepcik.blumodify.main.settings.ui.btpicker.states.*
-import com.tomasrepcik.blumodify.main.settings.viewmodel.BtPickerViewModel
+import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicePickerState
+import com.tomasrepcik.blumodify.main.settings.btpicker.ui.states.*
 import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
 
 @Composable
@@ -30,7 +29,7 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
     LaunchedEffect(key1 = Unit) {
         vm.onLaunch(context)
     }
-    DisposableEffect(key1 = Unit, ){
+    DisposableEffect(key1 = Unit){
         onDispose {
             vm.onDispose()
         }
@@ -56,13 +55,17 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
         Column(modifier = Modifier.padding(it)) {
             when (val state = vm.trackedDevicePickerState.collectAsState().value) {
                 TrackedDevicePickerState.Loading -> LoadingComp()
-                is TrackedDevicePickerState.DevicesToAdd -> PickDeviceComp(state)
+                is TrackedDevicePickerState.DevicesToAdd -> PickDeviceComp(state) { btDeviceToPick ->
+                    vm.onDevicePick(btDeviceToPick)
+                }
                 TrackedDevicePickerState.NoDeviceToAdd -> NoDeviceComp()
-                TrackedDevicePickerState.RequireBtOn -> TurnOnBtComp()
-                TrackedDevicePickerState.RequirePermission -> PermissionComp()
+                TrackedDevicePickerState.RequireBtOn -> TurnOnBtComp {
+                    vm.onBtOn()
+                }
+                TrackedDevicePickerState.RequirePermission -> PermissionComp{
+                    vm.onBtPermissionGranted()
+                }
             }
         }
-
     }
-
 }

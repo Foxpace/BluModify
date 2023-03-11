@@ -7,6 +7,9 @@ interface BtDeviceDao {
     @Query("SELECT * FROM btdevice")
     fun getAll(): List<BtDevice>
 
+    @Query("SELECT macAddress FROM btdevice")
+    fun getMacAdresses(): List<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBtDevice(device: BtDevice)
 

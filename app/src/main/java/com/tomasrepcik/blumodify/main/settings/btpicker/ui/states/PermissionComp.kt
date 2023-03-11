@@ -1,10 +1,8 @@
-package com.tomasrepcik.blumodify.main.settings.ui.btpicker.states
+package com.tomasrepcik.blumodify.main.settings.btpicker.ui.states
 
-import android.app.Activity.RESULT_OK
-import android.bluetooth.BluetoothAdapter
-import android.content.Intent
+import android.Manifest
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -13,27 +11,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtController
-import com.tomasrepcik.blumodify.main.settings.viewmodel.BtPickerViewModel
 import com.tomasrepcik.blumodify.ui.components.AppButton
 import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
-
 @Composable
-fun TurnOnBtComp(vm: BtPickerViewModel = hiltViewModel()) {
+fun PermissionComp(onPermissionGranted: () -> Unit) {
+
     val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == RESULT_OK){
-            vm.onBtOn()
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted){
+            onPermissionGranted()
         }
     }
     Column(
@@ -46,30 +40,34 @@ fun TurnOnBtComp(vm: BtPickerViewModel = hiltViewModel()) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
             modifier = Modifier.size(120.dp),
-            painter = painterResource(id = R.drawable.ic_bt_inactive), contentDescription = stringResource(
+            painter = painterResource(id = R.drawable.ic_bt_sad), contentDescription = stringResource(
                 id =
-                R.string.ic_bt_off
+                R.string.ic_bt_permission
             )
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.settings_bt_off),
+            text = stringResource(id = R.string.settings_bt_permission),
             style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
-        AppButton(text = R.string.settings_bt_off_button) {
-            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            launcher.launch(enableBtIntent)
+        AppButton(text = R.string.settings_bt_permission_button) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                launcher.launch(Manifest.permission_group.NEARBY_DEVICES)
+            } else {
+                onPermissionGranted()
+            }
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
 
+
+
 @AllScreenPreview
 @Composable
-fun TurnOnBtCompPreview() {
-    val context = LocalContext.current
+fun PermissionCompPreview() {
     BluModifyTheme {
-        TurnOnBtComp(vm = BtPickerViewModel(btController = BtController(context)))
+        PermissionComp { }
     }
 }

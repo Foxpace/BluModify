@@ -28,11 +28,11 @@ fun <T : Enum<T>> AppDrawerContent(
     var currentPick by remember { mutableStateOf(defaultPick) }
     val coroutineScope = rememberCoroutineScope()
 
-    Surface(color = MaterialTheme.colorScheme.onPrimary) {
+    Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .width(200.dp),
+                .width(225.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AppDrawerTitle()
