@@ -2,8 +2,8 @@ package com.tomasrepcik.blumodify.bluetooth.di
 
 import android.content.Context
 import androidx.work.WorkManager
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BluetoothController
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BluetoothControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtController
+import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +15,8 @@ import dagger.hilt.components.SingletonComponent
 object ManagersDI {
 
     @Provides
-    fun providesBluetoothController(@ApplicationContext context: Context): BluetoothControllerTemplate =
-        BluetoothController(context)
+    fun providesBluetoothController(@ApplicationContext context: Context): BtControllerTemplate =
+        BtController(context)
 
     @Provides
     fun providesWorkManager(@ApplicationContext context: Context): WorkManager =

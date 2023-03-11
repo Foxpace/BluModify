@@ -1,6 +1,6 @@
 package com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth
 
-interface BluetoothObserver {
+interface BtObserver {
 
     fun onBtChange()
 

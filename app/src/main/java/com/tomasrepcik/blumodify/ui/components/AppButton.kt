@@ -10,10 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.ui.previews.AllPreviews
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
@@ -35,8 +33,6 @@ fun AppButton(
             stringResource(id = text),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.labelMedium,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
         )
     }
 }

@@ -3,6 +3,10 @@
 
     <!-- ICON DESCRIPTIONS -->
     <string name="ic_arrow_back">Back button</string>
+    <string name="ic_bt_permission">Bluetooth no permission</string>
+    <string name="ic_bt_no_device">No device available</string>
+    <string name="ic_bt_off">Bluetooth is off</string>
+
 
     <!-- GENERAL PURPOSE TEXT-->
     <string name="next">Next</string>
@@ -61,6 +65,13 @@
     <string name="settings_tracked_devices">Tracked devices</string>
     <string name="settings_tracked_button_description">Button to add tracked device</string>
     <string name="settings_bt_picker">Add device</string>
+    <string name="settings_bt_permission">Bluetooth permission is required to obtain access to bluetooth devices. Without permission, the app is not able to manipulate with bluetooth devices.</string>
+    <string name="settings_bt_permission_button">Give permission</string>
+    <string name="settings_bt_off">The Bluetooth is off.\n\nTo get recent list of Bluetooth devices, the app needs active Bluetooth.</string>
+    <string name="settings_bt_off_button">Turn on</string>
+    <string name="settings_bt_no_device">There are no paired Bluetooth devices. Please and one to continue.</string>
+    <string name="settings_bt_no_device_button">Add device</string>
+
 
     <!-- ABOUT SCREEN -->
     <string name="about_screen_title">About BluModify</string>

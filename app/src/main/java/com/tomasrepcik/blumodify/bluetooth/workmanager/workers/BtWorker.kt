@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BluetoothControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
 import com.tomasrepcik.blumodify.storage.room.BtDeviceDao
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -15,7 +15,7 @@ import dagger.assisted.AssistedInject
 class BtWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val btController: BluetoothControllerTemplate,
+    private val btController: BtControllerTemplate,
     private val btDeviceDao: BtDeviceDao
 ): Worker(context, workerParams) {
 

@@ -3,7 +3,7 @@ package com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth
 import android.bluetooth.BluetoothDevice
 
 
-interface  BluetoothControllerTemplate {
+interface  BtControllerTemplate {
 
     fun isBtOn(): Boolean
 
@@ -11,9 +11,9 @@ interface  BluetoothControllerTemplate {
 
     fun dispose()
 
-    fun registerObserver(btObserver: BluetoothObserver)
+    fun registerObserver(btObserver: BtObserver)
 
-    fun removeObserver()
+    fun removeObserver(btObserver: BtObserver)
 
     fun getPairedBtDevices(): List<BluetoothDevice>
 

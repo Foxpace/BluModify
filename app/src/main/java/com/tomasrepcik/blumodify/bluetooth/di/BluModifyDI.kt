@@ -1,7 +1,7 @@
 package com.tomasrepcik.blumodify.bluetooth.di
 
 import androidx.work.WorkManager
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BluetoothControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.controllers.blumodify.BluModifyController
 import com.tomasrepcik.blumodify.bluetooth.controllers.blumodify.BluModifyControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManager
@@ -17,7 +17,7 @@ object BluModifyDI {
 
     @Provides
     fun providesBluModifyController(
-        btController: BluetoothControllerTemplate,
+        btController: BtControllerTemplate,
         btWorkManagerTemplate: BtWorkManagerTemplate
     ): BluModifyControllerTemplate =
         BluModifyController(btController, btWorkManagerTemplate)

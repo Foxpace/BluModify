@@ -12,12 +12,17 @@ import android.util.Log
 
 
 @SuppressLint("MissingPermission")
-class BluetoothController(private val context: Context) : BluetoothControllerTemplate {
+class BtController(private val context: Context) : BtControllerTemplate {
 
     private val tag: String = "BluetoothController"
+
     private val bluetoothManager: BluetoothManager =
         context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private val bluetoothAdapter: BluetoothAdapter = bluetoothManager.adapter
+
+    private var isReceiverRegistered: Boolean = false
+    private val observers: ArrayList<BtObserver> = arrayListOf()
+
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             intent.action?.let {
@@ -25,28 +30,39 @@ class BluetoothController(private val context: Context) : BluetoothControllerTem
             }
         }
     }
-    private var btObserver: BluetoothObserver? = null
     private var lastState: Boolean? = null
 
-    override fun registerObserver(btObserver: BluetoothObserver) {
-        registerReceiver()
-        this.btObserver = btObserver
+    override fun registerObserver(btObserver: BtObserver) {
+        if (!isReceiverRegistered){
+            registerReceiver()
+        }
+
+        if (!observers.contains(btObserver)){
+            observers.add(btObserver)
+        }
     }
 
-    override fun removeObserver() {
-        removeReceiver()
-        btObserver = null
-        lastState = null
-        context.applicationContext
+    override fun removeObserver(btObserver: BtObserver) {
+        if (observers.contains(btObserver)){
+            observers.remove(btObserver)
+        }
+
+        if (isReceiverRegistered && observers.isEmpty()){
+            removeReceiver()
+        }
+
     }
 
 
     override fun initialize() {
-
+        observers.clear()
     }
 
     override fun dispose() {
-        removeObserver()
+        observers.clear()
+        if (isReceiverRegistered){
+            removeReceiver()
+        }
     }
 
 
@@ -59,12 +75,13 @@ class BluetoothController(private val context: Context) : BluetoothControllerTem
         intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-
         context.registerReceiver(receiver, intentFilter)
+        isReceiverRegistered = true
     }
 
     private fun removeReceiver() {
         context.unregisterReceiver(receiver)
+        isReceiverRegistered = false
     }
 
     override fun isBtOn(): Boolean = bluetoothAdapter.isEnabled
@@ -73,7 +90,7 @@ class BluetoothController(private val context: Context) : BluetoothControllerTem
         Log.i(tag, "Received action: $action")
         if (lastState != isBtOn()) {
             lastState = isBtOn()
-            btObserver?.onBtChange()
+            observers.forEach { it.onBtChange() }
         }
     }
 

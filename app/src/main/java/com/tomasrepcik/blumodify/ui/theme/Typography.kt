@@ -34,9 +34,9 @@ val customTypography = Typography(
     labelMedium = TextStyle(
         fontFamily = GloryFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 40.sp,
+        fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        color = Color.White
+        color = Color.Black
     ),
 )

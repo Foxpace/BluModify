@@ -20,7 +20,10 @@ import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
-fun SettingsScreen(navController: NavHostController, drawerState: DrawerState) {
+fun SettingsScreen(
+    navController: NavHostController,
+    drawerState: DrawerState,
+) {
     Scaffold(
         topBar = {
             AppBar(
