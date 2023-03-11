@@ -10,6 +10,8 @@
     <string name="ic_refresh">Refresh button</string>
     <string name="ic_battery_happy">Happy battery</string>
     <string name="ic_arrow_forward">Arrow forward</string>
+    <string name="ic_sad">Sad face</string>
+    <string name="ic_minus">Remove device</string>
 
 
     <!-- GENERAL PURPOSE TEXT-->
@@ -71,6 +73,7 @@
     <string name="settings_devices_list">Tracked devices list</string>
     <string name="settings_tracked_devices">Tracked devices</string>
     <string name="settings_tracked_button_description">Button to add tracked device</string>
+    <string name="settings_no_tracked_device">The app does not track any device, please add at least one!</string>
     <string name="settings_bt_picker">Add device</string>
     <string name="settings_bt_permission">Bluetooth permission is required to obtain access to bluetooth devices. Without permission, the app is not able to manipulate with bluetooth devices.</string>
     <string name="settings_bt_permission_button">Give permission</string>

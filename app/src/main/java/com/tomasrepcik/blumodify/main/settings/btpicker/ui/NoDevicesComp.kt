@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.main.settings.btpicker.ui.states
+package com.tomasrepcik.blumodify.main.settings.btpicker.ui
 
 import android.content.Intent
 import android.provider.Settings

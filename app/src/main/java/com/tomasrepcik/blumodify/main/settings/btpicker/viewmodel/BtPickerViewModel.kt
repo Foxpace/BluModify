@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.main.settings.btpicker
+package com.tomasrepcik.blumodify.main.settings.btpicker.viewmodel
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,8 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtObserver
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.BtDeviceToPick
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicesState
+import com.tomasrepcik.blumodify.main.settings.shared.model.BtDeviceToPick
 import com.tomasrepcik.blumodify.storage.room.BtDevice
 import com.tomasrepcik.blumodify.storage.room.BtDeviceDao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -99,9 +98,9 @@ class BtPickerViewModel @Inject constructor(
         val devices = btController.getPairedBtDevices()
         val devicesToPick = withContext(Dispatchers.Default){
             Log.i(tag, "Found ${devices.size} devices")
-            val macAddresses = db.getMacAdresses()
+            val macAddresses = db.getMacAddresses()
             return@withContext devices.filter { device -> !macAddresses.contains(device.address) }
-                .map { device -> BtDeviceToPick(device.address, device.name) }.sortedBy { it.name }
+                .map { device -> BtDeviceToPick(device.name, device.address) }.sortedBy { it.deviceName }
         }
 
         withContext(Dispatchers.Main) {
@@ -127,8 +126,8 @@ class BtPickerViewModel @Inject constructor(
 
     fun onDevicePick(pickedDevice: BtDeviceToPick) {
         val dbDevice = BtDevice(
-            pickedDevice.macAddress,
-            pickedDevice.name,
+            macAddress = pickedDevice.macAddress,
+            name = pickedDevice.deviceName,
             false,
             -1L
         )

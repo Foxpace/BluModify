@@ -1,8 +1,6 @@
-package com.tomasrepcik.blumodify.main.settings.btpicker.ui.states
+package com.tomasrepcik.blumodify.main.settings.shared.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,45 +15,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.BtDeviceToPick
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicesState
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.main.settings.shared.model.BtItem
+import com.tomasrepcik.blumodify.main.settings.shared.ui.DeviceAction.ADD
+import com.tomasrepcik.blumodify.main.settings.shared.ui.DeviceAction.DELETE
 
 @Composable
-fun PickDeviceComp(
-    state: TrackedDevicesState.DevicesToAdd,
-    onDevicePicked: (BtDeviceToPick) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        LazyColumn {
-            items(state.devices) {
-                DeviceItem(device = it, onClick = onDevicePicked)
-            }
-        }
-    }
-}
-
-@Composable
-private fun DeviceItem(device: BtDeviceToPick, onClick: (BtDeviceToPick) -> Unit) {
+fun <T : BtItem> DeviceItemComp(device: T, action: DeviceAction, onClick: (T) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 16.dp),
-        onClick = {onClick(device)},
+        onClick = { onClick(device) },
         shape = RoundedCornerShape(20),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
-        ){
-            Column(modifier = Modifier.weight(1f).padding(16.dp)) {
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(16.dp)
+            ) {
                 Text(
-                    text = device.name,
+                    text = device.deviceName,
                     style = MaterialTheme.typography.labelMedium.copy(
                         color = MaterialTheme.colorScheme.surfaceTint
                     ),
@@ -72,37 +56,25 @@ private fun DeviceItem(device: BtDeviceToPick, onClick: (BtDeviceToPick) -> Unit
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-
             Icon(
                 modifier = Modifier
                     .padding(16.dp)
                     .size(16.dp),
-                painter = painterResource(id = R.drawable.ic_add),
+                painter = painterResource(
+                    id = when (action) {
+                        ADD -> R.drawable.ic_add
+                        DELETE -> R.drawable.ic_minus
+                    }
+                ),
                 tint = MaterialTheme.colorScheme.surfaceTint,
                 contentDescription = stringResource(
-                id = R.string.settings_bt_picker
-            ))
+                    id = when (action) {
+                        ADD -> R.string.settings_bt_picker
+                        DELETE -> R.string.ic_minus
+                    },
+                )
+            )
         }
 
-    }
-}
-
-@AllScreenPreview
-@Composable
-fun PickDeviceCompPreview() {
-    val state = TrackedDevicesState.DevicesToAdd(
-        arrayListOf(
-            BtDeviceToPick("00-B0-D0-63-C2-26", "Long example of the device name to test"),
-            BtDeviceToPick("00-B0-D0-63-C2-26", "BtDevice"),
-            BtDeviceToPick("00-B0-D0-63-C2-26", "BtDevice"),
-            BtDeviceToPick("00-B0-D0-63-C2-26", "BtDevice")
-        )
-    )
-
-    BluModifyTheme {
-        Surface {
-            PickDeviceComp(state) {
-            }
-        }
     }
 }

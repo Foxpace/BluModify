@@ -1,4 +1,6 @@
-package com.tomasrepcik.blumodify.main.settings.btpicker.model
+package com.tomasrepcik.blumodify.main.settings.btpicker.viewmodel
+
+import com.tomasrepcik.blumodify.main.settings.shared.model.BtDeviceToPick
 
 sealed class TrackedDevicesState{
     object Loading: TrackedDevicesState()

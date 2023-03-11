@@ -72,6 +72,7 @@ fun AppBarAction(appBarAction: AppBarAction) {
         Icon(
             painter = painterResource(id = appBarAction.icon),
             modifier = Modifier.size(24.dp),
+            tint = MaterialTheme.colorScheme.onBackground,
             contentDescription = stringResource(id = appBarAction.description)
         )
     }

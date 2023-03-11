@@ -33,7 +33,7 @@ fun IntroCompose(
 
 ) = Scaffold(topBar = {
     TopAppBar(title = {}, navigationIcon = {
-        BackButton(iconDescription = R.string.ic_arrow_back) {
+        BackButton() {
             navController.popBackStack()
         }
     })

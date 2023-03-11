@@ -1,6 +1,5 @@
 package com.tomasrepcik.blumodify.ui.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,13 +17,13 @@ import com.tomasrepcik.blumodify.ui.previews.AllPreviews
 import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
-fun BackButton(@StringRes iconDescription: Int, onClick: OnClickFunction) {
+fun BackButton( onClick: OnClickFunction) {
     IconButton(
         onClick = onClick, modifier = Modifier.defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
     ) {
         Icon(
             Icons.Filled.ArrowBack,
-            stringResource(id = iconDescription),
+            stringResource(id = R.string.ic_arrow_back),
             modifier = Modifier
                 .size(32.dp)
                 .padding(0.dp),
@@ -38,6 +37,6 @@ fun BackButton(@StringRes iconDescription: Int, onClick: OnClickFunction) {
 @Composable
 fun BackButtonPreview() {
     BluModifyTheme {
-        BackButton(iconDescription = R.string.ic_arrow_back) {}
+        BackButton() {}
     }
 }

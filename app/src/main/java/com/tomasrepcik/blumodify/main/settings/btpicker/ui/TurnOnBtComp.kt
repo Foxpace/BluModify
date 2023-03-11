@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.main.settings.btpicker.ui.states
+package com.tomasrepcik.blumodify.main.settings.btpicker.ui
 
 import android.app.Activity.RESULT_OK
 import android.bluetooth.BluetoothAdapter

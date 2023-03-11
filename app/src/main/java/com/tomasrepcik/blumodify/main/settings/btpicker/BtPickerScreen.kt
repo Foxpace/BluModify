@@ -1,14 +1,9 @@
-
-
 package com.tomasrepcik.blumodify.main.settings.btpicker
 
 import android.content.Intent
 import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -16,13 +11,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicesState
-import com.tomasrepcik.blumodify.main.settings.btpicker.ui.states.*
+import com.tomasrepcik.blumodify.main.settings.btpicker.ui.*
+import com.tomasrepcik.blumodify.main.settings.btpicker.viewmodel.BtPickerViewModel
+import com.tomasrepcik.blumodify.main.settings.btpicker.viewmodel.TrackedDevicesState
+import com.tomasrepcik.blumodify.main.settings.shared.ui.DeviceAction
+import com.tomasrepcik.blumodify.main.settings.shared.ui.DevicePickerComp
+import com.tomasrepcik.blumodify.ui.components.BackButton
 import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.ui.components.appbar.AppBarAction
 
@@ -44,14 +41,8 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
             AppBar(
                 title = R.string.settings_bt_picker,
                 navigationIcon = {
-                    IconButton(onClick = {
+                    BackButton {
                         navController.popBackStack()
-                    }) {
-                        Icon(
-                            painterResource(id = R.drawable.ic_back),
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            contentDescription = stringResource(id = R.string.drawer_menu_description)
-                        )
                     }
                 },
                 appBarActions = arrayListOf(
@@ -69,7 +60,7 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
         Column(modifier = Modifier.padding(it)) {
             when (val state = vm.trackedDevicesPickerState.collectAsState().value) {
                 TrackedDevicesState.Loading -> LoadingComp()
-                is TrackedDevicesState.DevicesToAdd -> PickDeviceComp(state) { btDeviceToPick ->
+                is TrackedDevicesState.DevicesToAdd -> DevicePickerComp(state.devices, DeviceAction.ADD) { btDeviceToPick ->
                     vm.onDevicePick(btDeviceToPick)
                 }
                 TrackedDevicesState.NoDeviceToAdd -> NoDeviceComp()
