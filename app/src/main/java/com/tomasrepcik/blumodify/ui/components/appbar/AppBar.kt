@@ -60,6 +60,7 @@ private fun DrawerIcon(drawerState: DrawerState) {
     }) {
         Icon(
             Icons.Rounded.Menu,
+            tint = MaterialTheme.colorScheme.onBackground,
             contentDescription = stringResource(id = R.string.drawer_menu_description)
         )
     }

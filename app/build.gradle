@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
-    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'kotlin-kapt' // keep it as last one among plugins
 }
 
 android {

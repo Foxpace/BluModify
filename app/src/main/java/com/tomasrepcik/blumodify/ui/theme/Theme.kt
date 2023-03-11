@@ -21,7 +21,8 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = ColorWhiteCultured,
     onTertiary = ColorWhiteCultured,
     onBackground = ColorWhiteCultured,
-    onSurface = ColorWhiteCultured,
+    onSurface = ColorChineseBlack,
+    surfaceTint = ColorWhiteCultured
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -30,11 +31,12 @@ private val LightColorScheme = lightColorScheme(
     tertiary = ColorRedFleryRose,
     background = ColorBlueIceberg,
     surface = ColorBlueIceberg,
-    onPrimary = ColorWhiteCultured,
+    onPrimary = ColorChineseBlack,
     onSecondary = ColorWhiteCultured,
     onTertiary = ColorWhiteCultured,
     onBackground = ColorWhiteCultured,
     onSurface = ColorWhiteCultured,
+    surfaceTint = ColorBlack
 )
 
 @Composable

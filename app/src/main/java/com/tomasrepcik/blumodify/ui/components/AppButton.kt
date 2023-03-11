@@ -32,7 +32,9 @@ fun AppButton(
         Text(
             stringResource(id = text),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelMedium.copy(
+                color = MaterialTheme.colorScheme.onPrimary
+            ),
         )
     }
 }

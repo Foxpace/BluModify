@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +29,7 @@ fun TurnOnBtComp(onBtOn: () -> Unit) {
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
-        if (result.resultCode == RESULT_OK){
+        if (result.resultCode == RESULT_OK) {
             onBtOn()
         }
     }
@@ -42,7 +43,8 @@ fun TurnOnBtComp(onBtOn: () -> Unit) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
             modifier = Modifier.size(120.dp),
-            painter = painterResource(id = R.drawable.ic_bt_inactive), contentDescription = stringResource(
+            painter = painterResource(id = R.drawable.ic_bt_inactive),
+            contentDescription = stringResource(
                 id =
                 R.string.ic_bt_off
             )
@@ -65,6 +67,8 @@ fun TurnOnBtComp(onBtOn: () -> Unit) {
 @Composable
 fun TurnOnBtCompPreview() {
     BluModifyTheme {
-        TurnOnBtComp{}
+        Surface {
+            TurnOnBtComp {}
+        }
     }
 }

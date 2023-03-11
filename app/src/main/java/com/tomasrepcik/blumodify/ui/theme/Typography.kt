@@ -37,6 +37,6 @@ val customTypography = Typography(
         fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        color = Color.Black
+        color = Color.White
     ),
 )

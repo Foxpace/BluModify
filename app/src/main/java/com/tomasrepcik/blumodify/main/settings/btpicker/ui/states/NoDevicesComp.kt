@@ -5,6 +5,7 @@ import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,7 +34,9 @@ fun NoDeviceComp() {
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
-            modifier = Modifier.fillMaxWidth().height(80.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp),
             painter = painterResource(id = R.drawable.ic_bt_no_device),
             contentDescription = stringResource(
                 id =
@@ -47,7 +50,7 @@ fun NoDeviceComp() {
             style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
-        AppButton(text = R.string.settings_bt_no_device_button){
+        AppButton(text = R.string.settings_bt_picker) {
             val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
             context.startActivity(intentOpenBluetoothSettings)
         }
@@ -59,6 +62,8 @@ fun NoDeviceComp() {
 @Composable
 fun NoDeviceCompPreview() {
     BluModifyTheme {
-        NoDeviceComp()
+        Surface {
+            NoDeviceComp()
+        }
     }
 }

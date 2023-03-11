@@ -14,17 +14,17 @@ import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
 fun LoadingComp() {
-    Surface {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.primary,
-            )
-        }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(
+            color = MaterialTheme.colorScheme.primary,
+        )
+
     }
 }
 
@@ -32,6 +32,8 @@ fun LoadingComp() {
 @Composable
 fun LoadingCompPreview() {
     BluModifyTheme {
-        LoadingComp()
+        Surface{
+            LoadingComp()
+        }
     }
 }

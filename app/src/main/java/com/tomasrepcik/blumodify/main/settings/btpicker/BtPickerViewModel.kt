@@ -12,7 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtObserver
 import com.tomasrepcik.blumodify.main.settings.btpicker.model.BtDeviceToPick
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicePickerState
+import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicesState
 import com.tomasrepcik.blumodify.storage.room.BtDevice
 import com.tomasrepcik.blumodify.storage.room.BtDeviceDao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,20 +33,20 @@ class BtPickerViewModel @Inject constructor(
     private val tag: String = "BtPickerViewModel"
 
     private val isShowingBt
-        get() = when (trackedDevicePickerState.value) {
-            is TrackedDevicePickerState.DevicesToAdd -> true
-            TrackedDevicePickerState.Loading -> true
-            TrackedDevicePickerState.NoDeviceToAdd -> true
+        get() = when (trackedDevicesPickerState.value) {
+            is TrackedDevicesState.DevicesToAdd -> true
+            TrackedDevicesState.Loading -> true
+            TrackedDevicesState.NoDeviceToAdd -> true
             else -> false
         }
 
-    private val _trackedDevicePickerState: MutableStateFlow<TrackedDevicePickerState> =
-        MutableStateFlow(TrackedDevicePickerState.Loading)
-    var trackedDevicePickerState = _trackedDevicePickerState.asStateFlow()
+    private val _trackedDevicesState: MutableStateFlow<TrackedDevicesState> =
+        MutableStateFlow(TrackedDevicesState.Loading)
+    var trackedDevicesPickerState = _trackedDevicesState.asStateFlow()
 
     fun onLaunch(context: Context) {
         Log.i(tag, "First launch of the picker")
-        _trackedDevicePickerState.value = TrackedDevicePickerState.Loading
+        _trackedDevicesState.value = TrackedDevicesState.Loading
         btController.registerObserver(this)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val isPermission = ContextCompat.checkSelfPermission(
@@ -63,12 +63,12 @@ class BtPickerViewModel @Inject constructor(
     }
 
     override fun onBtChange() {
-        if (btController.isBtOn() && _trackedDevicePickerState.value is TrackedDevicePickerState.RequireBtOn) {
+        if (btController.isBtOn() && _trackedDevicesState.value is TrackedDevicesState.RequireBtOn) {
             onBtOn()
         }
 
         if (!btController.isBtOn() && isShowingBt) {
-            _trackedDevicePickerState.value = TrackedDevicePickerState.RequireBtOn
+            _trackedDevicesState.value = TrackedDevicesState.RequireBtOn
         }
     }
 
@@ -76,41 +76,50 @@ class BtPickerViewModel @Inject constructor(
         Log.i(tag, "Permission was granted")
         if (!btController.isBtOn()) {
             Log.w(tag, "Bluetooth is not on")
-            _trackedDevicePickerState.value = TrackedDevicePickerState.RequireBtOn
+            _trackedDevicesState.value = TrackedDevicesState.RequireBtOn
             return
         }
-        showDevices()
+        viewModelScope.launch(context = Dispatchers.Main) {
+            showDevices()
+        }
     }
 
     fun onBtOn() {
         Log.i(tag, "Bluetooth was turned on")
-        showDevices()
+        viewModelScope.launch(context = Dispatchers.Main) {
+            showDevices()
+        }
     }
 
     @SuppressLint("MissingPermission")
-    private fun showDevices() {
+    private suspend fun showDevices() {
         Log.i(tag, "Trying to show the bt devices")
-        _trackedDevicePickerState.value = TrackedDevicePickerState.Loading
+        _trackedDevicesState.value = TrackedDevicesState.Loading
+
         val devices = btController.getPairedBtDevices()
-        Log.i(tag, "Found ${devices.size} devices")
-
-        viewModelScope.launch(context = Dispatchers.Default) {
-
+        val devicesToPick = withContext(Dispatchers.Default){
+            Log.i(tag, "Found ${devices.size} devices")
             val macAddresses = db.getMacAdresses()
-            val devicesToPick = devices.filter { device -> !macAddresses.contains(device.address) }
+            return@withContext devices.filter { device -> !macAddresses.contains(device.address) }
                 .map { device -> BtDeviceToPick(device.address, device.name) }.sortedBy { it.name }
+        }
 
-            withContext(Dispatchers.Main) {
-                if (devices.isEmpty()) {
-                    Log.w(tag, "No bt devices have been found")
-                    _trackedDevicePickerState.value = TrackedDevicePickerState.NoDeviceToAdd
-                    return@withContext
-                }
-
-                Log.i(tag, "Found ${devicesToPick.size} by devices - showing them in the ui")
-                _trackedDevicePickerState.value =
-                    TrackedDevicePickerState.DevicesToAdd(devicesToPick)
+        withContext(Dispatchers.Main) {
+            if (devices.isEmpty()) {
+                Log.w(tag, "No bt devices have been found")
+                _trackedDevicesState.value = TrackedDevicesState.NoDeviceToAdd
+                return@withContext
             }
+
+            if(devicesToPick.isEmpty()){
+                Log.i(tag, "All devices have been added")
+                _trackedDevicesState.value = TrackedDevicesState.AllDevicesAdded
+                return@withContext
+            }
+
+            Log.i(tag, "Found ${devicesToPick.size} by devices - showing them in the ui")
+            _trackedDevicesState.value =
+                TrackedDevicesState.DevicesToAdd(devicesToPick)
         }
 
 
@@ -123,9 +132,12 @@ class BtPickerViewModel @Inject constructor(
             false,
             -1L
         )
-
-        db.insertBtDevice(dbDevice)
-        showDevices()
+        viewModelScope.launch(context = Dispatchers.Default) {
+            db.insertBtDevice(dbDevice)
+            withContext(Dispatchers.Main){
+                showDevices()
+            }
+        }
     }
 
     fun onDispose() {

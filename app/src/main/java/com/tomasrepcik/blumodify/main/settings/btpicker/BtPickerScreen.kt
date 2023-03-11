@@ -2,10 +2,13 @@
 
 package com.tomasrepcik.blumodify.main.settings.btpicker
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -18,9 +21,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicePickerState
+import com.tomasrepcik.blumodify.main.settings.btpicker.model.TrackedDevicesState
 import com.tomasrepcik.blumodify.main.settings.btpicker.ui.states.*
 import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.ui.components.appbar.AppBarAction
 
 @Composable
 fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel = hiltViewModel()) {
@@ -45,26 +49,37 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
                     }) {
                         Icon(
                             painterResource(id = R.drawable.ic_back),
+                            tint = MaterialTheme.colorScheme.onBackground,
                             contentDescription = stringResource(id = R.string.drawer_menu_description)
                         )
                     }
-                }
+                },
+                appBarActions = arrayListOf(
+                    AppBarAction(R.drawable.ic_refresh, R.string.ic_refresh){
+                      vm.onLaunch(context)
+                    },
+                    AppBarAction(R.drawable.ic_bt, R.string.ic_bt_permission){
+                        val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                        context.startActivity(intentOpenBluetoothSettings)
+                    }
+                )
             )
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            when (val state = vm.trackedDevicePickerState.collectAsState().value) {
-                TrackedDevicePickerState.Loading -> LoadingComp()
-                is TrackedDevicePickerState.DevicesToAdd -> PickDeviceComp(state) { btDeviceToPick ->
+            when (val state = vm.trackedDevicesPickerState.collectAsState().value) {
+                TrackedDevicesState.Loading -> LoadingComp()
+                is TrackedDevicesState.DevicesToAdd -> PickDeviceComp(state) { btDeviceToPick ->
                     vm.onDevicePick(btDeviceToPick)
                 }
-                TrackedDevicePickerState.NoDeviceToAdd -> NoDeviceComp()
-                TrackedDevicePickerState.RequireBtOn -> TurnOnBtComp {
+                TrackedDevicesState.NoDeviceToAdd -> NoDeviceComp()
+                TrackedDevicesState.RequireBtOn -> TurnOnBtComp {
                     vm.onBtOn()
                 }
-                TrackedDevicePickerState.RequirePermission -> PermissionComp{
+                TrackedDevicesState.RequirePermission -> PermissionComp{
                     vm.onBtPermissionGranted()
                 }
+                TrackedDevicesState.AllDevicesAdded -> AllDevicesAddedComp()
             }
         }
     }
