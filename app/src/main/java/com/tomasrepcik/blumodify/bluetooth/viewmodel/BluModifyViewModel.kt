@@ -42,9 +42,6 @@ class BluModifyViewModel @Inject constructor(
                 }
             }
         }
-        viewModelScope.launch {
-            appCache.loadInCache()
-        }
     }
 
     fun onLaunch() = viewModelScope.launch(Dispatchers.Main) {

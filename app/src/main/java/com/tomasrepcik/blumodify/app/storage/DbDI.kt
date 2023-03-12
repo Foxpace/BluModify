@@ -11,20 +11,24 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DbDI {
 
     @Provides
+    @Singleton
     fun provideAppSettingsDataStore(@ApplicationContext context: Context): DataStore<AppSettings> =
         context.settingsDataStore
 
     @Provides
+    @Singleton
     fun provideAppCache(dataStore: DataStore<AppSettings>): AppCacheTemplate<AppCacheState> =
         AppCache(dataStore)
 
     @Provides
+    @Singleton
     fun provideBtDatabase(@ApplicationContext context: Context): BtDeviceDao {
         val db = Room.databaseBuilder(
             context,
