@@ -23,11 +23,4 @@ class AppCache @Inject constructor(private val dataStore: DataStore<AppSettings>
         }
     }
 
-    override suspend fun storeWorkerId(id: String) {
-        dataStore.updateData { actualSettings: AppSettings ->
-            actualSettings.copy(uuid = id)
-        }
-    }
-
-
 }

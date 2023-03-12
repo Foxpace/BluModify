@@ -7,7 +7,6 @@ import com.tomasrepcik.blumodify.app.model.ErrorCause
 import com.tomasrepcik.blumodify.bluetooth.workmanager.workers.BtWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
@@ -15,19 +14,22 @@ class BtWorkManager(private val workManager: WorkManager) : BtWorkManagerTemplat
 
     private val workerTag = "BtWorker"
     private val tag = "BtWorkManager"
-    override suspend fun workersWork(UUID: UUID): AppResult<Boolean> {
+    override suspend fun workersWork(): AppResult<Boolean> {
 
         return try {
             val workerInfo = withContext(Dispatchers.IO) {
-                val workers = workManager.getWorkInfoById(UUID)
+                val workers = workManager.getWorkInfosForUniqueWork(workerTag)
                 return@withContext workers.get()
             }
             val running = withContext(Dispatchers.Default) {
                 if (workerInfo == null){
                     return@withContext false
                 }
-                val state = workerInfo.state
-                return@withContext state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
+                val state = workerInfo.firstOrNull first@ {
+                    val state = it.state
+                    return@first state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
+                }
+                return@withContext state != null
             }
             AppResult.Success(running)
         } catch (e: ExecutionException) {
@@ -47,7 +49,7 @@ class BtWorkManager(private val workManager: WorkManager) : BtWorkManagerTemplat
         }
     }
 
-    override suspend fun initWorkers(oldUUID: UUID, newUUID: UUID) {
+    override suspend fun initWorkers() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
             .setRequiresCharging(false)
@@ -62,10 +64,9 @@ class BtWorkManager(private val workManager: WorkManager) : BtWorkManagerTemplat
                 repeatInterval = 15, TimeUnit.MINUTES,
             ).setConstraints(constraints)
                 .addTag(workerTag)
-                .setId(newUUID)
                 .build()
 
-        disposeWorkers(oldUUID)
+        disposeWorkers()
         val workerEnqueue = workManager.enqueueUniquePeriodicWork(
             workerTag,
             ExistingPeriodicWorkPolicy.UPDATE,
@@ -74,8 +75,8 @@ class BtWorkManager(private val workManager: WorkManager) : BtWorkManagerTemplat
         workerEnqueue.await()
     }
 
-    override suspend fun disposeWorkers(UUID: UUID) {
-        val operation = workManager.cancelWorkById(UUID)
+    override suspend fun disposeWorkers() {
+        val operation = workManager.cancelUniqueWork(workerTag)
         operation.await()
     }
 }
