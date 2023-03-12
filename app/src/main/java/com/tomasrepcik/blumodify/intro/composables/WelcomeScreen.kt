@@ -17,9 +17,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.IntroNavOption
-import com.tomasrepcik.blumodify.ui.components.AppButton
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.app.ui.components.AppButton
+import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
 @Composable
 fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaffold {

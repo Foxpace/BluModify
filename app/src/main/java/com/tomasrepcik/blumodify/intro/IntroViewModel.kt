@@ -2,8 +2,8 @@ package com.tomasrepcik.blumodify.intro
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.storage.cache.AppCacheState
-import com.tomasrepcik.blumodify.storage.cache.AppCacheTemplate
+import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
+import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

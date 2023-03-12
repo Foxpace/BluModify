@@ -13,7 +13,7 @@ import com.tomasrepcik.blumodify.main.settings.settings.SettingsScreen
 fun NavGraphBuilder.mainGraph(navController: NavHostController, drawerState: DrawerState) {
     navigation(startDestination = MainNavOption.HomeScreen.name, route = NavRoutes.MainRoute.name) {
         composable(MainNavOption.HomeScreen.name){
-            HomeScreen(drawerState)
+            HomeScreen(navController, drawerState)
         }
         composable(MainNavOption.SettingsScreen.name){
             SettingsScreen(navController, drawerState)

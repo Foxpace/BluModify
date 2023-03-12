@@ -67,8 +67,12 @@
     <string name="drawer_settings_description">Settings navigation button</string>
     <string name="drawer_info_description">About navigation button</string>
 
+    <!-- MAIN SCREEN -->
+    <string name="main_screen_turn_on">Turn on</string>
+    <string name="main_screen_turn_off">Turn off</string>
+    <string name="main_screen_no_device">No device</string>
+`
     <!-- SETTINGS SCREEN -->
-
     <string name="settings_devices">Devices</string>
     <string name="settings_devices_list">Tracked devices list</string>
     <string name="settings_tracked_devices">Tracked devices</string>

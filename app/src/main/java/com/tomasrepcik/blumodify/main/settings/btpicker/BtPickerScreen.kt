@@ -14,14 +14,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.ui.components.BackButton
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.main.settings.btpicker.ui.*
 import com.tomasrepcik.blumodify.main.settings.btpicker.viewmodel.BtPickerViewModel
 import com.tomasrepcik.blumodify.main.settings.btpicker.viewmodel.TrackedDevicesState
 import com.tomasrepcik.blumodify.main.settings.shared.ui.DeviceAction
 import com.tomasrepcik.blumodify.main.settings.shared.ui.DevicePickerComp
-import com.tomasrepcik.blumodify.ui.components.BackButton
-import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.ui.components.appbar.AppBarAction
 
 @Composable
 fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel = hiltViewModel()) {

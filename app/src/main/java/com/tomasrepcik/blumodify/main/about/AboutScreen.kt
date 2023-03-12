@@ -1,21 +1,22 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.tomasrepcik.blumodify.main.about
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
 @Composable
 fun AboutScreen(drawerState: DrawerState) {
@@ -38,7 +39,7 @@ fun AboutScreen(drawerState: DrawerState) {
 @Composable
 fun AboutScreenPreview() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    BluModifyTheme() {
+    BluModifyTheme {
         AboutScreen(drawerState)
     }
 }

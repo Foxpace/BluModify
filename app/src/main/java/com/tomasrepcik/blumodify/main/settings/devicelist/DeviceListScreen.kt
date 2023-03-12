@@ -17,9 +17,9 @@ import com.tomasrepcik.blumodify.main.settings.devicelist.viewmodel.DeviceListSt
 import com.tomasrepcik.blumodify.main.settings.devicelist.viewmodel.DeviceListViewModel
 import com.tomasrepcik.blumodify.main.settings.shared.ui.DeviceAction
 import com.tomasrepcik.blumodify.main.settings.shared.ui.DevicePickerComp
-import com.tomasrepcik.blumodify.ui.components.BackButton
-import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.ui.components.appbar.AppBarAction
+import com.tomasrepcik.blumodify.app.ui.components.BackButton
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 
 @Composable
 fun DeviceListScreen(

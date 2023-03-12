@@ -8,14 +8,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerContent
+import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerItemInfo
+import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.intro.introGraph
 import com.tomasrepcik.blumodify.main.MainNavOption
 import com.tomasrepcik.blumodify.main.mainGraph
 import com.tomasrepcik.blumodify.main.settings.settingsGraph
-import com.tomasrepcik.blumodify.ui.components.appdrawer.AppDrawerContent
-import com.tomasrepcik.blumodify.ui.components.appdrawer.AppDrawerItemInfo
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 
 @Composable

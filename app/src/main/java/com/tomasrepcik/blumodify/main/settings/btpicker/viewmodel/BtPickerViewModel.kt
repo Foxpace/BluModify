@@ -9,11 +9,11 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtObserver
+import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
+import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtObserver
+import com.tomasrepcik.blumodify.app.storage.room.BtDevice
+import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
 import com.tomasrepcik.blumodify.main.settings.shared.model.BtDeviceToPick
-import com.tomasrepcik.blumodify.storage.room.BtDevice
-import com.tomasrepcik.blumodify.storage.room.BtDeviceDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.IntroViewModel
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 
 @Composable
 fun RecommendationScreen(

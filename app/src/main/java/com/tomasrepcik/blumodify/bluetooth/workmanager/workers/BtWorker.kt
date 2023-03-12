@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.tomasrepcik.blumodify.bluetooth.controllers.bluetooth.BtControllerTemplate
-import com.tomasrepcik.blumodify.storage.room.BtDeviceDao
+import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
+import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

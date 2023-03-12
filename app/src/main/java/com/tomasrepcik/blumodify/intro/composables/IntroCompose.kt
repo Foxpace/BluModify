@@ -15,9 +15,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.ui.components.AppButton
-import com.tomasrepcik.blumodify.ui.components.BackButton
-import com.tomasrepcik.blumodify.ui.components.OnClickFunction
+import com.tomasrepcik.blumodify.app.ui.components.AppButton
+import com.tomasrepcik.blumodify.app.ui.components.BackButton
+import com.tomasrepcik.blumodify.app.ui.components.OnClickFunction
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +33,7 @@ fun IntroCompose(
 
 ) = Scaffold(topBar = {
     TopAppBar(title = {}, navigationIcon = {
-        BackButton() {
+        BackButton {
             navController.popBackStack()
         }
     })

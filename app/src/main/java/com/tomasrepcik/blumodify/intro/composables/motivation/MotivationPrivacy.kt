@@ -6,8 +6,8 @@ import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.IntroNavOption
 import com.tomasrepcik.blumodify.intro.composables.IntroCompose
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
 
 @Composable

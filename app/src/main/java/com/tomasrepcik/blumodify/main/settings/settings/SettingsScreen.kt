@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.main.settings.SettingsNavOption
-import com.tomasrepcik.blumodify.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
 
 @Composable
 fun SettingsScreen(

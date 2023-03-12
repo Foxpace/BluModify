@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.tomasrepcik.blumodify.main.settings.shared.model.BtDeviceToPick
 import com.tomasrepcik.blumodify.main.settings.shared.model.BtItem
-import com.tomasrepcik.blumodify.ui.previews.AllScreenPreview
-import com.tomasrepcik.blumodify.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
 @Composable
 fun <T: BtItem> DevicePickerComp(
