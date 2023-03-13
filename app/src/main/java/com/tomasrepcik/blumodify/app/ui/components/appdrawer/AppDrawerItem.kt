@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.DrawerParams
-import com.tomasrepcik.blumodify.main.MainNavOption
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.main.MainNavOption
 
 @ExperimentalMaterial3Api
 @Composable
@@ -31,7 +31,7 @@ fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit)
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
         ) {
             Icon(
                 painter = painterResource(id = item.drawableId),
