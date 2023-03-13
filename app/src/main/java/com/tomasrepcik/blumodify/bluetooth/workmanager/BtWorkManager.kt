@@ -9,8 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class BtWorkManager(private val workManager: WorkManager) : BtWorkManagerTemplate {
+class BtWorkManager @Inject constructor(private val workManager: WorkManager) : BtWorkManagerTemplate {
 
     private val workerTag = "BtWorker"
     private val tag = "BtWorkManager"

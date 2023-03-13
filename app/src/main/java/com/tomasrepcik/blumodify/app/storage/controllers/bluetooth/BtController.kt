@@ -9,10 +9,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 
 @SuppressLint("MissingPermission")
-class BtController(private val context: Context) : BtControllerTemplate {
+class BtController @Inject constructor(@ApplicationContext private val context: Context) : BtControllerTemplate {
 
     private val tag: String = "BluetoothController"
 

@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.tomasrepcik.blumodify.app.storage.cache.*
 import com.tomasrepcik.blumodify.app.storage.room.AppDatabase
 import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,17 +16,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+abstract class AppCacheDi {
+    @Binds
+    @Singleton
+    abstract fun provideAppCache(appCache: AppCache): AppCacheTemplate<AppCacheState>
+
+}
+@Module
+@InstallIn(SingletonComponent::class)
 object DbDI {
 
     @Provides
     @Singleton
     fun provideAppSettingsDataStore(@ApplicationContext context: Context): DataStore<AppSettings> =
         context.settingsDataStore
-
-    @Provides
-    @Singleton
-    fun provideAppCache(dataStore: DataStore<AppSettings>): AppCacheTemplate<AppCacheState> =
-        AppCache(dataStore)
 
     @Provides
     @Singleton

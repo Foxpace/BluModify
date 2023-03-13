@@ -17,7 +17,7 @@ import com.tomasrepcik.blumodify.main.home.states.MainErrorComp
 import com.tomasrepcik.blumodify.main.home.states.MainNothingToTrackComp
 import com.tomasrepcik.blumodify.main.home.states.MainTurnedOffComp
 import com.tomasrepcik.blumodify.main.home.states.MainTurnedOnComp
-import com.tomasrepcik.blumodify.main.settings.btpicker.ui.LoadingComp
+import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 
 @Composable
 fun HomeScreen(

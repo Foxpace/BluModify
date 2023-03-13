@@ -11,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.main.settings.SettingsNavOption
-import com.tomasrepcik.blumodify.main.settings.btpicker.ui.LoadingComp
+import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.main.settings.devicelist.ui.NoTrackedDevices
 import com.tomasrepcik.blumodify.main.settings.devicelist.viewmodel.DeviceListState
 import com.tomasrepcik.blumodify.main.settings.devicelist.viewmodel.DeviceListViewModel
