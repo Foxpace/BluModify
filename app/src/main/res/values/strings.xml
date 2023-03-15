@@ -90,5 +90,7 @@
 
     <!-- ABOUT SCREEN -->
     <string name="about_screen_title">About BluModify</string>
+    <string name="notification_channel_name">Blumodify notification channel</string>
+    <string name="notification_channel_description">To request user to turn off bluetooth, if it is not needed anymore</string>
 
 </resources>

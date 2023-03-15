@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.work.*
 import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.model.ErrorCause
-import com.tomasrepcik.blumodify.bluetooth.workmanager.workers.BtWorker
+import com.tomasrepcik.blumodify.bluetooth.worker.BtWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.ExecutionException

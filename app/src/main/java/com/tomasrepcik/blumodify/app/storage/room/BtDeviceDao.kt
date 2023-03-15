@@ -10,6 +10,12 @@ interface BtDeviceDao {
     @Query("SELECT macAddress FROM btdevice")
     fun getMacAddresses(): List<String>
 
+    @Query("SELECT * FROM btdevice WHERE wasConnected = 1")
+    fun getRecentlyConnectedDevices(): List<BtDevice>
+
+    @Query("UPDATE btdevice SET wasConnected = 0 WHERE wasConnected = 1")
+    fun resetDevices()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBtDevice(device: BtDevice)
 

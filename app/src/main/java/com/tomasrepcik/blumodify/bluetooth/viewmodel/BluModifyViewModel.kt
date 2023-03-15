@@ -60,8 +60,6 @@ class BluModifyViewModel @Inject constructor(
         }
     }
 
-
-
     private suspend fun turnOn() = withContext(Dispatchers.Main) {
         _bluModifyState.value = BlumodifyState.Loading
         btWorkManagerTemplate.initWorkers()
@@ -71,6 +69,9 @@ class BluModifyViewModel @Inject constructor(
     private suspend fun turnOff() = withContext(Dispatchers.Main) {
         _bluModifyState.value = BlumodifyState.Loading
         btWorkManagerTemplate.disposeWorkers()
+        withContext(Dispatchers.Default){
+            btDeviceDao.resetDevices()
+        }
         checkCurrentState()
     }
 }

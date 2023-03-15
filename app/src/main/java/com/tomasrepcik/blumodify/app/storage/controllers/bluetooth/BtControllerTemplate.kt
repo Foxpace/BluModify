@@ -15,6 +15,9 @@ interface  BtControllerTemplate {
 
     fun removeObserver(btObserver: BtObserver)
 
-    fun getPairedBtDevices(): List<BluetoothDevice>
+    fun getPairedBtDevices(): Set<BluetoothDevice>
+
+    suspend fun getConnectedBtDevices(): Set<BluetoothDevice>
+    suspend fun getConnectedBleDevices(): Set<BluetoothDevice>
 
 }
