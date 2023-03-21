@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.settings
+package com.tomasrepcik.blumodify.settings.settings.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,6 +11,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
@@ -18,11 +19,13 @@ import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.settings.SettingsNavOption
+import com.tomasrepcik.blumodify.settings.settings.SettingsViewModel
 
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
     drawerState: DrawerState,
+    vm: SettingsViewModel = hiltViewModel()
 ) {
 
     val scrollState = rememberScrollState()
@@ -42,6 +45,14 @@ fun SettingsScreen(
                 .padding(16.dp)
         ) {
             SettingsGroup(name = R.string.settings_devices) {
+                SettingsSwitchComp(
+                    name = R.string.settings_devices_list,
+                    icon = R.drawable.ic_bt,
+                    iconDesc = R.string.ic_bt,
+                    state = vm.advancedSettings
+                ) {
+                    vm.toggleAdvancedSettings()
+                }
                 SettingsClickableComp(
                     name = R.string.settings_devices_list,
                     icon = R.drawable.ic_bt,

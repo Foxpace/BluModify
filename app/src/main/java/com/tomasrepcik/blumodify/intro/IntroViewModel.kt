@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +31,7 @@ class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<
                     }
                     is AppCacheState.Loaded -> {
                         _isLoading.value = false
-                        _isOnboarded.value = it.settings.onboarded
+                        _isOnboarded.value = it.settings.isOnboarded
                     }
                     AppCacheState.Loading -> {
                         _isLoading.value = true
@@ -49,7 +48,7 @@ class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<
 
 
     fun saveUserOnboarding() {
-        viewModelScope.launch(context = Dispatchers.IO) {
+        viewModelScope.launch {
             appCache.storeOnboarding(true)
         }
     }

@@ -7,5 +7,6 @@ interface AppCacheTemplate<T> {
     val state: StateFlow<T>
     suspend fun loadInCache()
     suspend fun storeOnboarding(isOnboarded: Boolean)
+    suspend fun storeAdvancedSettings(isAdvancedSettings: Boolean)
 
 }

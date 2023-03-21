@@ -4,11 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppSettings(
-    val onboarded: Boolean
+    val isOnboarded: Boolean,
+    val isAdvancedSettings: Boolean
 ) {
 
     companion object {
-        val default = AppSettings(false)
+        val default = AppSettings(isOnboarded = false, isAdvancedSettings = false)
     }
 }
 

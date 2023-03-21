@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.settings
+package com.tomasrepcik.blumodify.settings.settings.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*

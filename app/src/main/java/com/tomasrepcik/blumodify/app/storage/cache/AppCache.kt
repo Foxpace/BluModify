@@ -1,8 +1,10 @@
 package com.tomasrepcik.blumodify.app.storage.cache
 
 import androidx.datastore.core.DataStore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AppCache @Inject constructor(private val dataStore: DataStore<AppSettings>) :
@@ -17,10 +19,18 @@ class AppCache @Inject constructor(private val dataStore: DataStore<AppSettings>
         }
     }
 
-    override suspend fun storeOnboarding(isOnboarded: Boolean) {
+    override suspend fun storeOnboarding(isOnboarded: Boolean): Unit = withContext(Dispatchers.IO) {
         dataStore.updateData { actualSettings: AppSettings ->
-            actualSettings.copy(onboarded = isOnboarded)
+            actualSettings.copy(isOnboarded = isOnboarded)
         }
     }
+
+    override suspend fun storeAdvancedSettings(isAdvancedSettings: Boolean): Unit =
+        withContext(Dispatchers.IO) {
+            dataStore.updateData { actualSettings: AppSettings ->
+                actualSettings.copy(isAdvancedSettings = isAdvancedSettings)
+            }
+        }
+
 
 }

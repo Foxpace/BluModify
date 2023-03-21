@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.tomasrepcik.blumodify.about.AboutScreen
 import com.tomasrepcik.blumodify.home.HomeScreen
-import com.tomasrepcik.blumodify.settings.settings.SettingsScreen
+import com.tomasrepcik.blumodify.settings.settings.ui.SettingsScreen
 
 fun NavGraphBuilder.mainGraph(navController: NavHostController, drawerState: DrawerState) {
     navigation(startDestination = MainNavOption.HomeScreen.name, route = NavRoutes.MainRoute.name) {
