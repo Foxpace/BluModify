@@ -13,9 +13,7 @@ import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerItemInfo
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.intro.introGraph
-import com.tomasrepcik.blumodify.main.MainNavOption
-import com.tomasrepcik.blumodify.main.mainGraph
-import com.tomasrepcik.blumodify.main.settings.settingsGraph
+import com.tomasrepcik.blumodify.settings.settingsGraph
 
 
 @Composable
