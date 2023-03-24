@@ -48,7 +48,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaf
         Text(
             stringResource(id = R.string.welcome_text),
             textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth()
         )
 

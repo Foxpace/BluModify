@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.app.storage.room
+package com.tomasrepcik.blumodify.app.storage.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

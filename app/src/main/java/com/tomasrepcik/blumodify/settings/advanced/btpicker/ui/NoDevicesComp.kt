@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.btpicker.ui
+package com.tomasrepcik.blumodify.settings.advanced.btpicker.ui
 
 import android.content.Intent
 import android.provider.Settings
@@ -47,7 +47,7 @@ fun NoDeviceComp() {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.settings_bt_no_device),
-            style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center)
+            style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
         AppButton(text = R.string.settings_bt_picker) {

@@ -1,6 +1,7 @@
-package com.tomasrepcik.blumodify.app.storage.room
+package com.tomasrepcik.blumodify.app.storage.room.dao
 
 import androidx.room.*
+import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
 
 @Dao
 interface BtDeviceDao {

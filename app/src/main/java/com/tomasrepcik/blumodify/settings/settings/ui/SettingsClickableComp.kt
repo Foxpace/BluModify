@@ -46,7 +46,7 @@ fun SettingsClickableComp(
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(id = name),
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.surfaceTint
                         ),
                         modifier = Modifier

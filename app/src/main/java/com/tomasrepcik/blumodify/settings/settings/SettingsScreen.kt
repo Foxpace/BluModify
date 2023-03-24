@@ -9,6 +9,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,7 +28,6 @@ fun SettingsScreen(
     drawerState: DrawerState,
     vm: SettingsViewModel = hiltViewModel()
 ) {
-
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -46,19 +46,39 @@ fun SettingsScreen(
         ) {
             SettingsGroup(name = R.string.settings_devices) {
                 SettingsSwitchComp(
-                    name = R.string.settings_devices_list,
+                    name = R.string.settings_advanced_tracking,
                     icon = R.drawable.ic_bt,
                     iconDesc = R.string.ic_bt,
                     state = vm.advancedSettings
                 ) {
                     vm.toggleAdvancedSettings()
                 }
+
+                if (vm.advancedSettings.collectAsState().value){
+                    SettingsClickableComp(
+                        name = R.string.settings_advanced_tracking_dialog_button,
+                        icon = R.drawable.ic_question_mark,
+                        iconDesc = R.string.ic_question_mark
+                    ) {
+                        navController.navigate(SettingsNavOption.SettingsAdvancedExplanation.name)
+                    }
+                    SettingsClickableComp(
+                        name = R.string.settings_devices_list,
+                        icon = R.drawable.ic_check,
+                        iconDesc = R.string.ic_check
+                    ) {
+                        navController.navigate(SettingsNavOption.SettingsDeviceList.name)
+                    }
+                }
+            }
+
+            SettingsGroup(name = R.string.settings_history) {
                 SettingsClickableComp(
-                    name = R.string.settings_devices_list,
-                    icon = R.drawable.ic_bt,
-                    iconDesc = R.string.ic_bt
+                    name = R.string.settings_history_runs,
+                    icon = R.drawable.ic_history_reset,
+                    iconDesc = R.string.settings_history_runs_button_description,
                 ) {
-                    navController.navigate(SettingsNavOption.SettingsDeviceList.name)
+                    navController.navigate(SettingsNavOption.SettingsLogsScreen.name)
                 }
             }
         }

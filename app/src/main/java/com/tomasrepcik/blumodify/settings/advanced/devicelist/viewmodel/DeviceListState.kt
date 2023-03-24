@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.devicelist.viewmodel
+package com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel
 
 import com.tomasrepcik.blumodify.settings.shared.model.BtDeviceToPick
 

@@ -23,7 +23,7 @@ val customTypography = Typography(
         letterSpacing = 0.5.sp,
         color = Color.White
     ),
-    bodyLarge = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = GloryFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp,

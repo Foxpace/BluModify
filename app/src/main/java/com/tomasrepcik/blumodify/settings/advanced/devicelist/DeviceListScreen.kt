@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.devicelist
+package com.tomasrepcik.blumodify.settings.advanced.devicelist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,16 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.settings.SettingsNavOption
-import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
-import com.tomasrepcik.blumodify.settings.devicelist.ui.NoTrackedDevices
-import com.tomasrepcik.blumodify.settings.devicelist.viewmodel.DeviceListState
-import com.tomasrepcik.blumodify.settings.devicelist.viewmodel.DeviceListViewModel
-import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction
-import com.tomasrepcik.blumodify.settings.shared.ui.DevicePickerComp
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
+import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
+import com.tomasrepcik.blumodify.settings.SettingsNavOption
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.ui.NoTrackedDevices
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel.DeviceListState
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel.DeviceListViewModel
+import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction
+import com.tomasrepcik.blumodify.settings.shared.ui.DevicePickerComp
 
 @Composable
 fun DeviceListScreen(

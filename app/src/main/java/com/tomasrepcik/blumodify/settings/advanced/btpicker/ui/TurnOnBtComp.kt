@@ -1,5 +1,11 @@
-package com.tomasrepcik.blumodify.settings.devicelist.ui
+package com.tomasrepcik.blumodify.settings.advanced.btpicker.ui
 
+import android.app.Activity.RESULT_OK
+import android.bluetooth.BluetoothAdapter
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -8,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -20,7 +25,14 @@ import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
 
 @Composable
-fun NoTrackedDevices(onClick: () -> Unit) {
+fun TurnOnBtComp(onBtOn: () -> Unit) {
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            onBtOn()
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -30,35 +42,33 @@ fun NoTrackedDevices(onClick: () -> Unit) {
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp),
-            painter = painterResource(id = R.drawable.ic_sad),
+            modifier = Modifier.size(120.dp),
+            painter = painterResource(id = R.drawable.ic_bt_inactive),
             contentDescription = stringResource(
                 id =
-                R.string.ic_sad
-            ),
-            contentScale = ContentScale.Fit
+                R.string.ic_bt_off
+            )
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.settings_no_tracked_device),
-            style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center)
+            text = stringResource(id = R.string.settings_bt_off),
+            style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
-        AppButton(text = R.string.settings_bt_picker, onClick = onClick)
+        AppButton(text = R.string.settings_bt_off_button) {
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            launcher.launch(enableBtIntent)
+        }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @AllScreenPreview
 @Composable
-fun NoDeviceCompPreview() {
+fun TurnOnBtCompPreview() {
     BluModifyTheme {
         Surface {
-            NoTrackedDevices {
-
-            }
+            TurnOnBtComp {}
         }
     }
 }

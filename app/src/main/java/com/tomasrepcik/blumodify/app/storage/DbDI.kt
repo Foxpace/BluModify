@@ -5,7 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.room.Room
 import com.tomasrepcik.blumodify.app.storage.cache.*
 import com.tomasrepcik.blumodify.app.storage.room.AppDatabase
-import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
+import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
+import com.tomasrepcik.blumodify.app.storage.room.dao.RunReportDao
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -33,11 +34,16 @@ object DbDI {
 
     @Provides
     @Singleton
-    fun provideBtDatabase(@ApplicationContext context: Context): BtDeviceDao {
-        val db = Room.databaseBuilder(
-            context,
-            AppDatabase::class.java, "BluModifyDb"
-        ).build()
-        return db.btDao()
-    }
+    fun provideDb(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java, "BluModifyDb"
+    ).build()
+
+    @Provides
+    @Singleton
+    fun provideBtDatabase(db: AppDatabase): BtDeviceDao = db.btDao()
+
+    @Provides
+    @Singleton
+    fun provideRunReportDatabase(db: AppDatabase): RunReportDao = db.runReportDao()
 }

@@ -1,8 +1,8 @@
-package com.tomasrepcik.blumodify.settings.devicelist.viewmodel
+package com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
+import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.settings.shared.model.BtDeviceToPick
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

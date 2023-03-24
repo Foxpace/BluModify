@@ -14,3 +14,7 @@ annotation class DarkScreens
 @BrightScreens
 @DarkScreens
 annotation class AllScreenPreview
+
+@Preview(device = "id:pixel_5", name = "Pixel 5")
+@Preview(device = "id:pixel_5", uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Pixel 5 - Dark")
+annotation class BlackAndBright

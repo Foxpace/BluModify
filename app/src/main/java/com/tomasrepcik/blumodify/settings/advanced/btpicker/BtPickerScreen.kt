@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.btpicker
+package com.tomasrepcik.blumodify.settings.advanced.btpicker
 
 import android.content.Intent
 import android.provider.Settings
@@ -18,9 +18,12 @@ import com.tomasrepcik.blumodify.app.ui.components.BackButton
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
-import com.tomasrepcik.blumodify.settings.btpicker.ui.*
-import com.tomasrepcik.blumodify.settings.btpicker.viewmodel.BtPickerViewModel
-import com.tomasrepcik.blumodify.settings.btpicker.viewmodel.TrackedDevicesState
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.AllDevicesAddedComp
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.NoDeviceComp
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.PermissionComp
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.TurnOnBtComp
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.viewmodel.BtPickerViewModel
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.viewmodel.TrackedDevicesState
 import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction
 import com.tomasrepcik.blumodify.settings.shared.ui.DevicePickerComp
 

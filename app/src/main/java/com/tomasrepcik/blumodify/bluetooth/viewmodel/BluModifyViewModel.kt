@@ -3,7 +3,7 @@ package com.tomasrepcik.blumodify.bluetooth.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.model.AppResult
-import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
+import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.bluetooth.model.BlumodifyState
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel

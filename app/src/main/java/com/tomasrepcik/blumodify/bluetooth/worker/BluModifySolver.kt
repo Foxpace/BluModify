@@ -14,8 +14,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker.Result
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
-import com.tomasrepcik.blumodify.app.storage.room.BtDevice
-import com.tomasrepcik.blumodify.app.storage.room.BtDeviceDao
+import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
+import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

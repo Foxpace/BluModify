@@ -41,7 +41,7 @@ fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit)
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = stringResource(id = item.title),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
             )
         }

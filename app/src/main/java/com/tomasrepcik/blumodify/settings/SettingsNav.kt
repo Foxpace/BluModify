@@ -6,8 +6,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.tomasrepcik.blumodify.MainNavOption
 import com.tomasrepcik.blumodify.NavRoutes
-import com.tomasrepcik.blumodify.settings.btpicker.SettingsBtPickerScreen
-import com.tomasrepcik.blumodify.settings.devicelist.DeviceListScreen
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.SettingsBtPickerScreen
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.DeviceListScreen
+import com.tomasrepcik.blumodify.settings.advanced.explanation.AdvancedExplanationScreen
+import com.tomasrepcik.blumodify.settings.logs.LogsScreen
+import com.tomasrepcik.blumodify.settings.logs.LogsScreenDetail
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     navigation(
@@ -20,10 +23,22 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
         composable(SettingsNavOption.SettingsBtPicker.name) {
             SettingsBtPickerScreen(navController)
         }
+        composable(SettingsNavOption.SettingsAdvancedExplanation.name) {
+            AdvancedExplanationScreen(navController)
+        }
+        composable(SettingsNavOption.SettingsLogsScreen.name) {
+            LogsScreen(navController)
+        }
+        composable(SettingsNavOption.SettingsLogsScreenDetail.name) {
+            LogsScreenDetail(navController)
+        }
     }
 }
 
 enum class SettingsNavOption {
     SettingsDeviceList,
-    SettingsBtPicker
+    SettingsAdvancedExplanation,
+    SettingsBtPicker,
+    SettingsLogsScreen,
+    SettingsLogsScreenDetail
 }

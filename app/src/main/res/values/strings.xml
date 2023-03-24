@@ -7,6 +7,8 @@
     <string name="ic_bt_no_device">No device available</string>
     <string name="ic_bt_off">Bluetooth is off</string>
     <string name="ic_bt">Bluetooth button</string>
+    <string name="ic_check">Check mark</string>
+    <string name="ic_question_mark">Question mark</string>
     <string name="ic_refresh">Refresh button</string>
     <string name="ic_battery_happy">Happy battery</string>
     <string name="ic_arrow_forward">Arrow forward</string>
@@ -15,6 +17,7 @@
 
 
     <!-- GENERAL PURPOSE TEXT-->
+    <string name="ok">OK</string>
     <string name="next">Next</string>
     <string name="start_app">Start using the app</string>
 
@@ -74,9 +77,23 @@
 `
     <!-- SETTINGS SCREEN -->
     <string name="settings_devices">Devices</string>
+    <string name="settings_history">History</string>
+
+    <!-- SETTINGS - ADVANCED-->
+    <string name="settings_advanced_tracking">Advanced tracking</string>
+    <string name="settings_advanced_tracking_dialog_title">Advanced tracking</string>
+    <string name="settings_advanced_tracking_dialog_text">Explanation of the advanced tracking.</string>
+    <string name="settings_advanced_tracking_dialog_button">Explanation</string>
     <string name="settings_devices_list">Tracked devices list</string>
     <string name="settings_tracked_devices">Tracked devices</string>
     <string name="settings_tracked_button_description">Button to add tracked device</string>
+
+    <!-- SETTINGS - HISTORY -->
+    <string name="settings_history_runs">Execution logs</string>
+    <string name="settings_history_runs_button_description">Execution logs button</string>
+
+
+    <!-- SETTINGS - ADD DEVICE TO TRACKED DEVICES -->
     <string name="settings_no_tracked_device">The app does not track any device, please add at least one!</string>
     <string name="settings_bt_picker">Add device</string>
     <string name="settings_bt_permission">Bluetooth permission is required to obtain access to bluetooth devices. Without permission, the app is not able to manipulate with bluetooth devices.</string>

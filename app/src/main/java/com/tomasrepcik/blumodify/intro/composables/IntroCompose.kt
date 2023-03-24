@@ -63,7 +63,7 @@ fun IntroCompose(
         Text(
             stringResource(id = textDescription),
             textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth()
         )
 
