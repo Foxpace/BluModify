@@ -1,5 +1,6 @@
-package com.tomasrepcik.blumodify.settings.advanced.devicelist.ui
+package com.tomasrepcik.blumodify.app.ui.components.error.comp
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -14,13 +15,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListState
 
 
 @Composable
-fun NoTrackedDevices(onClick: () -> Unit) {
+fun <T> ErrorComp(
+    @StringRes explanation: Int,
+    @StringRes buttonText: Int? = null,
+    appResult: AppResult<T>? = null,
+    onClick: (() -> Unit)?,
+    onDetail: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,30 +44,38 @@ fun NoTrackedDevices(onClick: () -> Unit) {
                 .height(80.dp),
             painter = painterResource(id = R.drawable.ic_sad),
             contentDescription = stringResource(
-                id =
-                R.string.ic_sad
+                id = R.string.ic_sad
             ),
             contentScale = ContentScale.Fit
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.settings_no_tracked_device),
+            text = stringResource(id = explanation),
             style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
-        AppButton(text = R.string.settings_bt_picker, onClick = onClick)
+        if (onClick != null || appResult != null) {
+            Column {
+                if (onClick != null && buttonText != null) {
+                    AppButton(text = buttonText, onClick = onClick)
+                }
+                if (appResult != null) {
+                    AppButton(text = R.string.more_info, onClick = onDetail)
+                }
+            }
+        }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @AllScreenPreview
 @Composable
-fun NoDeviceCompPreview() {
+fun ErrorCompPreview() {
     BluModifyTheme {
         Surface {
-            NoTrackedDevices {
-
-            }
+            ErrorComp<DeviceListState>(explanation = R.string.settings_no_tracked_device,
+                buttonText = R.string.settings_bt_picker,
+                onClick = {}) {}
         }
     }
 }

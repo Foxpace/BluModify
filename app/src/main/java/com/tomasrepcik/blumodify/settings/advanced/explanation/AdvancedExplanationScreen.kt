@@ -17,7 +17,7 @@ import androidx.navigation.NavHostController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel.DeviceListViewModel
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListViewModel
 
 @Composable
 fun AdvancedExplanationScreen(

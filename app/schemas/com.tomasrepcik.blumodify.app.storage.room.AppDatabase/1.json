@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "405d52ec12e7883af7216ac191a0037a",
+    "identityHash": "53d714ff26de65a72122a817be55faa3",
     "entities": [
       {
         "tableName": "BtDevice",
@@ -43,11 +43,11 @@
         "foreignKeys": []
       },
       {
-        "tableName": "RunReport",
+        "tableName": "LogReport",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `start_time` INTEGER NOT NULL, `connected_devices` TEXT NOT NULL, `result` INTEGER NOT NULL, `stacktrace` TEXT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "macAddress",
+            "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
@@ -90,7 +90,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '405d52ec12e7883af7216ac191a0037a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '53d714ff26de65a72122a817be55faa3')"
     ]
   }
 }

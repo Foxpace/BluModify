@@ -22,10 +22,10 @@ import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.AllDevicesAddedCo
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.NoDeviceComp
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.PermissionComp
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.TurnOnBtComp
-import com.tomasrepcik.blumodify.settings.advanced.btpicker.viewmodel.BtPickerViewModel
-import com.tomasrepcik.blumodify.settings.advanced.btpicker.viewmodel.TrackedDevicesState
-import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction
-import com.tomasrepcik.blumodify.settings.shared.ui.DevicePickerComp
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.BtPickerViewModel
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.TrackedDevicesState
+import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction
+import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DevicePickerComp
 
 @Composable
 fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel = hiltViewModel()) {

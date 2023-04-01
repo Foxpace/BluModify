@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.settings.ui
+package com.tomasrepcik.blumodify.settings.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -20,7 +20,9 @@ import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.settings.SettingsNavOption
-import com.tomasrepcik.blumodify.settings.settings.SettingsViewModel
+import com.tomasrepcik.blumodify.settings.settings.ui.SettingsClickableComp
+import com.tomasrepcik.blumodify.settings.settings.ui.SettingsGroup
+import com.tomasrepcik.blumodify.settings.settings.ui.SettingsSwitchComp
 
 @Composable
 fun SettingsScreen(
@@ -28,8 +30,6 @@ fun SettingsScreen(
     drawerState: DrawerState,
     vm: SettingsViewModel = hiltViewModel()
 ) {
-    val scrollState = rememberScrollState()
-
     Scaffold(
         topBar = {
             AppBar(
@@ -40,7 +40,7 @@ fun SettingsScreen(
     ) {
         Column(
             modifier = Modifier
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
                 .padding(it)
                 .padding(16.dp)
         ) {
@@ -49,7 +49,7 @@ fun SettingsScreen(
                     name = R.string.settings_advanced_tracking,
                     icon = R.drawable.ic_bt,
                     iconDesc = R.string.ic_bt,
-                    state = vm.advancedSettings
+                    state = vm.advancedSettings.collectAsState()
                 ) {
                     vm.toggleAdvancedSettings()
                 }
@@ -74,9 +74,9 @@ fun SettingsScreen(
 
             SettingsGroup(name = R.string.settings_history) {
                 SettingsClickableComp(
-                    name = R.string.settings_history_runs,
+                    name = R.string.settings_logs,
                     icon = R.drawable.ic_history_reset,
-                    iconDesc = R.string.settings_history_runs_button_description,
+                    iconDesc = R.string.settings_logs_button_description,
                 ) {
                     navController.navigate(SettingsNavOption.SettingsLogsScreen.name)
                 }

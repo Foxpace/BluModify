@@ -46,10 +46,9 @@ class SettingsViewModel @Inject constructor(private val appCache: AppCacheTempla
     }
 
     fun toggleAdvancedSettings() {
-        val toggledValue = !_isAdvancedSettings.value
-        _isAdvancedSettings.value = toggledValue
+        _isAdvancedSettings.value = _isAdvancedSettings.value.not()
         viewModelScope.launch {
-            appCache.storeAdvancedSettings(toggledValue)
+            appCache.storeAdvancedSettings(_isAdvancedSettings.value)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.shared.model
+package com.tomasrepcik.blumodify.settings.advanced.shared.model
 
 import kotlinx.serialization.Serializable
 

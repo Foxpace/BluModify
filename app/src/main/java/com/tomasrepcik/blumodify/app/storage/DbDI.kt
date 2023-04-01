@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.tomasrepcik.blumodify.app.storage.cache.*
 import com.tomasrepcik.blumodify.app.storage.room.AppDatabase
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
-import com.tomasrepcik.blumodify.app.storage.room.dao.RunReportDao
+import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -45,5 +45,5 @@ object DbDI {
 
     @Provides
     @Singleton
-    fun provideRunReportDatabase(db: AppDatabase): RunReportDao = db.runReportDao()
+    fun provideRunReportDatabase(db: AppDatabase): LogsDao = db.runReportDao()
 }

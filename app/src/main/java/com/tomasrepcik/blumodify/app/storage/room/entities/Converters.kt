@@ -1,7 +1,7 @@
 package com.tomasrepcik.blumodify.app.storage.room.entities
 
 import androidx.room.TypeConverter
-import com.tomasrepcik.blumodify.settings.shared.model.BtItem
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

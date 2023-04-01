@@ -1,5 +1,6 @@
 package com.tomasrepcik.blumodify.settings
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,8 +10,8 @@ import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.SettingsBtPickerScreen
 import com.tomasrepcik.blumodify.settings.advanced.devicelist.DeviceListScreen
 import com.tomasrepcik.blumodify.settings.advanced.explanation.AdvancedExplanationScreen
-import com.tomasrepcik.blumodify.settings.logs.LogsScreen
-import com.tomasrepcik.blumodify.settings.logs.LogsScreenDetail
+import com.tomasrepcik.blumodify.settings.logs.detail.LogsScreenDetail
+import com.tomasrepcik.blumodify.settings.logs.list.LogsScreen
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     navigation(
@@ -29,10 +30,20 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
         composable(SettingsNavOption.SettingsLogsScreen.name) {
             LogsScreen(navController)
         }
-        composable(SettingsNavOption.SettingsLogsScreenDetail.name) {
-            LogsScreenDetail(navController)
+        composable("${SettingsNavOption.SettingsLogsScreenDetail.name}/{id}") {
+            val id = it.arguments?.getInt(SettingsNav.SettingsLogsScreenDetailId)
+            LogsScreenDetail(navController, id)
         }
     }
+}
+
+object SettingsNav {
+
+    fun goToLogScreenWithDetails(navigator: NavController, id: Int?){
+        navigator.navigate("${SettingsNavOption.SettingsLogsScreenDetail.name}/$id")
+    }
+
+    const val SettingsLogsScreenDetailId = "SettingsLogsScreenDetailId"
 }
 
 enum class SettingsNavOption {

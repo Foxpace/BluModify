@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.shared.ui
+package com.tomasrepcik.blumodify.settings.advanced.shared.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,10 +7,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.tomasrepcik.blumodify.settings.shared.model.BtDeviceToPick
-import com.tomasrepcik.blumodify.settings.shared.model.BtItem
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 
 @Composable
 fun <T: BtItem> DevicePickerComp(

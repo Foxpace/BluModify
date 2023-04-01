@@ -6,6 +6,5 @@ sealed class AppResult<T>{
 }
 
 enum class ErrorCause {
-    CACHE_FAILED,
     WORKER_NOT_FOUND
 }

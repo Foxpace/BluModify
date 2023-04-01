@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.advanced.btpicker.viewmodel
+package com.tomasrepcik.blumodify.settings.advanced.btpicker.vm
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -13,7 +13,7 @@ import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerT
 import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtObserver
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
-import com.tomasrepcik.blumodify.settings.shared.model.BtDeviceToPick
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

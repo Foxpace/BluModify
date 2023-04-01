@@ -1,6 +1,6 @@
-package com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel
+package com.tomasrepcik.blumodify.settings.advanced.devicelist.vm
 
-import com.tomasrepcik.blumodify.settings.shared.model.BtDeviceToPick
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
 
 sealed class DeviceListState {
 

@@ -1,3 +1,3 @@
-package com.tomasrepcik.blumodify.settings.shared.model
+package com.tomasrepcik.blumodify.settings.advanced.shared.model
 
 class BtDeviceToPick(deviceName: String, macAddress: String): BtItem(deviceName, macAddress)

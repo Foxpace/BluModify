@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,14 +14,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun SettingsSwitchComp(
     @DrawableRes icon: Int,
     @StringRes iconDesc: Int,
     @StringRes name: Int,
-    state: StateFlow<Boolean>,
+    state: State<Boolean>,
     onClick: () -> Unit
 ) {
     Surface(
@@ -57,12 +56,14 @@ fun SettingsSwitchComp(
                 }
                 Spacer(modifier = Modifier.weight(1.0f))
                 Switch(
-                    checked = state.collectAsState().value,
-                    onCheckedChange = { onClick() }
+                    checked = state.value,
+                    onCheckedChange = { onClick() },
+                    colors = SwitchDefaults.colors(
+                        checkedBorderColor = MaterialTheme.colorScheme.surfaceTint,
+                    ),
                 )
             }
             Divider()
         }
-
     }
 }

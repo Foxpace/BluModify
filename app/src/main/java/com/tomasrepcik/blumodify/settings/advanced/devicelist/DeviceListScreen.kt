@@ -13,13 +13,13 @@ import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
+import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.settings.SettingsNavOption
-import com.tomasrepcik.blumodify.settings.advanced.devicelist.ui.NoTrackedDevices
-import com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel.DeviceListState
-import com.tomasrepcik.blumodify.settings.advanced.devicelist.viewmodel.DeviceListViewModel
-import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction
-import com.tomasrepcik.blumodify.settings.shared.ui.DevicePickerComp
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListState
+import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListViewModel
+import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction
+import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DevicePickerComp
 
 @Composable
 fun DeviceListScreen(
@@ -36,7 +36,7 @@ fun DeviceListScreen(
             AppBar(
                 title = R.string.settings_tracked_devices,
                 navigationIcon = {
-                    BackButton() {
+                    BackButton {
                         navController.popBackStack()
                     }
                 },
@@ -59,7 +59,10 @@ fun DeviceListScreen(
                 ) { device ->
                     vm.onDeviceDelete(device)
                 }
-                DeviceListState.Empty -> NoTrackedDevices {
+                DeviceListState.Empty -> ErrorScreen<DeviceListState>(
+                    explanation = R.string.settings_no_tracked_device,
+                    buttonText = R.string.settings_bt_picker
+                ) {
                     navController.navigate(SettingsNavOption.SettingsBtPicker.name)
                 }
                 DeviceListState.Loading -> LoadingComp()

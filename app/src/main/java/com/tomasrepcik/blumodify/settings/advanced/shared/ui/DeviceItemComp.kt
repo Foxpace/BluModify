@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.settings.shared.ui
+package com.tomasrepcik.blumodify.settings.advanced.shared.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,9 +15,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.settings.shared.model.BtItem
-import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction.ADD
-import com.tomasrepcik.blumodify.settings.shared.ui.DeviceAction.DELETE
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
+import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction.ADD
+import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction.DELETE
 
 @Composable
 fun <T : BtItem> DeviceItemComp(device: T, action: DeviceAction, onClick: (T) -> Unit) {
@@ -75,6 +75,5 @@ fun <T : BtItem> DeviceItemComp(device: T, action: DeviceAction, onClick: (T) ->
                 )
             )
         }
-
     }
 }
