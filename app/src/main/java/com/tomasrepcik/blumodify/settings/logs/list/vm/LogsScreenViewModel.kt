@@ -1,6 +1,7 @@
 package com.tomasrepcik.blumodify.settings.logs.list.vm
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
@@ -23,7 +24,7 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
     var logsState = _logsState.asStateFlow()
 
     fun loadLogs() = viewModelScope.launch(Dispatchers.Main) {
-
+        Log.i(TAG, "Loading all logs and formatting")
         val logs = withContext(Dispatchers.Default) {
             val logReports =  logsDao.getAll()
             val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
@@ -36,11 +37,24 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
         }
 
         if (logs.isEmpty()){
+            Log.i(TAG, "Logs are empty")
             _logsState.value = LogsState.NoLogs
             return@launch
         }
-
+        Log.i(TAG, "Showing logs in list")
         _logsState.value = LogsState.Logs(logs)
+    }
+
+    fun reverseList() = viewModelScope.launch(Dispatchers.Default) {
+        when (val state = _logsState.value) {
+            is LogsState.Logs -> {
+                val reversed = state.logs.reversed()
+                withContext(Dispatchers.Main) {
+                    _logsState.value = LogsState.Logs(reversed)
+                }
+            }
+            else -> Log.w(TAG, "No logs to reverse order")
+        }
     }
 
     companion object {

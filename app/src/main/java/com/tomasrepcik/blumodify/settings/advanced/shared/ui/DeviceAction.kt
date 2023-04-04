@@ -9,14 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 
 @Composable
-fun <T: BtItem> DevicePickerComp(
-    dataItems: List<T>,
+fun DevicePickerComp(
+    dataItems: List<BtItem>,
     action: DeviceAction,
-    onClick: (T) -> Unit,
+    onClick: (BtItem) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -46,10 +45,10 @@ enum class DeviceAction {
 fun PickDeviceCompPreview() {
 
     val devices = arrayListOf(
-        BtDeviceToPick("00-B0-D0-63-C2-26", "Long example of the device name to test"),
-        BtDeviceToPick("00-B0-D0-63-C2-26", "BtDevice"),
-        BtDeviceToPick("00-B0-D0-63-C2-26", "BtDevice"),
-        BtDeviceToPick("00-B0-D0-63-C2-26", "BtDevice")
+        BtItem("00-B0-D0-63-C2-26", "Long example of the device name to test"),
+        BtItem("00-B0-D0-63-C2-26", "BtDevice"),
+        BtItem("00-B0-D0-63-C2-26", "BtDevice"),
+        BtItem("00-B0-D0-63-C2-26", "BtDevice")
     )
 
 

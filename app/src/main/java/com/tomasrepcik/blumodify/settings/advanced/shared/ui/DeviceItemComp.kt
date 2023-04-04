@@ -20,7 +20,7 @@ import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction.ADD
 import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction.DELETE
 
 @Composable
-fun <T : BtItem> DeviceItemComp(device: T, action: DeviceAction, onClick: (T) -> Unit) {
+fun DeviceItemComp(device: BtItem, action: DeviceAction, onClick: (BtItem) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier

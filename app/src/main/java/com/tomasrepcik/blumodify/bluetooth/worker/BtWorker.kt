@@ -11,8 +11,16 @@ import dagger.assisted.AssistedInject
 @HiltWorker
 class BtWorker @AssistedInject constructor(
     @Assisted context: Context,
-    @Assisted workerParams: WorkerParameters,
+    @Assisted val workerParams: WorkerParameters,
     private val solver: BluModifySolverTemplate
 ): CoroutineWorker(context, workerParams) {
-    override suspend fun doWork(): Result = solver.onWorkerCall(applicationContext)
+    override suspend fun doWork(): Result = solver.onWorkerCall(
+        applicationContext, workerParams.inputData.getBoolean(
+            KEY_ADVANCED_SETTINGS, false
+        )
+    )
+
+    companion object {
+        const val KEY_ADVANCED_SETTINGS = "KEY_ADVANCED_SETTINGS"
+    }
 }

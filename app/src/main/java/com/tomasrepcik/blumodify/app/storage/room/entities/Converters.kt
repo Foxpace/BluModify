@@ -9,8 +9,8 @@ import kotlinx.serialization.json.Json
 class Converters {
 
     @TypeConverter
-    fun btItemListToJson(value: ArrayList<BtItem>): String = Json.encodeToString(value)
+    fun btItemListToJson(value: List<BtItem>): String = Json.encodeToString(value)
 
     @TypeConverter
-    fun jsonToList(value: String): ArrayList<BtItem> = Json.decodeFromString(value)
+    fun jsonToList(value: String): List<BtItem> = Json.decodeFromString(value)
 }

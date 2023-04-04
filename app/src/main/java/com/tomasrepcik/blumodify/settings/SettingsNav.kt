@@ -1,5 +1,6 @@
 package com.tomasrepcik.blumodify.settings
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -31,8 +32,15 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
             LogsScreen(navController)
         }
         composable("${SettingsNavOption.SettingsLogsScreenDetail.name}/{id}") {
-            val id = it.arguments?.getInt(SettingsNav.SettingsLogsScreenDetailId)
-            LogsScreenDetail(navController, id)
+            var id: Int?
+            var error: String? = null
+            try{
+                id = it.arguments?.getString("id")?.toInt()
+            } catch (e: Exception) {
+                id = null
+                error = e.stackTraceToString()
+            }
+            LogsScreenDetail(navController, id, error)
         }
     }
 }
@@ -40,6 +48,7 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
 object SettingsNav {
 
     fun goToLogScreenWithDetails(navigator: NavController, id: Int?){
+        Log.i("SettingsNav", "Log with ID $id was picked")
         navigator.navigate("${SettingsNavOption.SettingsLogsScreenDetail.name}/$id")
     }
 

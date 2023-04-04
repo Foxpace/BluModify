@@ -6,5 +6,6 @@ sealed class AppResult<T>{
 }
 
 enum class ErrorCause {
-    WORKER_NOT_FOUND
+    WORKER_NOT_FOUND,
+    MISSING_SETTINGS
 }

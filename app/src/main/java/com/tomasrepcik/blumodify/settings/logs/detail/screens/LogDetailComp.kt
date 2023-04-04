@@ -1,10 +1,7 @@
 package com.tomasrepcik.blumodify.settings.logs.detail.screens
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import com.tomasrepcik.blumodify.settings.logs.detail.LogReportUiItem
 
 @Composable
@@ -27,6 +24,7 @@ fun LogDetailComp(log: LogReportUiItem) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
         LogItem(title = R.string.settings_logs_time_title, value = log.time)
         LogItem(
@@ -54,6 +52,11 @@ fun LogDetailComp(log: LogReportUiItem) {
                     overflow = TextOverflow.Ellipsis,
                 )
             }
+        } else {
+            LogItem(
+                title = R.string.settings_logs_devices_count_detail,
+                value = stringResource(id = R.string.zero)
+            )
         }
         if (log.stackTrace.isNotBlank()){
             LogItem(title = R.string.settings_logs_error_title, value = log.stackTrace)
@@ -76,6 +79,7 @@ private fun LogItem(@StringRes title: Int, value: String) {
         textAlign = TextAlign.Start,
         overflow = TextOverflow.Ellipsis,
     )
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @AllScreenPreview
@@ -85,8 +89,8 @@ fun LogsListPreview() {
         LogDetailComp(
             log = LogReportUiItem(
                 "45547568865", "1.1.1990 22:45", true, arrayListOf(
-                    BtDeviceToPick("Device name", "00:00:00:00:00:00"),
-                    BtDeviceToPick("Device name", "00:00:00:00:00:00")
+                    BtItem("Device name", "00:00:00:00:00:00"),
+                    BtItem("Device name", "00:00:00:00:00:00")
                 ), "Stacktrace"
             )
         )

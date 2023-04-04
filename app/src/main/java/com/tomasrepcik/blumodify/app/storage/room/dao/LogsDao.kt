@@ -5,7 +5,7 @@ import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
 
 @Dao
 interface LogsDao {
-    @Query("SELECT * FROM logreport ORDER BY start_time ASC")
+    @Query("SELECT * FROM logreport ORDER BY start_time DESC")
     fun getAll(): List<LogReport>
 
     @Query("SELECT * FROM logreport WHERE id = :pickedId")
