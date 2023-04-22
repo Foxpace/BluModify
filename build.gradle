@@ -1,17 +1,17 @@
 buildscript {
     ext {
-        kotlin_version = '1.8.10'
-        compose_version = '1.4.0-rc01'
+        kotlin_version = '1.8.20'
+        compose_version = '1.5.0-alpha03'
         hilt_version = '2.45'
-        work_manager_version = '2.8.0'
-        room_version = '2.5.0'
+        work_manager_version = '2.8.1'
+        room_version = '2.5.1'
     }
 }
 
 plugins {
-    id 'com.android.application' version '7.4.2' apply false
-    id 'com.android.library' version '7.4.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
+    id 'com.android.application' version '8.0.0' apply false
+    id 'com.android.library' version '8.0.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
     id 'com.google.dagger.hilt.android' version '2.44' apply false
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10' apply false
 }
