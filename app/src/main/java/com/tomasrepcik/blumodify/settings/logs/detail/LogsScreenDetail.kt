@@ -20,11 +20,14 @@ import com.tomasrepcik.blumodify.settings.logs.detail.vm.LogsScreenDetailViewMod
 
 @Composable
 fun LogsScreenDetail(
-    navController: NavHostController, id: Int?, vm: LogsScreenDetailViewModel = hiltViewModel()
+    navController: NavHostController,
+    id: Int?,
+    error: String?,
+    vm: LogsScreenDetailViewModel = hiltViewModel()
 ) {
 
     LaunchedEffect(key1 = Unit) {
-        vm.findLogById(id)
+        vm.findLogById(id, error)
     }
 
     Scaffold(topBar = {
@@ -38,6 +41,13 @@ fun LogsScreenDetail(
             when (val state = vm.logsState.collectAsState().value) {
                 is LogDetailState.Loaded -> LogDetailComp(state.log)
                 LogDetailState.Loading -> LoadingComp()
+                is LogDetailState.Error -> ErrorComp<Error>(
+                    explanation = R.string.settings_empty_log,
+                    buttonText = R.string.back,
+                    // TODO: add detail
+                    onClick = { navController.popBackStack() }) {
+
+                }
                 LogDetailState.NotFound -> ErrorComp<Error>(
                     explanation = R.string.settings_empty_log,
                     buttonText = R.string.back,

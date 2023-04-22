@@ -61,6 +61,6 @@ class MainStateProvider : PreviewParameterProvider<AppDrawerItemInfo<MainNavOpti
 @Composable
 fun AppDrawerItemPreview(@PreviewParameter(MainStateProvider::class) state: AppDrawerItemInfo<MainNavOption>) {
     BluModifyTheme {
-        AppDrawerItem(item = state, onClick = {})
+        AppDrawerItem<MainNavOption>(item = state, onClick = {})
     }
 }

@@ -3,7 +3,7 @@ package com.tomasrepcik.blumodify.settings.advanced.devicelist.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
-import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +26,7 @@ class DeviceListViewModel @Inject constructor(
         }
     }
 
-    fun onDeviceDelete(device: BtDeviceToPick) {
+    fun onDeviceDelete(device: BtItem) {
         viewModelScope.launch {
             deleteDevice(device)
             refreshDevices()
@@ -38,7 +38,7 @@ class DeviceListViewModel @Inject constructor(
             _listState.value = DeviceListState.Loading
         }
         val devices = withContext(Dispatchers.Default){
-            return@withContext db.getAll().map { BtDeviceToPick(it.name, it.macAddress) }
+            return@withContext db.getAll().map { BtItem(it.name, it.macAddress) }
         }
         withContext(Dispatchers.Main){
             if (devices.isEmpty()){
@@ -51,7 +51,7 @@ class DeviceListViewModel @Inject constructor(
     }
 
 
-    private suspend fun deleteDevice(device: BtDeviceToPick){
+    private suspend fun deleteDevice(device: BtItem){
         withContext(Dispatchers.Default){
             db.deleteByMacAddress(device.macAddress)
         }

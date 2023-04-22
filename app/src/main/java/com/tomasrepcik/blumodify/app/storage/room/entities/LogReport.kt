@@ -7,9 +7,9 @@ import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 
 @Entity
 data class LogReport(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
     @ColumnInfo(name = "start_time") val startTime: Long,
-    @ColumnInfo(name = "connected_devices") val connectedDevices: ArrayList<BtItem>,
+    @ColumnInfo(name = "connected_devices") val connectedDevices: List<BtItem>,
     @ColumnInfo(name = "result") val isSuccess: Boolean,
-    @ColumnInfo(name = "stacktrace") val stackTrace: String
+    @ColumnInfo(name = "stacktrace") val stackTrace: String = ""
 )

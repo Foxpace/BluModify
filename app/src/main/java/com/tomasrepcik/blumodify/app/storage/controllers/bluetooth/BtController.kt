@@ -77,7 +77,10 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
 
 
     override fun getPairedBtDevices(): Set<BluetoothDevice> =
-        bluetoothAdapter.bondedDevices.filter { it.bondState == BluetoothDevice.BOND_BONDED }
+        bluetoothAdapter.bondedDevices.filter {
+            it.bondState == BluetoothDevice.BOND_BONDED
+                    && it.type != BluetoothDevice.DEVICE_TYPE_LE
+        }
             .toSet()
 
     private fun registerReceiver() {

@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.settings.SettingsNav
@@ -33,7 +34,11 @@ fun LogsScreen(
             BackButton {
                 navController.popBackStack()
             }
+        }, appBarActions = listOf(AppBarAction(R.drawable.ic_reverse, R.string.ic_reverse) {
+            vm.reverseList()
         })
+
+        )
     }) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             when (val state = vm.logsState.collectAsState().value) {

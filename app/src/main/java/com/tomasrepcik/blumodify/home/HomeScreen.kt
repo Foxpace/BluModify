@@ -11,13 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.bluetooth.model.BlumodifyState
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyViewModel
 import com.tomasrepcik.blumodify.home.states.MainErrorComp
-import com.tomasrepcik.blumodify.home.states.MainNothingToTrackComp
 import com.tomasrepcik.blumodify.home.states.MainTurnedOffComp
 import com.tomasrepcik.blumodify.home.states.MainTurnedOnComp
-import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 
 @Composable
 fun HomeScreen(
@@ -37,9 +36,6 @@ fun HomeScreen(
             when (val bluModifyState = vm.blumodifyState.collectAsState().value) {
                 BlumodifyState.Loading -> LoadingComp()
                 is BlumodifyState.ErrorOccurred -> MainErrorComp(bluModifyState.error){}
-                BlumodifyState.NothingToTrack -> MainNothingToTrackComp {
-
-                }
                 is BlumodifyState.TurnedOff -> MainTurnedOffComp {
                     vm.onButtonClicked()
                 }

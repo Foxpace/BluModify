@@ -13,7 +13,7 @@ import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerT
 import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtObserver
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
-import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtDeviceToPick
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -100,7 +100,7 @@ class BtPickerViewModel @Inject constructor(
             Log.i(tag, "Found ${devices.size} devices")
             val macAddresses = db.getMacAddresses()
             return@withContext devices.filter { device -> !macAddresses.contains(device.address) }
-                .map { device -> BtDeviceToPick(device.name, device.address) }.sortedBy { it.deviceName }
+                .map { device -> BtItem(device.name, device.address) }.sortedBy { it.deviceName }
         }
 
         withContext(Dispatchers.Main) {
@@ -124,7 +124,7 @@ class BtPickerViewModel @Inject constructor(
 
     }
 
-    fun onDevicePick(pickedDevice: BtDeviceToPick) {
+    fun onDevicePick(pickedDevice: BtItem) {
         val dbDevice = BtDevice(
             macAddress = pickedDevice.macAddress,
             name = pickedDevice.deviceName,
