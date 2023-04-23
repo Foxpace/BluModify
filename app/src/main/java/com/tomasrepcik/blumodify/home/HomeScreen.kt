@@ -1,5 +1,9 @@
 package com.tomasrepcik.blumodify.home
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,19 +14,28 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
+import com.tomasrepcik.blumodify.app.ui.components.error.comp.ErrorComp
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
-import com.tomasrepcik.blumodify.bluetooth.model.BlumodifyState
-import com.tomasrepcik.blumodify.home.events.HomeScreenEvent
-import com.tomasrepcik.blumodify.home.screens.MainErrorComp
+import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyEvent
+import com.tomasrepcik.blumodify.bluetooth.viewmodel.BlumodifyState
 import com.tomasrepcik.blumodify.home.screens.MainTurnedOffComp
 import com.tomasrepcik.blumodify.home.screens.MainTurnedOnComp
 
 @Composable
-fun HomeScreen(drawerState: DrawerState, state: BlumodifyState, onEvent:(HomeScreenEvent) -> Unit) {
+fun HomeScreen(drawerState: DrawerState, state: BlumodifyState, onEvent: (BluModifyEvent) -> Unit) {
 
     LaunchedEffect(Unit) {
-        onEvent(HomeScreenEvent.OnLaunch)
+        onEvent(BluModifyEvent.OnLaunch)
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            onEvent(BluModifyEvent.OnPermissionGranted)
+        }
     }
 
     Scaffold(topBar = { AppBar(drawerState = drawerState) }) { paddingValues ->
@@ -31,14 +44,31 @@ fun HomeScreen(drawerState: DrawerState, state: BlumodifyState, onEvent:(HomeScr
                 Spacer(modifier = Modifier.weight(1f))
                 when (state) {
                     BlumodifyState.Loading -> LoadingComp()
-                    is BlumodifyState.ErrorOccurred -> MainErrorComp(state.error) {}
+                    is BlumodifyState.ErrorOccurred -> ErrorComp(
+                        explanation = R.string.main_screen_error,
+                        appResult = state.error,
+                        onClick = {
+                            onEvent(BluModifyEvent.OnError)
+                        })
+
                     is BlumodifyState.TurnedOff -> MainTurnedOffComp {
-                        onEvent(HomeScreenEvent.OnMainButtonClickEvent)
+                        onEvent(BluModifyEvent.OnMainButtonClickEvent)
                     }
 
                     is BlumodifyState.TurnedOn -> MainTurnedOnComp {
-                        onEvent(HomeScreenEvent.OnMainButtonClickEvent)
+                        onEvent(BluModifyEvent.OnMainButtonClickEvent)
                     }
+
+                    BlumodifyState.MissingPermission -> ErrorComp<BlumodifyState>(
+                        explanation = R.string.settings_bt_permission,
+                        buttonText = R.string.settings_bt_permission_button,
+                        onClick = {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                launcher.launch(Manifest.permission_group.NEARBY_DEVICES)
+                            } else {
+                                onEvent(BluModifyEvent.OnPermissionGranted)
+                            }
+                        })
                 }
                 Spacer(modifier = Modifier.weight(1f))
             }

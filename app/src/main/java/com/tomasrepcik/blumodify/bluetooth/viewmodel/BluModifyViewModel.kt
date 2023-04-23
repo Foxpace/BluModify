@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.model.AppResult
+import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtController
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
-import com.tomasrepcik.blumodify.bluetooth.model.BlumodifyState
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
-import com.tomasrepcik.blumodify.home.events.HomeScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,30 +18,35 @@ import javax.inject.Inject
 @HiltViewModel
 class BluModifyViewModel @Inject constructor(
     private val btWorkManagerTemplate: BtWorkManagerTemplate,
+    private val btController: BtController,
     private val btDeviceDao: BtDeviceDao
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val _bluModifyState: MutableStateFlow<BlumodifyState> =
         MutableStateFlow(BlumodifyState.Loading)
     val blumodifyState = _bluModifyState.asStateFlow()
 
-    fun onEvent(event: HomeScreenEvent) {
-        when(event) {
-            HomeScreenEvent.OnLaunch -> onLaunch()
-            HomeScreenEvent.OnMainButtonClickEvent -> onButtonClicked()
+    fun onEvent(event: BluModifyEvent) {
+        when (event) {
+            BluModifyEvent.OnLaunch -> onLaunch()
+            BluModifyEvent.OnMainButtonClickEvent -> onButtonClicked()
+            BluModifyEvent.OnError -> onRestart()
+            BluModifyEvent.OnPermissionGranted -> onButtonClicked()
         }
     }
 
     private fun onLaunch() = viewModelScope.launch(Dispatchers.Main) {
+        Log.i(TAG, "Main on launch was called")
         _bluModifyState.value = BlumodifyState.Loading
         checkCurrentState()
     }
 
     private fun onButtonClicked() = viewModelScope.launch(Dispatchers.Main) {
+        Log.i(TAG, "Main button was clicked")
         when (blumodifyState.value) {
             is BlumodifyState.TurnedOff -> turnOn()
             is BlumodifyState.TurnedOn -> turnOff()
-            else -> {} // nothing to do - wait / resolve error / add device
+            else -> {} // nothing to do - wait / resolve error
         }
     }
 
@@ -54,6 +58,7 @@ class BluModifyViewModel @Inject constructor(
                 _bluModifyState.value = BlumodifyState.ErrorOccurred(state)
                 return@withContext BlumodifyState.ErrorOccurred(state)
             }
+
             is AppResult.Success -> {
                 if (state.data) {
                     _bluModifyState.value = BlumodifyState.TurnedOn
@@ -66,28 +71,28 @@ class BluModifyViewModel @Inject constructor(
         }
     }
 
-    suspend fun restart() = withContext(Dispatchers.Main) {
-        when (checkCurrentState()) {
-            BlumodifyState.TurnedOn -> {
-                Log.i(TAG, "Restarting running service")
-                turnOff()
-                turnOn()
-            }
-            else -> {
-                Log.w(TAG, "Tried to restart, but the service is not running")
-            }
-        }
-
+    private fun onRestart() = viewModelScope.launch {
+        Log.i(TAG, "Restarting service")
+        turnOff()
+        turnOn()
     }
 
+
     private suspend fun turnOn() = withContext(Dispatchers.Main) {
+        Log.i(TAG, "Turning on the worker")
+        if (!btController.isPermission()) {
+            Log.w(TAG, "Missing permission to launch the app")
+            _bluModifyState.value = BlumodifyState.MissingPermission
+            return@withContext
+        }
         btWorkManagerTemplate.initWorkers()
         checkCurrentState()
     }
 
     private suspend fun turnOff() = withContext(Dispatchers.Main) {
+        Log.i(TAG, "Turning off the worker")
         btWorkManagerTemplate.disposeWorkers()
-        withContext(Dispatchers.Default){
+        withContext(Dispatchers.Default) {
             btDeviceDao.resetDevices()
         }
         checkCurrentState()

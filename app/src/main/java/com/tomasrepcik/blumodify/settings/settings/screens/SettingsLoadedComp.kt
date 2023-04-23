@@ -17,7 +17,11 @@ import com.tomasrepcik.blumodify.settings.settings.ui.SettingsGroup
 import com.tomasrepcik.blumodify.settings.settings.ui.SettingsSwitchComp
 
 @Composable
-fun SettingsLoadedComp(navController: NavController, state: SettingsState.SettingsLoaded, onEvent: (SettingsEvent) -> Unit) {
+fun SettingsLoadedComp(
+    navController: NavController,
+    state: SettingsState.SettingsLoaded,
+    onEvent: (SettingsEvent) -> Unit
+) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -33,7 +37,7 @@ fun SettingsLoadedComp(navController: NavController, state: SettingsState.Settin
                 onEvent(SettingsEvent.ToggleAdvancedSettings)
             }
 
-            if (state.settings.isAdvancedSettings){
+            if (state.settings.isAdvancedSettings) {
                 SettingsClickableComp(
                     name = R.string.settings_advanced_tracking_dialog_button,
                     icon = R.drawable.ic_question_mark,

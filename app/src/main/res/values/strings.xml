@@ -88,6 +88,7 @@
     <string name="main_screen_turn_off">Turn off</string>
     <string name="main_screen_turn_on_title">Optimize Bluetooth usage</string>
     <string name="main_screen_turn_off_title">Checking Bluetooth perpetually</string>
+    <string name="main_screen_error">The app is not able to properly start. Please try to turn off and on the app. Or try to reinstall the app and give it all permissions. If nothing helps, please contact us.</string>
 `
     <!-- SETTINGS SCREEN -->
     <string name="settings_devices">Devices</string>
