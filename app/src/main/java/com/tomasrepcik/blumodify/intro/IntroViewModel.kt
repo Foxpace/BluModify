@@ -42,7 +42,7 @@ class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<
         }
 
         viewModelScope.launch {
-            appCache.loadInCache()
+            appCache.loadInCacheAsync()
         }
     }
 

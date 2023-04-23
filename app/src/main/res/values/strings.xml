@@ -135,5 +135,6 @@
     <!-- NOTIFICATION -->
     <string name="notification_channel_name">Blumodify notification channel</string>
     <string name="notification_channel_description">To request user to turn off bluetooth, if it is not needed anymore</string>
+    <string name="notification_content">"Turn off the Bluetooth, because no device is connected."</string>
 
 </resources>
