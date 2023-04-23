@@ -8,8 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.collectAsState
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +41,8 @@ class MainActivity : ComponentActivity() {
             }
         }
         setContent {
-            MainCompose()
+            val introViewModel: IntroViewModel = hiltViewModel()
+            MainCompose(isOnboarded = introViewModel.isOnboarded.collectAsState().value)
         }
     }
 }

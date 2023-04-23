@@ -1,17 +1,17 @@
 package com.tomasrepcik.blumodify
 
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerContent
 import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerItemInfo
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.intro.introGraph
 import com.tomasrepcik.blumodify.settings.settingsGraph
 
@@ -20,7 +20,7 @@ import com.tomasrepcik.blumodify.settings.settingsGraph
 fun MainCompose(
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
-    vm: IntroViewModel = hiltViewModel()
+    isOnboarded: Boolean
 ) {
     BluModifyTheme {
         Surface {
@@ -52,10 +52,9 @@ fun MainCompose(
                     }
                 }
             ) {
-                val isOnboarded = vm.isOnboarded.collectAsState()
                 NavHost(
                     navController,
-                    startDestination = if (isOnboarded.value) NavRoutes.MainRoute.name else NavRoutes.IntroRoute.name
+                    startDestination = if (isOnboarded) NavRoutes.MainRoute.name else NavRoutes.IntroRoute.name
                 ) {
                     introGraph(navController)
                     mainGraph(navController, drawerState)
@@ -93,10 +92,4 @@ object DrawerParams {
             R.string.drawer_info_description
         )
     )
-}
-
-@Preview
-@Composable
-fun MainActivityPreview() {
-    MainCompose()
 }
