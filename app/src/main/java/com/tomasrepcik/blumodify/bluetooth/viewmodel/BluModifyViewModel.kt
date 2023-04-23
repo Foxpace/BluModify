@@ -32,6 +32,7 @@ class BluModifyViewModel @Inject constructor(
             BluModifyEvent.OnMainButtonClickEvent -> onButtonClicked()
             BluModifyEvent.OnError -> onRestart()
             BluModifyEvent.OnPermissionGranted -> onButtonClicked()
+            BluModifyEvent.OnPermissionDenied -> onPermissionDenied()
         }
     }
 
@@ -39,6 +40,11 @@ class BluModifyViewModel @Inject constructor(
         Log.i(TAG, "Main on launch was called")
         _bluModifyState.value = BlumodifyState.Loading
         checkCurrentState()
+    }
+
+    private fun onPermissionDenied() = viewModelScope.launch(Dispatchers.Main) {
+        Log.i(TAG, "Permission was denied by user")
+        _bluModifyState.value = BlumodifyState.MissingPermission
     }
 
     private fun onButtonClicked() = viewModelScope.launch(Dispatchers.Main) {

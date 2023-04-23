@@ -5,4 +5,5 @@ sealed class BluModifyEvent {
     object OnMainButtonClickEvent: BluModifyEvent()
     object OnError: BluModifyEvent()
     object OnPermissionGranted : BluModifyEvent()
+    object OnPermissionDenied : BluModifyEvent()
 }
