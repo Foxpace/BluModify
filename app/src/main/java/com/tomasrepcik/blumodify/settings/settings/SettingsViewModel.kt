@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
 import com.tomasrepcik.blumodify.app.storage.cache.AppSettings
+import com.tomasrepcik.blumodify.settings.settings.states.SettingsEvent
+import com.tomasrepcik.blumodify.settings.settings.states.SettingsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,25 +19,21 @@ class SettingsViewModel @Inject constructor(private val appCache: AppCacheTempla
     ViewModel() {
 
 
-    private val _isAdvancedSettings: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    var advancedSettings = _isAdvancedSettings.asStateFlow()
-
-    private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    var isError = _isError.asStateFlow()
+    private val _settingsState: MutableStateFlow<SettingsState> = MutableStateFlow(SettingsState.SettingsLoading)
+    var settingsState = _settingsState.asStateFlow()
 
     private val _settings: MutableStateFlow<AppSettings> = MutableStateFlow(AppSettings.default)
-    var settings = _settings.asStateFlow()
 
     init {
         viewModelScope.launch {
             appCache.state.collect {
                 when (it) {
                     AppCacheState.Error -> {
-                        _isError.value = true
+                        _settingsState.value = SettingsState.SettingsError
                     }
                     is AppCacheState.Loaded -> {
                         _settings.value = it.settings
-                        _isAdvancedSettings.value = it.settings.isAdvancedSettings
+                        _settingsState.value = SettingsState.SettingsLoaded(it.settings)
                     }
                     else -> {
                         Log.i(TAG, ": Loading the settings")
@@ -45,10 +43,16 @@ class SettingsViewModel @Inject constructor(private val appCache: AppCacheTempla
         }
     }
 
-    fun toggleAdvancedSettings() {
-        _isAdvancedSettings.value = _isAdvancedSettings.value.not()
+    fun onEvent(settingsEvent: SettingsEvent) {
+        when(settingsEvent){
+            SettingsEvent.OnError -> Unit
+            SettingsEvent.ToggleAdvancedSettings -> toggleAdvancedSettings()
+        }
+    }
+
+    private fun toggleAdvancedSettings() {
         viewModelScope.launch {
-            appCache.storeAdvancedSettings(_isAdvancedSettings.value)
+            appCache.storeAdvancedSettings(_settings.value.isAdvancedSettings.not())
         }
     }
 

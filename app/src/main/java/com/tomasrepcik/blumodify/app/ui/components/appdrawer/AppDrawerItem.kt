@@ -24,7 +24,7 @@ fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit)
         color = MaterialTheme.colorScheme.onPrimary,
         modifier = Modifier.width(200.dp).padding(16.dp),
         onClick = { onClick(item.drawerOption) },
-        shape = RoundedCornerShape(50),
+        shape = RoundedCornerShape(10),
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,

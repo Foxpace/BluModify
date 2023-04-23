@@ -1,5 +1,6 @@
 package com.tomasrepcik.blumodify.app.storage.controllers.bluetooth
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -9,8 +10,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -43,7 +46,9 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
     private var lastState: Boolean? = null
 
     override fun registerObserver(btObserver: BtObserver) {
+        Log.i(TAG, "Registering observer")
         if (!isReceiverRegistered) {
+            Log.i(TAG, "Registering new receiver for bt events")
             registerReceiver()
         }
 
@@ -54,10 +59,12 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
 
     override fun removeObserver(btObserver: BtObserver) {
         if (observers.contains(btObserver)) {
+            Log.i(TAG, "Removing BT observer")
             observers.remove(btObserver)
         }
 
         if (isReceiverRegistered && observers.isEmpty()) {
+            Log.i(TAG, "Removing BT reveiver")
             removeReceiver()
         }
 
@@ -65,14 +72,28 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
 
 
     override fun initialize() {
+        Log.i(TAG, "Initializing the BT controller")
         observers.clear()
     }
 
     override fun dispose() {
+        Log.i(TAG, "Disposing the BT controller")
         observers.clear()
         if (isReceiverRegistered) {
             removeReceiver()
         }
+    }
+
+    override fun isPermission(): Boolean {
+        Log.i(TAG, "Checking permission")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission_group.NEARBY_DEVICES
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+        Log.i(TAG, "Permission is not needed - lower than Android S")
+        return true
     }
 
 
@@ -123,6 +144,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
                 val connectedDevices = getConnectedDevicesByCallback(type).toList()
                 devices.addAll(connectedDevices)
             }
+            Log.i(TAG, "Returning ${devices.size} BT devices")
             return@withContext devices
         }
 
@@ -148,7 +170,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
             }
         }
 
-        // register our service listener to receive headset connection updates
+        Log.i(TAG, "Registering our service listener to receive headset connection updates")
         bluetoothAdapter.getProfileProxy(
             context,
             serviceListener,
@@ -164,6 +186,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
                 val connectedDevices = bluetoothManager.getConnectedDevices(profile)
                 devices.addAll(connectedDevices)
             }
+            Log.i(TAG, "Returning ${devices.size} BLE devices")
             return@withContext devices
         }
 

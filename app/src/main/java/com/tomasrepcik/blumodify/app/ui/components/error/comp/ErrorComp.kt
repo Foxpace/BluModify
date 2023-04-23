@@ -2,7 +2,13 @@ package com.tomasrepcik.blumodify.app.ui.components.error.comp
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,7 +34,7 @@ fun <T> ErrorComp(
     @StringRes buttonText: Int? = null,
     appResult: AppResult<T>? = null,
     onClick: (() -> Unit)?,
-    onDetail: () -> Unit
+    onDetail: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -59,7 +65,7 @@ fun <T> ErrorComp(
                 if (onClick != null && buttonText != null) {
                     AppButton(text = buttonText, onClick = onClick)
                 }
-                if (appResult != null) {
+                if (appResult != null && onDetail != null) {
                     AppButton(text = R.string.more_info, onClick = onDetail)
                 }
             }

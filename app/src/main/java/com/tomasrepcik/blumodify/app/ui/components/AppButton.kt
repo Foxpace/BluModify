@@ -29,13 +29,14 @@ fun AppButton(
             .height(60.dp)
             .fillMaxWidth()
             .padding(horizontal = 24.dp)
-            .shadow(4.dp, RoundedCornerShape(20.dp)),
-        onClick = onClick
+            .shadow(4.dp, shape = RoundedCornerShape(10.dp)),
+        onClick = onClick,
+        shape = RoundedCornerShape(10.dp),
     ) {
         Text(
             stringResource(id = text),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.labelMedium.copy(
+            style = MaterialTheme.typography.titleSmall.copy(
                 color = MaterialTheme.colorScheme.onPrimary
             ),
         )

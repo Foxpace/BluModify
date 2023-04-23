@@ -11,6 +11,8 @@ interface  BtControllerTemplate {
 
     fun dispose()
 
+    fun isPermission(): Boolean
+
     fun registerObserver(btObserver: BtObserver)
 
     fun removeObserver(btObserver: BtObserver)

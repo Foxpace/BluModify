@@ -8,10 +8,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
@@ -22,21 +20,21 @@ import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.AllDevicesAddedCo
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.NoDeviceComp
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.PermissionComp
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.TurnOnBtComp
-import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.BtPickerViewModel
+import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.TrackedDevicesEvent
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.TrackedDevicesState
 import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction
 import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DevicePickerComp
 
 @Composable
-fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel = hiltViewModel()) {
+fun SettingsBtPickerScreen(navController: NavController, state: TrackedDevicesState, onEvent: (TrackedDevicesEvent) -> Unit) {
 
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit) {
-        vm.onLaunch(context)
+        onEvent(TrackedDevicesEvent.OnLaunch)
     }
     DisposableEffect(key1 = Unit){
         onDispose {
-            vm.onDispose()
+            onEvent(TrackedDevicesEvent.OnDispose)
         }
     }
 
@@ -51,7 +49,7 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
                 },
                 appBarActions = arrayListOf(
                     AppBarAction(R.drawable.ic_refresh, R.string.ic_refresh){
-                      vm.onLaunch(context)
+                        onEvent(TrackedDevicesEvent.OnLaunch)
                     },
                     AppBarAction(R.drawable.ic_bt, R.string.ic_bt_permission){
                         val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
@@ -62,17 +60,17 @@ fun SettingsBtPickerScreen(navController: NavController, vm: BtPickerViewModel =
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            when (val state = vm.trackedDevicesPickerState.collectAsState().value) {
+            when (state) {
                 TrackedDevicesState.Loading -> LoadingComp()
                 is TrackedDevicesState.DevicesToAdd -> DevicePickerComp(state.devices, DeviceAction.ADD) { btDeviceToPick ->
-                    vm.onDevicePick(btDeviceToPick)
+                    onEvent(TrackedDevicesEvent.OnDevicePick(btDeviceToPick))
                 }
                 TrackedDevicesState.NoDeviceToAdd -> NoDeviceComp()
                 TrackedDevicesState.RequireBtOn -> TurnOnBtComp {
-                    vm.onBtOn()
+                    onEvent(TrackedDevicesEvent.OnBtOn)
                 }
                 TrackedDevicesState.RequirePermission -> PermissionComp{
-                    vm.onBtPermissionGranted()
+                    onEvent(TrackedDevicesEvent.OnPermissionGranted)
                 }
                 TrackedDevicesState.AllDevicesAdded -> AllDevicesAddedComp()
             }

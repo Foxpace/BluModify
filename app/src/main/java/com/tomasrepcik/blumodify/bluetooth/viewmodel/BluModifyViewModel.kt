@@ -7,6 +7,7 @@ import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.bluetooth.model.BlumodifyState
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
+import com.tomasrepcik.blumodify.home.events.HomeScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,13 +26,19 @@ class BluModifyViewModel @Inject constructor(
         MutableStateFlow(BlumodifyState.Loading)
     val blumodifyState = _bluModifyState.asStateFlow()
 
+    fun onEvent(event: HomeScreenEvent) {
+        when(event) {
+            HomeScreenEvent.OnLaunch -> onLaunch()
+            HomeScreenEvent.OnMainButtonClickEvent -> onButtonClicked()
+        }
+    }
 
-    fun onLaunch() = viewModelScope.launch(Dispatchers.Main) {
+    private fun onLaunch() = viewModelScope.launch(Dispatchers.Main) {
         _bluModifyState.value = BlumodifyState.Loading
         checkCurrentState()
     }
 
-    fun onButtonClicked() = viewModelScope.launch(Dispatchers.Main) {
+    private fun onButtonClicked() = viewModelScope.launch(Dispatchers.Main) {
         when (blumodifyState.value) {
             is BlumodifyState.TurnedOff -> turnOn()
             is BlumodifyState.TurnedOn -> turnOff()
@@ -74,13 +81,11 @@ class BluModifyViewModel @Inject constructor(
     }
 
     private suspend fun turnOn() = withContext(Dispatchers.Main) {
-        _bluModifyState.value = BlumodifyState.Loading
         btWorkManagerTemplate.initWorkers()
         checkCurrentState()
     }
 
     private suspend fun turnOff() = withContext(Dispatchers.Main) {
-        _bluModifyState.value = BlumodifyState.Loading
         btWorkManagerTemplate.disposeWorkers()
         withContext(Dispatchers.Default){
             btDeviceDao.resetDevices()

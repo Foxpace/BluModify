@@ -1,12 +1,7 @@
 package com.tomasrepcik.blumodify.settings.advanced.btpicker.vm
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
@@ -43,21 +38,27 @@ class BtPickerViewModel @Inject constructor(
         MutableStateFlow(TrackedDevicesState.Loading)
     var trackedDevicesPickerState = _trackedDevicesState.asStateFlow()
 
-    fun onLaunch(context: Context) {
+    fun onEvent(event: TrackedDevicesEvent){
+        when(event){
+            TrackedDevicesEvent.OnBtOn -> onBtOn()
+            is TrackedDevicesEvent.OnDevicePick -> onDevicePick(event.btItem)
+            TrackedDevicesEvent.OnDispose -> onDispose()
+            TrackedDevicesEvent.OnLaunch -> onLaunch()
+            TrackedDevicesEvent.OnPermissionGranted -> onBtPermissionGranted()
+        }
+    }
+
+    private fun onLaunch() {
         Log.i(tag, "First launch of the picker")
         _trackedDevicesState.value = TrackedDevicesState.Loading
-        btController.registerObserver(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val isPermission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission_group.NEARBY_DEVICES
-            ) == PackageManager.PERMISSION_GRANTED
-            if (!isPermission) {
-                Log.w(tag, "Permission for the bluetooth is not available")
-                return
-            }
 
+        if (!btController.isPermission()){
+            _trackedDevicesState.value = TrackedDevicesState.RequirePermission
+            Log.i(tag, "No bluetooth permission")
+            return
         }
+
+        btController.registerObserver(this)
         onBtPermissionGranted()
     }
 
@@ -71,7 +72,7 @@ class BtPickerViewModel @Inject constructor(
         }
     }
 
-    fun onBtPermissionGranted() {
+    private fun onBtPermissionGranted() {
         Log.i(tag, "Permission was granted")
         if (!btController.isBtOn()) {
             Log.w(tag, "Bluetooth is not on")
@@ -83,7 +84,7 @@ class BtPickerViewModel @Inject constructor(
         }
     }
 
-    fun onBtOn() {
+    private fun onBtOn() {
         Log.i(tag, "Bluetooth was turned on")
         viewModelScope.launch(context = Dispatchers.Main) {
             showDevices()

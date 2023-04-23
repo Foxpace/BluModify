@@ -19,11 +19,17 @@ import javax.inject.Inject
 class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
     ViewModel() {
 
-
     private val _logsState: MutableStateFlow<LogsState> = MutableStateFlow(LogsState.Loading)
     var logsState = _logsState.asStateFlow()
 
-    fun loadLogs() = viewModelScope.launch(Dispatchers.Main) {
+    fun onEvent(event: LogsEvent){
+        when(event){
+            LogsEvent.OnLaunch -> loadLogs()
+            LogsEvent.OnReverse -> reverseList()
+        }
+    }
+
+    private fun loadLogs() = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Loading all logs and formatting")
         val logs = withContext(Dispatchers.Default) {
             val logReports =  logsDao.getAll()
@@ -45,7 +51,7 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
         _logsState.value = LogsState.Logs(logs)
     }
 
-    fun reverseList() = viewModelScope.launch(Dispatchers.Default) {
+    private fun reverseList() = viewModelScope.launch(Dispatchers.Default) {
         when (val state = _logsState.value) {
             is LogsState.Logs -> {
                 val reversed = state.logs.reversed()

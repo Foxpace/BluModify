@@ -20,28 +20,33 @@ class DeviceListViewModel @Inject constructor(
         MutableStateFlow(DeviceListState.Loading)
     var listState = _listState.asStateFlow()
 
-    fun onLaunch(){
-        viewModelScope.launch {
-            refreshDevices()
+    fun onEvent(event: DeviceListEvent) {
+        when (event) {
+            is DeviceListEvent.OnDeviceDelete -> onDeviceDelete(event.btItem)
+            DeviceListEvent.OnLaunch -> onLaunch()
         }
     }
 
-    fun onDeviceDelete(device: BtItem) {
-        viewModelScope.launch {
-            deleteDevice(device)
-            refreshDevices()
-        }
+    private fun onLaunch() = viewModelScope.launch {
+        refreshDevices()
     }
 
-    private suspend fun refreshDevices(){
-        withContext(Dispatchers.Main){
+
+    private fun onDeviceDelete(device: BtItem) = viewModelScope.launch {
+        deleteDevice(device)
+        refreshDevices()
+    }
+
+
+    private suspend fun refreshDevices() {
+        withContext(Dispatchers.Main) {
             _listState.value = DeviceListState.Loading
         }
-        val devices = withContext(Dispatchers.Default){
+        val devices = withContext(Dispatchers.Default) {
             return@withContext db.getAll().map { BtItem(it.name, it.macAddress) }
         }
-        withContext(Dispatchers.Main){
-            if (devices.isEmpty()){
+        withContext(Dispatchers.Main) {
+            if (devices.isEmpty()) {
                 _listState.value = DeviceListState.Empty
                 return@withContext
             }
@@ -51,10 +56,8 @@ class DeviceListViewModel @Inject constructor(
     }
 
 
-    private suspend fun deleteDevice(device: BtItem){
-        withContext(Dispatchers.Default){
-            db.deleteByMacAddress(device.macAddress)
-        }
+    private suspend fun deleteDevice(device: BtItem) = withContext(Dispatchers.Default) {
+        db.deleteByMacAddress(device.macAddress)
     }
 
 }
