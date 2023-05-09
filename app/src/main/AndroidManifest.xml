@@ -44,6 +44,9 @@
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+            <meta-data
+                android:name="app.rive.runtime.kotlin.RiveInitializer"
+                android:value="androidx.startup" />
         </provider>
 
         <activity

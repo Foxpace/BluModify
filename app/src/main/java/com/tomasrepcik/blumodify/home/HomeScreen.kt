@@ -58,7 +58,10 @@ fun HomeScreen(drawerState: DrawerState, state: BlumodifyState, onEvent: (BluMod
     Scaffold(topBar = { AppBar(drawerState = drawerState) }) { paddingValues ->
         Surface(modifier = Modifier.padding(paddingValues)) {
             Column(modifier = Modifier.fillMaxSize()) {
-                Spacer(modifier = Modifier.weight(1f))
+                MainRiveAnimation(serviceRunning = when(state){
+                    BlumodifyState.TurnedOn -> true
+                    else -> false
+                })
                 when (state) {
                     BlumodifyState.Loading -> LoadingComp()
                     is BlumodifyState.ErrorOccurred -> ErrorComp(explanation = R.string.main_screen_error,
