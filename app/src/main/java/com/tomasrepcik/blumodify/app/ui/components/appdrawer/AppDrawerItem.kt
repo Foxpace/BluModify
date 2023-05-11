@@ -9,20 +9,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.DrawerParams
 import com.tomasrepcik.blumodify.MainNavOption
+import com.tomasrepcik.blumodify.app.ui.previews.AllPreviews
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
-@ExperimentalMaterial3Api
 @Composable
 fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit) =
     Surface(
-        color = MaterialTheme.colorScheme.onPrimary,
-        modifier = Modifier.width(200.dp).padding(16.dp),
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier
+            .width(200.dp)
+            .padding(16.dp),
         onClick = { onClick(item.drawerOption) },
         shape = RoundedCornerShape(10),
     ) {
@@ -41,7 +42,8 @@ fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit)
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = stringResource(id = item.title),
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium
+                    .copy(color = MaterialTheme.colorScheme.surfaceTint),
                 textAlign = TextAlign.Center,
             )
         }
@@ -56,11 +58,10 @@ class MainStateProvider : PreviewParameterProvider<AppDrawerItemInfo<MainNavOpti
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@AllPreviews
 @Composable
 fun AppDrawerItemPreview(@PreviewParameter(MainStateProvider::class) state: AppDrawerItemInfo<MainNavOption>) {
     BluModifyTheme {
-        AppDrawerItem<MainNavOption>(item = state, onClick = {})
+        AppDrawerItem(item = state, onClick = {})
     }
 }

@@ -22,8 +22,8 @@ class BluModifyViewModel @Inject constructor(
     private val btDeviceDao: BtDeviceDao
 ) : ViewModel() {
 
-    private val _bluModifyState: MutableStateFlow<BlumodifyState> =
-        MutableStateFlow(BlumodifyState.Loading)
+    private val _bluModifyState: MutableStateFlow<BluModifyState> =
+        MutableStateFlow(BluModifyState.Loading)
     val blumodifyState = _bluModifyState.asStateFlow()
 
     fun onEvent(event: BluModifyEvent) {
@@ -38,40 +38,40 @@ class BluModifyViewModel @Inject constructor(
 
     private fun onLaunch() = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Main on launch was called")
-        _bluModifyState.value = BlumodifyState.Loading
+        _bluModifyState.value = BluModifyState.Loading
         checkCurrentState()
     }
 
     private fun onPermissionDenied() = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Permission was denied by user")
-        _bluModifyState.value = BlumodifyState.MissingPermission
+        _bluModifyState.value = BluModifyState.MissingPermission
     }
 
     private fun onButtonClicked() = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Main button was clicked")
         when (blumodifyState.value) {
-            is BlumodifyState.TurnedOff -> turnOn()
-            is BlumodifyState.TurnedOn -> turnOff()
+            is BluModifyState.TurnedOff -> turnOn()
+            is BluModifyState.TurnedOn -> turnOff()
             else -> {} // nothing to do - wait / resolve error
         }
     }
 
-    private suspend fun checkCurrentState(): BlumodifyState = withContext(Dispatchers.Main) {
+    private suspend fun checkCurrentState(): BluModifyState = withContext(Dispatchers.Main) {
         Log.i(TAG, "Checking current state of the service")
         when (val state = btWorkManagerTemplate.workersWork()) {
             is AppResult.Error -> {
                 Log.e(TAG, "Error occurred in the service")
-                _bluModifyState.value = BlumodifyState.ErrorOccurred(state)
-                return@withContext BlumodifyState.ErrorOccurred(state)
+                _bluModifyState.value = BluModifyState.ErrorOccurred(state)
+                return@withContext BluModifyState.ErrorOccurred(state)
             }
 
             is AppResult.Success -> {
                 if (state.data) {
-                    _bluModifyState.value = BlumodifyState.TurnedOn
-                    return@withContext BlumodifyState.TurnedOn
+                    _bluModifyState.value = BluModifyState.TurnedOn
+                    return@withContext BluModifyState.TurnedOn
                 } else {
-                    _bluModifyState.value = BlumodifyState.TurnedOff
-                    return@withContext BlumodifyState.TurnedOff
+                    _bluModifyState.value = BluModifyState.TurnedOff
+                    return@withContext BluModifyState.TurnedOff
                 }
             }
         }
@@ -88,7 +88,7 @@ class BluModifyViewModel @Inject constructor(
         Log.i(TAG, "Turning on the worker")
         if (!btController.isPermission()) {
             Log.w(TAG, "Missing permission to launch the app")
-            _bluModifyState.value = BlumodifyState.MissingPermission
+            _bluModifyState.value = BluModifyState.MissingPermission
             return@withContext
         }
         btWorkManagerTemplate.initWorkers()

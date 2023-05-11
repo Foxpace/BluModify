@@ -48,7 +48,7 @@ fun PermissionComp(onPermissionGranted: () -> Unit) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
             modifier = Modifier.size(120.dp),
-            painter = painterResource(id = R.drawable.ic_bt_sad),
+            painter = painterResource(id = R.drawable.ic_error),
             contentDescription = stringResource(
                 id =
                 R.string.ic_bt_permission
