@@ -15,18 +15,20 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.tomasrepcik.blumodify.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class NotificationRepo @Inject constructor() : NotificationRepoTemplate {
+class NotificationRepo @Inject constructor(@ApplicationContext private val context: Context) :
+    NotificationRepoTemplate {
 
     private val _isChannelInitialized = MutableStateFlow(false)
-    var isChannelInitialized = _isChannelInitialized.asStateFlow()
+    private var isChannelInitialized = _isChannelInitialized.asStateFlow()
 
-    override fun initialize(context: Context) {
+    override fun initialize() {
         Log.i(TAG, "Initializing the notification channel")
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(
@@ -43,7 +45,7 @@ class NotificationRepo @Inject constructor() : NotificationRepoTemplate {
         _isChannelInitialized.value = true
     }
 
-    override fun isPermission(context: Context): Boolean {
+    override fun isPermission(): Boolean {
         Log.i(TAG, "Checking notification permission")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return ContextCompat.checkSelfPermission(
@@ -55,13 +57,20 @@ class NotificationRepo @Inject constructor() : NotificationRepoTemplate {
         return true
     }
 
+    override suspend fun postNotificationToCancelBt() = withContext(Dispatchers.Main) {
+        postNotification(
+            context.resources.getString(R.string.app_name),
+            context.resources.getString(R.string.notification_content)
+        )
+    }
+
     @SuppressLint("MissingPermission")
-    override suspend fun postNotification(context: Context, title: String, text: String) = withContext(Dispatchers.Main) {
+    override suspend fun postNotification(title: String, text: String) =
+        withContext(Dispatchers.Main) {
 
             if (!isChannelInitialized.value) {
-                initialize(context)
+                initialize()
             }
-
             val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             val pendingIntent: PendingIntent =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -74,7 +83,7 @@ class NotificationRepo @Inject constructor() : NotificationRepoTemplate {
                 .setContentIntent(pendingIntent)
 
             with(NotificationManagerCompat.from(context)) {
-                if (isPermission(context)) {
+                if (isPermission()) {
                     notify(NOTIFICATION_ID, builder.build())
                 }
 

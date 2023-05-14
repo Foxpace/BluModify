@@ -14,5 +14,5 @@ class BtWorker @AssistedInject constructor(
     @Assisted val workerParams: WorkerParameters,
     private val solver: BluModifySolverTemplate
 ): CoroutineWorker(context, workerParams) {
-    override suspend fun doWork(): Result = solver.onWorkerCall(applicationContext)
+    override suspend fun doWork(): Result = solver.onWorkerCall()
 }

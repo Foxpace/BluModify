@@ -2,10 +2,8 @@ package com.tomasrepcik.blumodify.bluetooth.worker
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
-import android.content.Context
 import android.util.Log
 import androidx.work.ListenableWorker.Result
-import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
 import com.tomasrepcik.blumodify.app.storage.cache.AppCache
 import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
@@ -27,7 +25,7 @@ class BluModifySolver @Inject constructor(
 ) : BluModifySolverTemplate {
 
     @SuppressLint("MissingPermission")
-    override suspend fun onWorkerCall(context: Context): Result = withContext(Dispatchers.Main) {
+    override suspend fun onWorkerCall(): Result = withContext(Dispatchers.Main) {
         Log.i(TAG, "BluModify worker was initialized")
         if (!btController.isPermission()) {
             Log.e(TAG, "Missing BT permission to execute worker")
@@ -41,7 +39,7 @@ class BluModifySolver @Inject constructor(
             return@withContext Result.success()
         }
 
-        if (!notificationRepo.isPermission(context)) {
+        if (!notificationRepo.isPermission()) {
             Log.e(TAG, "Missing Notification permission to execute worker")
             writeErrorLog(btLogsDao, "Missing Notification permission", null)
             return@withContext Result.failure()
@@ -79,7 +77,7 @@ class BluModifySolver @Inject constructor(
         if (advanced) {
             try {
                 Log.i(TAG, "Running advanced option for worker")
-                advancedTracker(context, connectedBtDevices)
+                advancedTracker(connectedBtDevices)
             } catch (e: Exception) {
                 Log.e(TAG, "Error occurred during resolving advanced BT connections", e)
                 writeErrorLog(btLogsDao, e.stackTraceToString(), connectedBtDevices)
@@ -90,19 +88,13 @@ class BluModifySolver @Inject constructor(
         return@withContext Result.success()
     }
 
-    private suspend fun advancedTracker(
-        context: Context, connectedAddresses: Set<BluetoothDevice>
-    ): Result = withContext(Dispatchers.Default) {
+    private suspend fun advancedTracker(connectedAddresses: Set<BluetoothDevice>): Result = withContext(Dispatchers.Default) {
         val trackedDevices = btDeviceDao.getAll()
         val connectedDevicesInPast = trackedDevices.filter { it.wasConnected }
         for (connectedDeviceInPast in connectedDevicesInPast) {
             if (!connectedAddresses.any { it.address == connectedDeviceInPast.macAddress }) {
                 Log.i(TAG, "Showing notification for the device: ${connectedDeviceInPast.name}")
-                notificationRepo.postNotification(
-                    context,
-                    context.resources.getString(R.string.app_name),
-                    context.resources.getString(R.string.notification_content)
-                )
+                notificationRepo.postNotificationToCancelBt()
                 break
             }
         }
