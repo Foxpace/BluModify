@@ -6,11 +6,11 @@ import android.util.Log
 import androidx.work.ListenableWorker.Result
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
 import com.tomasrepcik.blumodify.app.storage.cache.AppCache
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
 import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
+import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,6 +27,9 @@ class BluModifySolver @Inject constructor(
     @SuppressLint("MissingPermission")
     override suspend fun onWorkerCall(): Result = withContext(Dispatchers.Main) {
         Log.i(TAG, "BluModify worker was initialized")
+
+        deleteOldLogs()
+
         if (!btController.isPermission()) {
             Log.e(TAG, "Missing BT permission to execute worker")
             writeErrorLog(btLogsDao, "Missing Bluetooth permission", null)
@@ -118,6 +121,11 @@ class BluModifySolver @Inject constructor(
         }
 
         return@withContext Result.success()
+    }
+
+    private suspend fun deleteOldLogs() = withContext(Dispatchers.Default) {
+        Log.i(TAG, "Deleting older logs than 3 days")
+        btLogsDao.deleteOlderItemsThan(System.currentTimeMillis() - 3 * 24 * 3600 * 1000)
     }
 
     private suspend fun insertTrackedDeviceForFutureCheck(trackedDevice: BtDevice) =

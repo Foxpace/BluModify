@@ -1,7 +1,7 @@
 package com.tomasrepcik.blumodify.bluetooth.di
 
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtController
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controller.BtController
+import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.worker.BluModifySolver
 import com.tomasrepcik.blumodify.bluetooth.worker.BluModifySolverTemplate
 import dagger.Binds

@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtObserver
+import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controller.BtObserver
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem

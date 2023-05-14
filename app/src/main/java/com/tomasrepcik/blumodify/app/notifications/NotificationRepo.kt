@@ -15,8 +15,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
-import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtObserver
+import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controller.BtObserver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

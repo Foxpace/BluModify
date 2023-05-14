@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.app.storage.controllers.bluetooth
+package com.tomasrepcik.blumodify.bluetooth.controller
 
 import android.bluetooth.BluetoothDevice
 
