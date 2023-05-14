@@ -37,7 +37,7 @@ fun SettingsScreen(
         Box(modifier = Modifier.padding(padding)) {
             when (state) {
                 SettingsState.SettingsError -> ErrorComp<SettingsState>(explanation = R.string.drawer_settings,
-                    onClick = { onEvent(SettingsEvent.OnError) })
+                    onPrimaryClick = { onEvent(SettingsEvent.OnError) })
 
                 is SettingsState.SettingsLoaded -> SettingsLoadedComp(
                     navController = navController, state = state

@@ -25,6 +25,7 @@ fun MainCompose(
     BluModifyTheme {
         Surface {
             ModalNavigationDrawer(
+                gesturesEnabled = false,
                 drawerState = drawerState,
                 drawerContent = {
                     AppDrawerContent(

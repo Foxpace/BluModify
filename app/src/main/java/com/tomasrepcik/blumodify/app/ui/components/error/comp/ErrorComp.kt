@@ -31,10 +31,11 @@ import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListState
 @Composable
 fun <T> ErrorComp(
     @StringRes explanation: Int,
-    @StringRes buttonText: Int? = null,
+    @StringRes primaryText: Int? = null,
+    @StringRes secondaryText: Int? = null,
     appResult: AppResult<T>? = null,
-    onClick: (() -> Unit)?,
-    onDetail: (() -> Unit)? = null
+    onPrimaryClick: (() -> Unit)?,
+    onSecondaryClick: ((AppResult<T>?) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -60,13 +61,16 @@ fun <T> ErrorComp(
             style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
-        if (onClick != null || appResult != null) {
+        if (onPrimaryClick != null || onSecondaryClick != null) {
             Column {
-                if (onClick != null && buttonText != null) {
-                    AppButton(text = buttonText, onClick = onClick)
+                if (onPrimaryClick != null && primaryText != null) {
+                    AppButton(text = primaryText, onClick = onPrimaryClick)
                 }
-                if (appResult != null && onDetail != null) {
-                    AppButton(text = R.string.more_info, onClick = onDetail)
+                if (onPrimaryClick != null && onSecondaryClick != null){
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                if (secondaryText != null && onSecondaryClick != null) {
+                    AppButton(text = secondaryText, onClick = { onSecondaryClick(appResult) })
                 }
             }
         }
@@ -80,8 +84,11 @@ fun ErrorCompPreview() {
     BluModifyTheme {
         Surface {
             ErrorComp<DeviceListState>(explanation = R.string.settings_no_tracked_device,
-                buttonText = R.string.settings_bt_picker,
-                onClick = {}) {}
+                primaryText = R.string.settings_bt_picker,
+                onPrimaryClick = {},
+                secondaryText = R.string.back,
+                onSecondaryClick = {}
+            )
         }
     }
 }

@@ -24,7 +24,7 @@ fun <T> ErrorScreen(
             showDetail = showDetail.not()
         }
     } else {
-        ErrorComp<T>(explanation = explanation, buttonText = buttonText, onClick = onClick){
+        ErrorComp<T>(explanation = explanation, primaryText = buttonText, onPrimaryClick = onClick){
             showDetail = showDetail.not()
         }
     }

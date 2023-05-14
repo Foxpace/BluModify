@@ -7,8 +7,8 @@ import androidx.navigation.compose.navigation
 import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.intro.composables.RecommendationScreen
 import com.tomasrepcik.blumodify.intro.composables.WelcomeScreen
-import com.tomasrepcik.blumodify.intro.composables.motivation.MotivationEnergyScreen
-import com.tomasrepcik.blumodify.intro.composables.motivation.MotivationPrivacyScreen
+import com.tomasrepcik.blumodify.intro.composables.MotivationEnergyScreen
+import com.tomasrepcik.blumodify.intro.composables.MotivationPrivacyScreen
 
 fun NavGraphBuilder.introGraph(navController: NavController) {
     navigation(startDestination = IntroNavOption.WelcomeScreen.name, route = NavRoutes.IntroRoute.name) {

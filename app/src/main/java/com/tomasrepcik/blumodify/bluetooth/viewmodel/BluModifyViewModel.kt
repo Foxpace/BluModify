@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BluModifyViewModel @Inject constructor(
-    private val btWorkManagerTemplate: BtWorkManagerTemplate,
+    private val btWorkManager: BtWorkManagerTemplate,
     private val btController: BtController,
-    private val btDeviceDao: BtDeviceDao
+    private val btDeviceDao: BtDeviceDao,
 ) : ViewModel() {
 
     private val _bluModifyState: MutableStateFlow<BluModifyState> =
@@ -27,6 +27,7 @@ class BluModifyViewModel @Inject constructor(
     val blumodifyState = _bluModifyState.asStateFlow()
 
     fun onEvent(event: BluModifyEvent) {
+        Log.i(TAG, "Obtained event: $event")
         when (event) {
             BluModifyEvent.OnLaunch -> onLaunch()
             BluModifyEvent.OnMainButtonClickEvent -> onButtonClicked()
@@ -58,7 +59,7 @@ class BluModifyViewModel @Inject constructor(
 
     private suspend fun checkCurrentState(): BluModifyState = withContext(Dispatchers.Main) {
         Log.i(TAG, "Checking current state of the service")
-        when (val state = btWorkManagerTemplate.workersWork()) {
+        when (val state = btWorkManager.workersWork()) {
             is AppResult.Error -> {
                 Log.e(TAG, "Error occurred in the service")
                 _bluModifyState.value = BluModifyState.ErrorOccurred(state)
@@ -91,13 +92,13 @@ class BluModifyViewModel @Inject constructor(
             _bluModifyState.value = BluModifyState.MissingPermission
             return@withContext
         }
-        btWorkManagerTemplate.initWorkers()
+        btWorkManager.initWorkers()
         checkCurrentState()
     }
 
     private suspend fun turnOff() = withContext(Dispatchers.Main) {
         Log.i(TAG, "Turning off the worker")
-        btWorkManagerTemplate.disposeWorkers()
+        btWorkManager.disposeWorkers()
         withContext(Dispatchers.Default) {
             btDeviceDao.resetDevices()
         }

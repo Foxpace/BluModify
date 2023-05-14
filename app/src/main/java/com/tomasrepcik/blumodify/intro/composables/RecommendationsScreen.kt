@@ -8,6 +8,7 @@ import com.tomasrepcik.blumodify.NavRoutes
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
+import com.tomasrepcik.blumodify.intro.composables.ui.IntroCompose
 
 @Composable
 fun RecommendationScreen(

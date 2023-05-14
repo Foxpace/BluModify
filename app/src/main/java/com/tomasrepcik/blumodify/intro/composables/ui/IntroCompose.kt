@@ -1,9 +1,11 @@
-package com.tomasrepcik.blumodify.intro.composables
+package com.tomasrepcik.blumodify.intro.composables.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,6 +40,7 @@ fun IntroCompose(
         }
     })
 }) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,25 +54,25 @@ fun IntroCompose(
             painter = painterResource(id = image),
             contentDescription = stringResource(id = imageDescription),
             contentScale = ContentScale.Fit,
-            modifier = Modifier.weight(2f)
         )
         Spacer(modifier = Modifier.weight(1f))
-        Text(
-            stringResource(id = textTitle),
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Text(
-            stringResource(id = textDescription),
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.fillMaxWidth()
-        )
-
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            Text(
+                stringResource(id = textTitle),
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Text(
+                stringResource(id = textDescription),
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
         AppButton(
-            modifier = Modifier.padding(bottom = 30.dp),
+            modifier = Modifier.padding(bottom = 30.dp, top = 16.dp),
             text = buttonText,
             onClick = onNext
         )

@@ -1,18 +1,12 @@
 package com.tomasrepcik.blumodify.bluetooth.worker
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Context
-import android.content.Intent
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker.Result
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
 import com.tomasrepcik.blumodify.app.storage.cache.AppCache
 import com.tomasrepcik.blumodify.app.storage.controllers.bluetooth.BtControllerTemplate
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
@@ -28,7 +22,8 @@ class BluModifySolver @Inject constructor(
     private val btController: BtControllerTemplate,
     private val btDeviceDao: BtDeviceDao,
     private val btLogsDao: LogsDao,
-    private val appCache: AppCache
+    private val appCache: AppCache,
+    private val notificationRepo: NotificationRepoTemplate
 ) : BluModifySolverTemplate {
 
     @SuppressLint("MissingPermission")
@@ -44,6 +39,12 @@ class BluModifySolver @Inject constructor(
             Log.i(TAG, "Everything went fine with worker - BT is off already")
             writeSuccessLog(btLogsDao, emptySet())
             return@withContext Result.success()
+        }
+
+        if (!notificationRepo.isPermission(context)) {
+            Log.e(TAG, "Missing Notification permission to execute worker")
+            writeErrorLog(btLogsDao, "Missing Notification permission", null)
+            return@withContext Result.failure()
         }
 
         val connectedBtDevices: Set<BluetoothDevice>
@@ -97,7 +98,11 @@ class BluModifySolver @Inject constructor(
         for (connectedDeviceInPast in connectedDevicesInPast) {
             if (!connectedAddresses.any { it.address == connectedDeviceInPast.macAddress }) {
                 Log.i(TAG, "Showing notification for the device: ${connectedDeviceInPast.name}")
-                showNotificationToTurnOffBt(context)
+                notificationRepo.postNotification(
+                    context,
+                    context.resources.getString(R.string.app_name),
+                    context.resources.getString(R.string.notification_content)
+                )
                 break
             }
         }
@@ -128,40 +133,6 @@ class BluModifySolver @Inject constructor(
             )
         }
 
-    @SuppressLint("MissingPermission")
-    private suspend fun showNotificationToTurnOffBt(context: Context) =
-        withContext(Dispatchers.Main) {
-
-            createNotificationChannel(context)
-            val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            val pendingIntent: PendingIntent =
-                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_app_square)
-                .setContentTitle(context.resources.getString(R.string.app_name))
-                .setContentText(context.resources.getString(R.string.notification_content))
-                .setPriority(NotificationCompat.PRIORITY_HIGH).setContentIntent(pendingIntent)
-
-            with(NotificationManagerCompat.from(context)) {
-                notify(NOTIFICATION_ID, builder.build())
-            }
-        }
-
-
-    private fun createNotificationChannel(context: Context) {
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(
-            CHANNEL_ID, context.getString(R.string.notification_channel_name), importance
-        ).apply {
-            description = context.getString(R.string.notification_channel_description)
-        }
-        // Register the channel with the system
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
-
     private suspend fun writeSuccessLog(logsDao: LogsDao, connectedDevices: Set<BluetoothDevice>) =
         withContext(Dispatchers.Default) {
             logsDao.insertReport(
@@ -187,8 +158,6 @@ class BluModifySolver @Inject constructor(
 
     companion object {
         const val TAG = "BluModifyWorkerSolver"
-        const val CHANNEL_ID = "com.tomasrepcik.blumodify.notification.channel"
-        const val NOTIFICATION_ID = 64684648
     }
 }
 

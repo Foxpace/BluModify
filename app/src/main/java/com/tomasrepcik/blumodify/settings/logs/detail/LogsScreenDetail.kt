@@ -43,15 +43,15 @@ fun LogsScreenDetail(
                 LogDetailState.Loading -> LoadingComp()
                 is LogDetailState.Error -> ErrorComp<Error>(
                     explanation = R.string.settings_empty_log,
-                    buttonText = R.string.back,
+                    primaryText = R.string.back,
                     // TODO: add detail
-                    onClick = { navController.popBackStack() }) {
+                    onPrimaryClick = { navController.popBackStack() }) {
 
                 }
                 LogDetailState.NotFound -> ErrorComp<Error>(
                     explanation = R.string.settings_empty_log,
-                    buttonText = R.string.back,
-                    onClick = { navController.popBackStack() }) {
+                    primaryText = R.string.back,
+                    onPrimaryClick = { navController.popBackStack() }) {
 
                 }
             }

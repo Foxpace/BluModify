@@ -1,7 +1,5 @@
 package com.tomasrepcik.blumodify.home
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,13 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.components.error.comp.ErrorComp
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyEvent
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyState
+import com.tomasrepcik.blumodify.home.permissions.AppPermissions
 import com.tomasrepcik.blumodify.home.screens.MainScreenWithAnimation
 
 @Composable
@@ -30,9 +28,9 @@ fun HomeScreen(drawerState: DrawerState, state: BluModifyState, onEvent: (BluMod
     }
 
     val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions: Map<String, Boolean> ->
+        if (permissions.all { it.value }) {
             onEvent(BluModifyEvent.OnPermissionGranted)
         } else {
             onEvent(BluModifyEvent.OnPermissionDenied)
@@ -40,15 +38,22 @@ fun HomeScreen(drawerState: DrawerState, state: BluModifyState, onEvent: (BluMod
     }
 
     val context = LocalContext.current
-    val onButtonClick = {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(
-                context, Manifest.permission_group.NEARBY_DEVICES
-            ) != PackageManager.PERMISSION_GRANTED
+    val onButtonClick = hasReturn@{
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !AppPermissions.hasPermissions(context, AppPermissions.permissionsSdkT)
         ) {
-            launcher.launch(Manifest.permission_group.NEARBY_DEVICES)
-        } else {
-            onEvent(BluModifyEvent.OnMainButtonClickEvent)
+            launcher.launch(AppPermissions.permissionsSdkT)
+            return@hasReturn
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            !AppPermissions.hasPermissions(context, AppPermissions.permissionsSdkS)
+        ) {
+            launcher.launch(AppPermissions.permissionsSdkS)
+            return@hasReturn
+        }
+
+        onEvent(BluModifyEvent.OnMainButtonClickEvent)
     }
 
     Scaffold(topBar = { AppBar(drawerState = drawerState) }) { paddingValues ->
@@ -57,19 +62,27 @@ fun HomeScreen(drawerState: DrawerState, state: BluModifyState, onEvent: (BluMod
                 BluModifyState.Loading -> LoadingComp()
                 is BluModifyState.ErrorOccurred -> ErrorComp(explanation = R.string.main_screen_error,
                     appResult = state.error,
-                    onClick = {
+                    onPrimaryClick = {
                         onEvent(BluModifyEvent.OnError)
                     })
 
                 BluModifyState.MissingPermission -> ErrorComp<BluModifyState>(explanation = R.string.settings_bt_permission,
-                    buttonText = R.string.settings_bt_permission_button,
-                    onClick = {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            launcher.launch(Manifest.permission_group.NEARBY_DEVICES)
+                    primaryText = R.string.settings_bt_permission_button,
+                    onPrimaryClick = {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            launcher.launch(AppPermissions.permissionsSdkT)
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            launcher.launch(AppPermissions.permissionsSdkS)
                         } else {
                             onEvent(BluModifyEvent.OnPermissionGranted)
                         }
-                    })
+                    },
+                    secondaryText = R.string.open_settings,
+                    onSecondaryClick = {
+                        AppPermissions.openSettings(context)
+                    }
+                )
+
                 else -> MainScreenWithAnimation(state = state, onClick = onButtonClick)
             }
         }

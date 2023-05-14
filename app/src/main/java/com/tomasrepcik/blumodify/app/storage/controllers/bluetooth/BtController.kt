@@ -85,14 +85,14 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
     }
 
     override fun isPermission(): Boolean {
-        Log.i(TAG, "Checking permission")
+        Log.i(TAG, "Checking bluetooth permission")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             return ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission_group.NEARBY_DEVICES
             ) == PackageManager.PERMISSION_GRANTED
         }
-        Log.i(TAG, "Permission is not needed - lower than Android S")
+        Log.i(TAG, "Bluetooth permission is not needed - lower than Android S")
         return true
     }
 

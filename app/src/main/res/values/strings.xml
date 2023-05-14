@@ -29,6 +29,7 @@
     <string name="more_info">More info</string>
     <string name="try_again">Try again</string>
     <string name="zero">0</string>
+    <string name="open_settings">Open settings</string>
 
     <!-- ERROR TEXT-->
     <string name="error_screen_message_title">Error message</string>
@@ -44,7 +45,7 @@
     <string name="welcome_image_description">BluModify app icon</string>
 
     <!-- ENERGY MOTIVATION SCREEN -->
-    <string name="motivation_energy_title">Battery saving</string>
+    <string name="motivation_energy_title">Daily situation</string>
     <string name="motivation_energy_text">
         Imagine you go to work listening to your favourite music.
         You go through mall to buy snacks, stop by in park and end up at work desk.
@@ -58,8 +59,9 @@
     <string name="motivation_privacy_title">Be incognito</string>
     <string name="motivation_privacy_text">
         Active Bluetooth can be tracked and abused from outside.
-        Shopping malls can track your entrances into a shop or someone can abuse its vulnerabilities within close range.
+        Attacker can make phishing attacks, steal private data or eavesdrop on your conversations.
         Even your own apps can determine location based on Bluetooth or abuse it in many other ways.
+        Luckily, all of the attacks must occur within close range of you.
     </string>
     <string name="motivation_privacy_image">
         Icon describing how the Bluetooth is draining the battery.
@@ -68,9 +70,10 @@
     <!-- RECOMMENDATION SCREEN -->
     <string name="recommendation_title">What to do?</string>
     <string name="recommendation_text">
-        Turn off the Bluetooth and that is it.\n\nWith BluModify you can set up events,
-        which will turn off the Bluetooth, so you do not have to think about it.
-        The BluModify is event driven, so the battery consumption of the app itself is minimal.
+        Turn off the Bluetooth and that is it.\n\nWith BluModify you can start tracking your Bluetooth activity.
+        If no device is connected and Bluetooth is on, you will get notification about it.
+        You can than decide if you want to turn off the Bluetooth. The app is event based, so the battery
+        consumption of the app is minimal. Unfortunately, the ability to turn off Bluetooth is solely in user\'s hands.
     </string>
     <string name="recommendation_image">Sleeping Bluetooth icon.</string>
 
