@@ -1,7 +1,14 @@
 package com.tomasrepcik.blumodify.bluetooth.workmanager
 
 import android.util.Log
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.await
 import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.model.ErrorCause
 import com.tomasrepcik.blumodify.bluetooth.worker.BtWorker
@@ -38,14 +45,16 @@ class BtWorkManager @Inject constructor(private val workManager: WorkManager) : 
             AppResult.Error(
                 message = "Failed to get state of the Worker",
                 errorCause = ErrorCause.WORKER_NOT_FOUND,
-                error = "Message: ${e.message}\n\nStackTrace: ${e.stackTraceToString()}"
+                origin = "BtWorkManager.workersWork",
+                stacktrace = "Message: ${e.message}\n\nStackTrace: ${e.stackTraceToString()}"
             )
         } catch (e: InterruptedException) {
             Log.e(tag, e.stackTraceToString())
             AppResult.Error(
                 message = "Failed to get state of the Worker",
                 errorCause = ErrorCause.WORKER_NOT_FOUND,
-                error = "Message: ${e.message}\n\nStackTrace: ${e.stackTraceToString()}"
+                origin = "BtWorkManager.workersWork",
+                stacktrace = "Message: ${e.message}\n\nStackTrace: ${e.stackTraceToString()}"
             )
         }
     }

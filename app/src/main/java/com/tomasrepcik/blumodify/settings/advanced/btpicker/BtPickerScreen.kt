@@ -47,7 +47,7 @@ fun SettingsBtPickerScreen(navController: NavController, state: TrackedDevicesSt
                         navController.popBackStack()
                     }
                 },
-                appBarActions = arrayListOf(
+                appBarActions = arrayOf(
                     AppBarAction(R.drawable.ic_refresh, R.string.ic_refresh){
                         onEvent(TrackedDevicesEvent.OnLaunch)
                     },

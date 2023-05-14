@@ -3,6 +3,7 @@ plugins {
     id "org.jetbrains.kotlin.android"
     id "com.google.dagger.hilt.android"
     id "org.jetbrains.kotlin.plugin.serialization"
+    id "com.google.android.gms.oss-licenses-plugin"
     id "kotlin-kapt" // keep it as last one among plugins
 }
 
@@ -17,7 +18,7 @@ android {
         minSdk 27
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -73,7 +74,7 @@ dependencies {
 
     // data storage
     implementation "androidx.datastore:datastore:1.0.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
 
     // android core
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -99,8 +100,14 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // rive
-    implementation 'app.rive:rive-android:4.0.0'
+    implementation 'app.rive:rive-android:4.4.4'
     implementation "androidx.startup:startup-runtime:1.1.1"
+
+    // google play licenses
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
+
+    // google play update
+    implementation 'com.google.android.play:app-update-ktx:2.0.1'
 
     // TESTING
 

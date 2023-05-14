@@ -39,7 +39,7 @@ fun DeviceListScreen(
                         navController.popBackStack()
                     }
                 },
-                appBarActions = arrayListOf(
+                appBarActions = arrayOf(
                     AppBarAction(
                         R.drawable.ic_add,
                         R.string.settings_bt_picker
@@ -58,12 +58,16 @@ fun DeviceListScreen(
                 ) { device ->
                     onEvent(DeviceListEvent.OnDeviceDelete(device))
                 }
+
                 DeviceListState.Empty -> ErrorScreen<DeviceListState>(
                     explanation = R.string.settings_no_tracked_device,
-                    buttonText = R.string.settings_bt_picker
-                ) {
-                    navController.navigate(SettingsNavOption.SettingsBtPicker.name)
-                }
+                    primaryText = R.string.settings_bt_picker,
+                    onPrimaryClick = {
+                        navController.navigate(SettingsNavOption.SettingsBtPicker.name)
+                    }
+
+                )
+
                 DeviceListState.Loading -> LoadingComp()
             }
         }

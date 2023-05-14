@@ -34,7 +34,7 @@ fun LogsScreen(
             BackButton {
                 navController.popBackStack()
             }
-        }, appBarActions = listOf(AppBarAction(R.drawable.ic_reverse, R.string.ic_reverse) {
+        }, appBarActions = arrayOf(AppBarAction(R.drawable.ic_reverse, R.string.ic_reverse) {
             onEvent(LogsEvent.OnReverse)
         })
 
@@ -48,6 +48,10 @@ fun LogsScreen(
                 }
                 LogsState.NoLogs -> ErrorScreen<LogsState>(
                     explanation = R.string.settings_no_logs_text,
+                    primaryText = R.string.back,
+                    onPrimaryClick = {
+                        navController.popBackStack()
+                    }
                 )
             }
         }

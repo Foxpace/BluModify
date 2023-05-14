@@ -41,7 +41,7 @@ class BluModifySolver @Inject constructor(
 
         if (!notificationRepo.isPermission()) {
             Log.e(TAG, "Missing Notification permission to execute worker")
-            writeErrorLog(btLogsDao, "Missing Notification permission", null)
+            writeErrorLog(btLogsDao, "Missing notification permission", null)
             return@withContext Result.failure()
         }
 
@@ -82,6 +82,10 @@ class BluModifySolver @Inject constructor(
                 Log.e(TAG, "Error occurred during resolving advanced BT connections", e)
                 writeErrorLog(btLogsDao, e.stackTraceToString(), connectedBtDevices)
                 return@withContext Result.failure()
+            }
+        } else {
+            if (connectedBtDevices.isEmpty()){
+                notificationRepo.postNotificationToCancelBt()
             }
         }
         writeSuccessLog(btLogsDao, connectedBtDevices)

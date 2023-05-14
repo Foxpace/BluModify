@@ -1,6 +1,12 @@
 package com.tomasrepcik.blumodify.app.ui.components.error.comp
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -9,9 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.mail.MailSending
 import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.model.ErrorCause
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
@@ -22,8 +30,8 @@ import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListState
 
 @Composable
 fun <T> ErrorDetailComp(
-    appResult: AppResult.Error<T>? = null,
-    onDetail: () -> Unit,
+    error: AppResult.Error<T>? = null,
+    onBackButton: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -32,40 +40,61 @@ fun <T> ErrorDetailComp(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
+        val context = LocalContext.current
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(id = R.string.error_screen_message_title),
-                style = MaterialTheme.typography.titleMedium
+            ErrorTextLine(
+                title = stringResource(id = R.string.error_screen_message_title),
+                description = error?.message ?: stringResource(id = R.string.none)
             )
-            Text(
-                text = appResult?.message ?: stringResource(id = R.string.none),
-                style = MaterialTheme.typography.bodyMedium
+            ErrorTextLine(
+                title = stringResource(id = R.string.error_screen_origin_title),
+                description = error?.origin ?: stringResource(id = R.string.none)
             )
-            Text(
-                text = stringResource(id = R.string.error_screen_type_title),
-                style = MaterialTheme.typography.titleMedium
+            ErrorTextLine(
+                title = stringResource(id = R.string.error_screen_type_title),
+                description = error?.errorCause?.name ?: stringResource(id = R.string.none)
             )
-            Text(
-                text = appResult?.errorCause?.name ?: stringResource(id = R.string.none),
-                style = MaterialTheme.typography.bodyMedium
+            ErrorTextLine(
+                title = stringResource(id = R.string.error_screen_stacktrace_title),
+                description = error?.stacktrace?.toString() ?: stringResource(id = R.string.none)
             )
-            Text(
-                text = stringResource(id = R.string.error_screen_stacktrace_title),
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = appResult?.error?.toString() ?: stringResource(id = R.string.none),
-                style = MaterialTheme.typography.bodyMedium
-            )
+
         }
-        AppButton(text = R.string.back, onClick = onDetail)
+        if (error != null) {
+            Spacer(modifier = Modifier.height(16.dp))
+            AppButton(text = R.string.send_report) {
+                MailSending.reportError(context, error)
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        AppButton(text = R.string.back, onClick = onBackButton)
     }
+}
+
+@Composable
+private fun ErrorTextLine(title: String, description: String) {
+    Column(
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+
 }
 
 @AllScreenPreview
@@ -74,8 +103,8 @@ fun ErrorDetailPreview() {
     BluModifyTheme {
         Surface {
             ErrorDetailComp<DeviceListState>(
-                appResult = AppResult.Error(
-                    "Error", ErrorCause.WORKER_NOT_FOUND, Error("Simulated error")
+                error = AppResult.Error(
+                    "Error", "origin", ErrorCause.WORKER_NOT_FOUND, Error("Simulated error")
                 )
             ) {
 

@@ -22,7 +22,7 @@ fun AppBar(
     drawerState: DrawerState? = null,
     navigationIcon: (@Composable () -> Unit)? = null,
     @StringRes title: Int? = null,
-    appBarActions: List<AppBarAction>? = null
+    appBarActions: Array<AppBarAction>? = null
 ) {
     TopAppBar(
         title = {
@@ -34,8 +34,8 @@ fun AppBar(
             }
         },
         actions = {
-            appBarActions?.let {
-                for (appBarAction in it) {
+            if (!appBarActions.isNullOrEmpty()) {
+                for (appBarAction in appBarActions) {
                     AppBarAction(appBarAction)
                 }
             }

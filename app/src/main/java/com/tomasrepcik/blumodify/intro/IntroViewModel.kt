@@ -25,7 +25,7 @@ class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<
         viewModelScope.launch {
             appCache.state.collect{
                 when(it){
-                    AppCacheState.Error -> {
+                    is AppCacheState.Error -> {
                         _isLoading.value = false
                         _isOnboarded.value = false
                     }

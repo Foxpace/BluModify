@@ -62,7 +62,7 @@ class BtPickerViewModel @Inject constructor(
         onBtPermissionGranted()
     }
 
-    override fun onBtChange() {
+    override fun onBtChange(btIsOn: Boolean) {
         if (btController.isBtOn() && _trackedDevicesState.value is TrackedDevicesState.RequireBtOn) {
             onBtOn()
         }
@@ -125,7 +125,7 @@ class BtPickerViewModel @Inject constructor(
 
     }
 
-    fun onDevicePick(pickedDevice: BtItem) {
+    private fun onDevicePick(pickedDevice: BtItem) {
         val dbDevice = BtDevice(
             macAddress = pickedDevice.macAddress,
             name = pickedDevice.deviceName,
@@ -140,7 +140,7 @@ class BtPickerViewModel @Inject constructor(
         }
     }
 
-    fun onDispose() {
+    private fun onDispose() {
         Log.i(tag, "onDispose called")
         btController.removeObserver(this)
     }

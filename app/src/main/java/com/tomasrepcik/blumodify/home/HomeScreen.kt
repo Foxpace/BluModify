@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.app.ui.components.error.comp.ErrorComp
+import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyEvent
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyState
@@ -60,13 +60,15 @@ fun HomeScreen(drawerState: DrawerState, state: BluModifyState, onEvent: (BluMod
         Surface(modifier = Modifier.padding(paddingValues)) {
             when (state) {
                 BluModifyState.Loading -> LoadingComp()
-                is BluModifyState.ErrorOccurred -> ErrorComp(explanation = R.string.main_screen_error,
-                    appResult = state.error,
+                is BluModifyState.ErrorOccurred -> ErrorScreen(
+                    explanation = R.string.main_screen_error,
+                    error = state.error,
                     onPrimaryClick = {
                         onEvent(BluModifyEvent.OnError)
                     })
 
-                BluModifyState.MissingPermission -> ErrorComp<BluModifyState>(explanation = R.string.settings_bt_permission,
+                BluModifyState.MissingPermission -> ErrorScreen<BluModifyState>(
+                    explanation = R.string.settings_bt_permission,
                     primaryText = R.string.settings_bt_permission_button,
                     onPrimaryClick = {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

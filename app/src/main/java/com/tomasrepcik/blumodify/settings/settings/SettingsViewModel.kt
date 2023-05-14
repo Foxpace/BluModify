@@ -28,8 +28,8 @@ class SettingsViewModel @Inject constructor(private val appCache: AppCacheTempla
         viewModelScope.launch {
             appCache.state.collect {
                 when (it) {
-                    AppCacheState.Error -> {
-                        _settingsState.value = SettingsState.SettingsError
+                    is AppCacheState.Error -> {
+                        _settingsState.value = SettingsState.SettingsError(it.error)
                     }
                     is AppCacheState.Loaded -> {
                         _settings.value = it.settings

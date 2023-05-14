@@ -3,6 +3,8 @@ package com.tomasrepcik.blumodify.settings.logs.detail.vm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tomasrepcik.blumodify.app.model.AppResult
+import com.tomasrepcik.blumodify.app.model.ErrorCause
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.settings.logs.detail.LogReportUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,20 +20,33 @@ import javax.inject.Inject
 class LogsScreenDetailViewModel @Inject constructor(private val logsDao: LogsDao) :
     ViewModel() {
 
-    private val _logsState: MutableStateFlow<LogDetailState> = MutableStateFlow(LogDetailState.Loading)
+    private val _logsState: MutableStateFlow<LogsDetailState> = MutableStateFlow(LogsDetailState.Loading)
     var logsState = _logsState.asStateFlow()
 
-    fun findLogById(id: Int?, error: String?) = viewModelScope.launch(Dispatchers.Main) {
+    fun onEvent(event: LogsDetailEvent){
+        when(event){
+            is LogsDetailEvent.OnLaunch -> findLogById(event.id, event.error)
+        }
+    }
+
+    private fun findLogById(id: Int?, error: String?) = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Searching for log with ID $id")
 
         if (error != null){
             Log.e(TAG, "Error occurred during searching for correct ID")
-            _logsState.value = LogDetailState.Error(error)
+            _logsState.value = LogsDetailState.Error(
+                AppResult.Error(
+                    message = "Error occurred during searching for correct ID",
+                    errorCause = ErrorCause.MISSING_ID,
+                    origin = "LogsScreenDetailViewModel.findLogById",
+                    stacktrace = error
+                )
+            )
         }
 
         if (id == null){
             Log.e(TAG, "ID of log is null")
-            _logsState.value = LogDetailState.NotFound
+            _logsState.value = LogsDetailState.NotFound
             return@launch
         }
 
@@ -44,18 +59,18 @@ class LogsScreenDetailViewModel @Inject constructor(private val logsDao: LogsDao
                 log.id.toString(),
                 dateFormat.format(log.startTime),
                 log.isSuccess,
-                log.connectedDevices,
+                log.connectedDevices.toTypedArray(),
                 log.stackTrace
             )
         }
 
         if (log == null){
             Log.e(TAG, "Log was not found in the database")
-            _logsState.value = LogDetailState.NotFound
+            _logsState.value = LogsDetailState.NotFound
             return@launch
         }
         Log.i(TAG, "Showing log with ID: $id")
-        _logsState.value = LogDetailState.Loaded(log)
+        _logsState.value = LogsDetailState.Loaded(log)
     }
 
     companion object {

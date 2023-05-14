@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.storage.cache.AppSettings
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
-import com.tomasrepcik.blumodify.app.ui.components.error.comp.ErrorComp
+import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
@@ -36,8 +36,13 @@ fun SettingsScreen(
     }) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             when (state) {
-                SettingsState.SettingsError -> ErrorComp<SettingsState>(explanation = R.string.drawer_settings,
-                    onPrimaryClick = { onEvent(SettingsEvent.OnError) })
+                is SettingsState.SettingsError -> ErrorScreen(
+                    explanation = R.string.drawer_settings,
+                    ignoreDetails = false,
+                    error = state.error,
+                    onPrimaryClick = {
+                        onEvent(SettingsEvent.OnError)
+                    })
 
                 is SettingsState.SettingsLoaded -> SettingsLoadedComp(
                     navController = navController, state = state

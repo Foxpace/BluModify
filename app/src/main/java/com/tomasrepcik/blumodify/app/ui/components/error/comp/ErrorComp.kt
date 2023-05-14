@@ -33,9 +33,11 @@ fun <T> ErrorComp(
     @StringRes explanation: Int,
     @StringRes primaryText: Int? = null,
     @StringRes secondaryText: Int? = null,
-    appResult: AppResult<T>? = null,
+    error: AppResult.Error<T>? = null,
     onPrimaryClick: (() -> Unit)?,
-    onSecondaryClick: ((AppResult<T>?) -> Unit)? = null
+    onSecondaryClick: ((AppResult<T>?) -> Unit)? = null,
+    ignoreDetails: Boolean = true,
+    onDetails: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -44,35 +46,45 @@ fun <T> ErrorComp(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp),
-            painter = painterResource(id = R.drawable.ic_sad),
-            contentDescription = stringResource(
-                id = R.string.ic_sad
-            ),
-            contentScale = ContentScale.Fit
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = explanation),
-            style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        if (onPrimaryClick != null || onSecondaryClick != null) {
-            Column {
-                if (onPrimaryClick != null && primaryText != null) {
-                    AppButton(text = primaryText, onClick = onPrimaryClick)
-                }
-                if (onPrimaryClick != null && onSecondaryClick != null){
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-                if (secondaryText != null && onSecondaryClick != null) {
-                    AppButton(text = secondaryText, onClick = { onSecondaryClick(appResult) })
-                }
+        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp),
+                painter = painterResource(id = R.drawable.ic_sad),
+                contentDescription = stringResource(
+                    id = R.string.ic_sad
+                ),
+                contentScale = ContentScale.Fit
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = explanation),
+                style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Start)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            if (error != null)
+                Text(
+                    text = error.message,
+                    style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Start)
+                )
+        }
+
+        Column {
+            if (!ignoreDetails){
+                AppButton(text = R.string.show_details, onClick = onDetails)
             }
+            if (onPrimaryClick != null && primaryText != null) {
+                Spacer(modifier = Modifier.height(16.dp))
+                AppButton(text = primaryText, onClick = onPrimaryClick)
+            }
+            if (onPrimaryClick != null && onSecondaryClick != null) {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            if (secondaryText != null && onSecondaryClick != null) {
+                AppButton(text = secondaryText, onClick = { onSecondaryClick(error) })
+            }
+
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
@@ -83,11 +95,13 @@ fun <T> ErrorComp(
 fun ErrorCompPreview() {
     BluModifyTheme {
         Surface {
-            ErrorComp<DeviceListState>(explanation = R.string.settings_no_tracked_device,
+            ErrorComp<DeviceListState>(
+                explanation = R.string.settings_no_tracked_device,
                 primaryText = R.string.settings_bt_picker,
-                onPrimaryClick = {},
                 secondaryText = R.string.back,
-                onSecondaryClick = {}
+                onPrimaryClick = {},
+                onSecondaryClick = {},
+                onDetails = {},
             )
         }
     }

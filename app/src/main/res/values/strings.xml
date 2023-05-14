@@ -15,7 +15,10 @@
     <string name="ic_sad">Sad face</string>
     <string name="ic_minus">Remove device</string>
     <string name="ic_reverse">Reverse icon</string>
-
+    <string name="ic_android">Android icon</string>
+    <string name="ic_github">Github icon</string>
+    <string name="ic_mail">Mail icon</string>
+    <string name="ic_license">License icon</string>
 
 
     <!-- GENERAL PURPOSE TEXT-->
@@ -27,14 +30,19 @@
     <string name="failure">Failure</string>
     <string name="start_app">Start</string>
     <string name="more_info">More info</string>
+    <string name="more_actions">More actions</string>
     <string name="try_again">Try again</string>
     <string name="zero">0</string>
     <string name="open_settings">Open settings</string>
 
     <!-- ERROR TEXT-->
     <string name="error_screen_message_title">Error message</string>
+    <string name="error_screen_origin_title">Error origin</string>
     <string name="error_screen_type_title">Error type</string>
     <string name="error_screen_stacktrace_title">Stacktrace</string>
+    <string name="pick_mail">Send mail via…</string>
+    <string name="show_details">Details</string>
+    <string name="send_report">Send mail</string>
 
     <!-- WELCOME SCREEN -->
     <string name="welcome_title">Welcome</string>
@@ -72,8 +80,9 @@
     <string name="recommendation_text">
         Turn off the Bluetooth and that is it.\n\nWith BluModify you can start tracking your Bluetooth activity.
         If no device is connected and Bluetooth is on, you will get notification about it.
-        You can than decide if you want to turn off the Bluetooth. The app is event based, so the battery
-        consumption of the app is minimal. Unfortunately, the ability to turn off Bluetooth is solely in user\'s hands.
+        You can than decide if you want to turn off the Bluetooth.
+        The detection runs every 15 mins approximately, so the app consumption is minimal.
+        Unfortunately, the ability to turn off Bluetooth is solely in user\'s hands as Android removed this ability.
     </string>
     <string name="recommendation_image">Sleeping Bluetooth icon.</string>
 
@@ -92,7 +101,17 @@
     <string name="main_screen_turn_off">Turn off</string>
     <string name="main_screen_turn_on_title">Optimize Bluetooth usage</string>
     <string name="main_screen_turn_off_title">Checking Bluetooth perpetually</string>
-    <string name="main_screen_error">The app is not able to properly start. Please try to turn off and on the app. Or try to reinstall the app and give it all permissions. If nothing helps, please contact us.</string>
+    <string name="main_screen_error">
+        The app is not able to properly start.
+        Please try to turn off and on the app. Or try to reinstall the app and give it all permissions.
+        If nothing helps, please contact us.
+    </string>
+
+    <!-- NOTIFICATION -->
+    <string name="notification_channel_name">Blumodify notification channel</string>
+    <string name="notification_channel_description">To request user to turn off bluetooth, if it is not needed anymore</string>
+    <string name="notification_title">"No connected device"</string>
+    <string name="notification_content">"Turn off the Bluetooth to preserve battery and privacy."</string>
 `
     <!-- SETTINGS SCREEN -->
     <string name="settings_devices">Devices</string>
@@ -101,11 +120,18 @@
     <!-- SETTINGS - ADVANCED-->
     <string name="settings_advanced_tracking">Advanced tracking</string>
     <string name="settings_advanced_tracking_dialog_title">Advanced tracking</string>
-    <string name="settings_advanced_tracking_dialog_text">Explanation of the advanced tracking.</string>
+    <string name="settings_advanced_tracking_dialog_text">
+        Simple usage detects events, when the Bluetooth runs, but there is no Bluetooth device connected.
+        Advanced tracking provides you detection of only specific devices.\n\nThe
+        notification about running Bluetooth will be invoked, only if tracked device is disconnected
+        and Bluetooth remains running without any other device connected.\n\nBLE
+        (Bluetooth Low Energy) devices are excluded from tracking as they do not persist permanent connection.
+    </string>
     <string name="settings_advanced_tracking_dialog_button">Explanation</string>
     <string name="settings_devices_list">Tracked devices list</string>
     <string name="settings_tracked_devices">Tracked devices</string>
     <string name="settings_tracked_button_description">Button to add tracked device</string>
+
 
     <!-- SETTINGS - LOGS -->
     <string name="settings_logs">Execution logs</string>
@@ -124,7 +150,9 @@
     <!-- SETTINGS - ADD DEVICE TO TRACKED DEVICES -->
     <string name="settings_no_tracked_device">The app does not track any device, please add at least one!</string>
     <string name="settings_bt_picker">Add device</string>
-    <string name="settings_bt_permission">Bluetooth permission is required to obtain access to bluetooth devices. Without permission, the app is not able to manipulate with bluetooth devices.</string>
+    <string name="settings_bt_permission">
+        Bluetooth permission is required to obtain access to bluetooth devices.
+        Without permission, the app is not able to manipulate with bluetooth devices.</string>
     <string name="settings_bt_permission_button">Give permission</string>
     <string name="settings_bt_off">The Bluetooth is off.\n\nTo get recent list of Bluetooth devices, the app needs active Bluetooth.</string>
     <string name="settings_bt_off_button">Turn on</string>
@@ -132,13 +160,22 @@
     <string name="settings_bt_all_devices">All devices have been added to tracking. Battery will thank you!</string>
 
 
-
     <!-- ABOUT SCREEN -->
     <string name="about_screen_title">About BluModify</string>
+    <string name="about_screen_text">
+        The BluModify serves to check on the Bluetooth activity and prevent redundant running of the Bluetooth on the phone.
+        The running Bluetooth can lead to exploit of Bluetooth weaknesses and battery drainage.
+        If the Bluetooth runs and there is no device connected, there is no point in running it.
+        Here comes BluModify, which can alert you with notification about this situation and you can turn off the Bluetooth.
+        Unfortunately, with advanced versions of Android, the Bluetooth can be turned off only manually by user.
+    </string>
+    <string name="about_screen_version">Version %s / %s</string>
+    <string name="about_screen_github_text">Check app\'s repository</string>
+    <string name="about_screen_github_link">https://github.com/Foxpace/BluModify</string>
+    <string name="about_screen_mail_text">Contact us</string>
+    <string name="about_screen_mail_contact">creativemotionapps@gmail.com</string>
+    <string name="about_screen_license_text">Open Source Licenses</string>
 
-    <!-- NOTIFICATION -->
-    <string name="notification_channel_name">Blumodify notification channel</string>
-    <string name="notification_channel_description">To request user to turn off bluetooth, if it is not needed anymore</string>
-    <string name="notification_content">"Turn off the Bluetooth, because no device is connected."</string>
+
 
 </resources>

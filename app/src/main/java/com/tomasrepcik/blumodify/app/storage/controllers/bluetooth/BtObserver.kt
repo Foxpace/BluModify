@@ -2,6 +2,6 @@ package com.tomasrepcik.blumodify.app.storage.controllers.bluetooth
 
 interface BtObserver {
 
-    fun onBtChange()
+    fun onBtChange(btIsOn: Boolean)
 
 }

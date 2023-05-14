@@ -125,7 +125,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
         Log.i(TAG, "Received action: $action")
         if (lastState != isBtOn()) {
             lastState = isBtOn()
-            observers.forEach { it.onBtChange() }
+            observers.forEach { it.onBtChange(isBtOn()) }
         }
     }
 
