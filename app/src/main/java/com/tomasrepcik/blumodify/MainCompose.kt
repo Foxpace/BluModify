@@ -2,6 +2,7 @@ package com.tomasrepcik.blumodify
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
@@ -25,32 +26,35 @@ fun MainCompose(
     BluModifyTheme {
         Surface {
             ModalNavigationDrawer(
-                gesturesEnabled = false,
+                gesturesEnabled = isOnboarded,
                 drawerState = drawerState,
                 drawerContent = {
-                    AppDrawerContent(
-                        drawerState = drawerState,
-                        menuItems = DrawerParams.drawerButtons,
-                        defaultPick = MainNavOption.HomeScreen
-                    ) { onUserPickedOption ->
-                        when (onUserPickedOption) {
-                            MainNavOption.HomeScreen -> {
-                                navController.navigate(onUserPickedOption.name) {
-                                    popUpTo(NavRoutes.MainRoute.name)
+                    ModalDrawerSheet {
+                        AppDrawerContent(
+                            drawerState = drawerState,
+                            menuItems = DrawerParams.drawerButtons,
+                            defaultPick = MainNavOption.HomeScreen
+                        ) { onUserPickedOption ->
+                            when (onUserPickedOption) {
+                                MainNavOption.HomeScreen -> {
+                                    navController.navigate(onUserPickedOption.name) {
+                                        popUpTo(NavRoutes.MainRoute.name)
+                                    }
                                 }
-                            }
-                            MainNavOption.SettingsScreen -> {
-                                navController.navigate(onUserPickedOption.name) {
-                                    popUpTo(NavRoutes.MainRoute.name)
+                                MainNavOption.SettingsScreen -> {
+                                    navController.navigate(onUserPickedOption.name) {
+                                        popUpTo(NavRoutes.MainRoute.name)
+                                    }
                                 }
-                            }
-                            MainNavOption.AboutScreen -> {
-                                navController.navigate(onUserPickedOption.name) {
-                                    popUpTo(NavRoutes.MainRoute.name)
+                                MainNavOption.AboutScreen -> {
+                                    navController.navigate(onUserPickedOption.name) {
+                                        popUpTo(NavRoutes.MainRoute.name)
+                                    }
                                 }
                             }
                         }
                     }
+
                 }
             ) {
                 NavHost(
