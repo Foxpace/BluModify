@@ -1,7 +1,10 @@
 package com.tomasrepcik.blumodify.app.ui.components.appdrawer
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,9 +20,7 @@ fun AppDrawerTitle() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment =Alignment.CenterHorizontally,
-        modifier = Modifier
-            .height(224.dp)
-            .fillMaxWidth()
+        modifier = Modifier.height(224.dp)
 
     ) {
         Image(

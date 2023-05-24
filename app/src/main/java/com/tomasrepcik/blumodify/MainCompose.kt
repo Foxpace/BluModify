@@ -2,7 +2,6 @@ package com.tomasrepcik.blumodify
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
@@ -29,7 +28,6 @@ fun MainCompose(
                 gesturesEnabled = isOnboarded,
                 drawerState = drawerState,
                 drawerContent = {
-                    ModalDrawerSheet {
                         AppDrawerContent(
                             drawerState = drawerState,
                             menuItems = DrawerParams.drawerButtons,
@@ -53,8 +51,6 @@ fun MainCompose(
                                 }
                             }
                         }
-                    }
-
                 }
             ) {
                 NavHost(

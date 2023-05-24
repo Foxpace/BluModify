@@ -10,7 +10,7 @@ plugins {
 android {
     namespace "com.tomasrepcik.blumodify"
     compileSdk 33
-    buildToolsVersion "34.0.0 rc2"
+    buildToolsVersion "34.0.0 rc4"
     ndkVersion "21.1.6352462"
 
     defaultConfig {
@@ -113,6 +113,8 @@ dependencies {
 
     // core
     testImplementation "junit:junit:4.13.2"
+    testImplementation "org.robolectric:robolectric:4.10.3"
+    testImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
 
@@ -120,6 +122,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
 
     // test manager
     androidTestImplementation "androidx.work:work-testing:$work_manager_version"

@@ -13,5 +13,5 @@ import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun btDao(): BtDeviceDao
-    abstract fun runReportDao(): LogsDao
+    abstract fun logsDao(): LogsDao
 }

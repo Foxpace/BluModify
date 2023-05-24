@@ -45,5 +45,5 @@ object DbDI {
 
     @Provides
     @Singleton
-    fun provideRunReportDatabase(db: AppDatabase): LogsDao = db.runReportDao()
+    fun provideRunReportDatabase(db: AppDatabase): LogsDao = db.logsDao()
 }
