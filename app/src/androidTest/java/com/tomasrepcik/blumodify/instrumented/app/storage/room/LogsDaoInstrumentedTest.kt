@@ -1,8 +1,10 @@
-package com.tomasrepcik.blumodify.unittests.app.storage.room
+package com.tomasrepcik.blumodify.instrumented.app.storage.room
 
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.tomasrepcik.blumodify.app.storage.room.AppDatabase
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
@@ -12,8 +14,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
-
+@RunWith(AndroidJUnit4::class)
+@MediumTest
 class LogsDaoInstrumentedTest {
 
     private lateinit var db: AppDatabase

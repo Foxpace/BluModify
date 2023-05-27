@@ -9,37 +9,28 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings
 import android.util.Log
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
-import com.tomasrepcik.blumodify.bluetooth.controller.BtObserver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class NotificationRepo @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val btControllerTemplate: BtControllerTemplate
-) :
-    NotificationRepoTemplate, BtObserver {
+class NotificationRepo @Inject constructor(@ApplicationContext private val context: Context) :
+    NotificationRepoTemplate {
 
-    private val _isChannelInitialized = MutableStateFlow(false)
-    private var isChannelInitialized = _isChannelInitialized.asStateFlow()
+    private var isChannelInitialized = false
 
-    override fun initialize() {
+    private fun initialize() {
         Log.i(TAG, "Initializing the notification channel")
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(
-            CHANNEL_ID,
-            context.getString(R.string.notification_channel_name),
-            importance
+            CHANNEL_ID, context.getString(R.string.notification_channel_name), importance
         ).apply {
             description = context.getString(R.string.notification_channel_description)
         }
@@ -50,89 +41,92 @@ class NotificationRepo @Inject constructor(
         notificationManager.createNotificationChannel(channel)
 
         Log.i(TAG, "Registering the notification repo to bluetooth controller")
-        btControllerTemplate.registerObserver(this)
-        _isChannelInitialized.value = true
+        isChannelInitialized = true
     }
 
     override fun isPermission(): Boolean {
         Log.i(TAG, "Checking notification permission")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission_group.NOTIFICATIONS
+                context, Manifest.permission_group.NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         }
         Log.i(TAG, "Notification permission is not needed - lower than Android T")
         return true
     }
 
-    override suspend fun postNotificationToCancelBt() {
-        Log.i(TAG, "Pushing notification for BT cancellation")
-        withContext(Dispatchers.Main) {
-            postNotification(
-                context.resources.getString(R.string.app_name),
-                context.resources.getString(R.string.notification_content)
-            )
-        }
-    }
-
-    override fun onBtChange(btIsOn: Boolean) {
-        Log.i(TAG, "Bluetooth changed in notification repo")
-        if (!btIsOn) {
-            Log.i(TAG, "Shutting down any possible notification")
-            with(NotificationManagerCompat.from(context)) {
-                if (isPermission()) {
-                    val notifications = this.activeNotifications
-                    notifications.forEach {notification ->
-                        if (notification.id == SHUT_DOWN_NOTIFICATION_ID) {
-                            cancel(SHUT_DOWN_NOTIFICATION_ID)
-                        }
-                    }
+    override suspend fun cancelNotifications() {
+        Log.i(TAG, "Shutting down any possible notification")
+        with(NotificationManagerCompat.from(context)) {
+            val notifications = this.activeNotifications
+            notifications.forEach { notification ->
+                if (notification.id == NOTIFICATION_ID) {
+                    cancel(NOTIFICATION_ID)
                 }
             }
         }
+    }
+
+    override suspend fun onBtChange(btIsOn: Boolean) {
+        Log.i(TAG, "Bluetooth changed in notification repo")
+        if (!isPermission()) {
+            Log.w(TAG, "No notification permission is granted")
+            return
+        }
+
+        if (btIsOn) {
+            Log.i(TAG, "Bluetooth is still on - the notifications will persist")
+            return
+        }
+
+        cancelNotifications()
+
     }
 
     @SuppressLint("MissingPermission")
-    override suspend fun postNotification(title: String, text: String): Unit =
-        withContext(Dispatchers.Main) {
+    override suspend fun postNotification(
+        @StringRes title: Int,
+        @StringRes text: Int,
+        intent: Intent,
+        @DrawableRes buttonIcon: Int,
+        @StringRes buttonText: Int
+    ): Unit = withContext(Dispatchers.Main) {
 
-            if (!isChannelInitialized.value) {
-                Log.i(TAG, "Notification channel was not initialized - initializing now")
-                initialize()
-            }
+        if (!isPermission()) {
+            Log.w(TAG, "Missing permission for notification - unable to post notification")
+            return@withContext
+        }
 
-            Log.i(TAG, "Posting new notification")
-            val intent = Intent(Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
-            val pendingIntent: PendingIntent =
-                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        if (!isChannelInitialized) {
+            Log.i(TAG, "Notification channel was not initialized - initializing now")
+            initialize()
+        }
 
-            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_app_square)
-                .setContentTitle(title)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-                .setContentIntent(pendingIntent)
-                .addAction(
-                    R.drawable.ic_bt_black,
-                    context.getString(R.string.main_screen_turn_off),
-                    pendingIntent
+        val titleString = context.getString(title)
+        val textString = context.getString(text)
+        val buttonString = context.getString(buttonText)
+
+        Log.i(TAG, "Posting new notification")
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val builder =
+            NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_app_square)
+                .setContentTitle(titleString).setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(textString))
+                .setContentIntent(pendingIntent).addAction(
+                    buttonIcon, buttonString, pendingIntent
                 )
 
-            with(NotificationManagerCompat.from(context)) {
-                if (isPermission()) {
-                    Log.i(TAG, "Got permission - posting now")
-                    cancel(SHUT_DOWN_NOTIFICATION_ID)
-                    notify(SHUT_DOWN_NOTIFICATION_ID, builder.build())
-                }else {
-                    Log.w(TAG, "Missing permission for notification - unable to post notification")
-                }
-            }
+        with(NotificationManagerCompat.from(context)) {
+            cancel(NOTIFICATION_ID)
+            notify(NOTIFICATION_ID, builder.build())
         }
+    }
 
     companion object {
         const val TAG = "NotificationRepo"
         const val CHANNEL_ID = "com.tomasrepcik.blumodify.notification.channel"
-        const val SHUT_DOWN_NOTIFICATION_ID = 64684648
+        const val NOTIFICATION_ID = 64684648
     }
 }

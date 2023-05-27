@@ -15,13 +15,18 @@ import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 
 @SuppressLint("MissingPermission")
@@ -37,7 +42,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
     private val observers: ArrayList<BtObserver> = arrayListOf()
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
+        override fun onReceive(context: Context, intent: Intent) = goAsync{
             intent.action?.let {
                 onBtStateChange(it)
             }
@@ -121,7 +126,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
 
     override fun isBtOn(): Boolean = bluetoothAdapter.isEnabled
 
-    private fun onBtStateChange(action: String) {
+    private suspend fun onBtStateChange(action: String) = withContext(Dispatchers.Main) {
         Log.i(TAG, "Received action: $action")
         if (lastState != isBtOn()) {
             lastState = isBtOn()
@@ -225,6 +230,19 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
                 else -> "UNKNOWN"
             }
 
+        }
+        private fun BroadcastReceiver.goAsync(
+            context: CoroutineContext = EmptyCoroutineContext,
+            block: suspend CoroutineScope.() -> Unit
+        ) {
+            val pendingResult = goAsync()
+            CoroutineScope(SupervisorJob()).launch(context) {
+                try {
+                    block()
+                } finally {
+                    pendingResult.finish()
+                }
+            }
         }
     }
 }

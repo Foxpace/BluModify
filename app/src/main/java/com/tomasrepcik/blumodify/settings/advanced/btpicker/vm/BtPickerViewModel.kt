@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
-import com.tomasrepcik.blumodify.bluetooth.controller.BtObserver
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
+import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
+import com.tomasrepcik.blumodify.bluetooth.controller.BtObserver
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -62,7 +62,7 @@ class BtPickerViewModel @Inject constructor(
         onBtPermissionGranted()
     }
 
-    override fun onBtChange(btIsOn: Boolean) {
+    override suspend fun onBtChange(btIsOn: Boolean) = withContext(Dispatchers.Main) {
         if (btController.isBtOn() && _trackedDevicesState.value is TrackedDevicesState.RequireBtOn) {
             onBtOn()
         }

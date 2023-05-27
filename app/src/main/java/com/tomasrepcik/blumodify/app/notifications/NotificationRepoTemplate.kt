@@ -1,9 +1,20 @@
 package com.tomasrepcik.blumodify.app.notifications
 
-interface NotificationRepoTemplate {
+import android.content.Intent
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import com.tomasrepcik.blumodify.bluetooth.controller.BtObserver
 
-    fun initialize()
+interface NotificationRepoTemplate: BtObserver {
+
     fun isPermission(): Boolean
-    suspend fun postNotificationToCancelBt()
-    suspend fun postNotification(title: String, text: String)
+
+    suspend fun cancelNotifications()
+    suspend fun postNotification(
+        @StringRes title: Int,
+        @StringRes text: Int,
+        intent: Intent,
+        @DrawableRes buttonIcon: Int,
+        @StringRes buttonText: Int
+    )
 }
