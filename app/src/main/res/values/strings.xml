@@ -112,6 +112,7 @@
     <string name="notification_channel_description">To request user to turn off bluetooth, if it is not needed anymore</string>
     <string name="notification_title">"No connected device"</string>
     <string name="notification_content">"Turn off the Bluetooth to preserve battery and privacy."</string>
+    <string name="notification_content_unknown">"Open app."</string>
 `
     <!-- SETTINGS SCREEN -->
     <string name="settings_devices">Devices</string>

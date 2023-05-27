@@ -7,6 +7,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -18,7 +19,7 @@ class BtWorker @AssistedInject constructor(
     private val solver: BluModifySolverTemplate
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result = solver.onWorkerCall(
-        WorkerAssets(
+        NotificationAssets(
             notificationTitle = R.string.app_name,
             notificationContent = R.string.notification_content,
             intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS),

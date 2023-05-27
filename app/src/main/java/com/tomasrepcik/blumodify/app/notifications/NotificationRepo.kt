@@ -10,12 +10,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -84,45 +83,61 @@ class NotificationRepo @Inject constructor(@ApplicationContext private val conte
     }
 
     @SuppressLint("MissingPermission")
-    override suspend fun postNotification(
-        @StringRes title: Int,
-        @StringRes text: Int,
-        intent: Intent,
-        @DrawableRes buttonIcon: Int,
-        @StringRes buttonText: Int
-    ): Unit = withContext(Dispatchers.Main) {
+    override suspend fun postNotification(notificationAssets: NotificationAssets?): Unit =
+        withContext(Dispatchers.Main) {
 
-        if (!isPermission()) {
-            Log.w(TAG, "Missing permission for notification - unable to post notification")
-            return@withContext
-        }
+            if (!isPermission()) {
+                Log.w(TAG, "Missing permission for notification - unable to post notification")
+                return@withContext
+            }
 
-        if (!isChannelInitialized) {
-            Log.i(TAG, "Notification channel was not initialized - initializing now")
-            initialize()
-        }
+            if (!isChannelInitialized) {
+                Log.i(TAG, "Notification channel was not initialized - initializing now")
+                initialize()
+            }
 
-        val titleString = context.getString(title)
-        val textString = context.getString(text)
-        val buttonString = context.getString(buttonText)
+            val titleString: String
+            val textString: String
+            var intent: Intent? = null
 
-        Log.i(TAG, "Posting new notification")
-        val pendingIntent: PendingIntent =
-            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            if (notificationAssets != null) {
+                titleString = context.getString(notificationAssets.notificationTitle)
+                textString = context.getString(notificationAssets.notificationContent)
+                intent = notificationAssets.intent
+            } else {
+                titleString = context.getString(R.string.app_name)
+                textString = context.getString(R.string.notification_content_unknown)
+            }
 
-        val builder =
-            NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_app_square)
-                .setContentTitle(titleString).setPriority(NotificationCompat.PRIORITY_HIGH)
+
+            Log.i(TAG, "Posting new notification")
+
+
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_app_square).setContentTitle(titleString)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(textString))
-                .setContentIntent(pendingIntent).addAction(
-                    buttonIcon, buttonString, pendingIntent
-                )
 
-        with(NotificationManagerCompat.from(context)) {
-            cancel(NOTIFICATION_ID)
-            notify(NOTIFICATION_ID, builder.build())
+
+            if (intent != null && notificationAssets != null) {
+                val pendingIntent: PendingIntent =
+                    PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+                val buttonIcon = notificationAssets.notificationButtonIcon
+                val buttonString = notificationAssets.notificationButtonText
+
+                builder.setContentIntent(pendingIntent).addAction(
+                    buttonIcon ?: R.drawable.ic_bt_black,
+                    context.getString(buttonString ?: R.string.main_screen_turn_off),
+                    pendingIntent
+                )
+            }
+
+            with(NotificationManagerCompat.from(context)) {
+                cancel(NOTIFICATION_ID)
+                notify(NOTIFICATION_ID, builder.build())
+            }
         }
-    }
 
     companion object {
         const val TAG = "NotificationRepo"

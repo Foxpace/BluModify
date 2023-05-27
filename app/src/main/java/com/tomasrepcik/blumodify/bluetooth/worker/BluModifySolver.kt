@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.util.Log
 import androidx.work.ListenableWorker.Result
+import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
@@ -26,7 +27,7 @@ class BluModifySolver @Inject constructor(
 ) : BluModifySolverTemplate {
 
     @SuppressLint("MissingPermission")
-    override suspend fun onWorkerCall(assets: WorkerAssets): Result = withContext(Dispatchers.Main) {
+    override suspend fun onWorkerCall(assets: NotificationAssets?): Result = withContext(Dispatchers.Main) {
         Log.i(TAG, "BluModify worker was initialized")
 
         btController.registerObserver(notificationRepo)
@@ -97,7 +98,7 @@ class BluModifySolver @Inject constructor(
         return@withContext Result.success()
     }
 
-    private suspend fun advancedTracker(assets: WorkerAssets, connectedAddresses: Set<BluetoothDevice>): Result = withContext(Dispatchers.Default) {
+    private suspend fun advancedTracker(assets: NotificationAssets?, connectedAddresses: Set<BluetoothDevice>): Result = withContext(Dispatchers.Default) {
         val trackedDevices = btDeviceDao.getAll()
         val connectedDevicesInPast = trackedDevices.filter { it.wasConnected }
         for (connectedDeviceInPast in connectedDevicesInPast) {
@@ -125,16 +126,10 @@ class BluModifySolver @Inject constructor(
         return@withContext Result.success()
     }
 
-    private suspend fun postNotificationToCancelBt(assets: WorkerAssets) =
+    private suspend fun postNotificationToCancelBt(assets: NotificationAssets?) =
         withContext(Dispatchers.Main) {
             Log.i(TAG, "Pushing notification for BT cancellation")
-            notificationRepo.postNotification(
-                assets.notificationTitle,
-                assets.notificationContent,
-                assets.intent,
-                assets.notificationButtonIcon,
-                assets.notificationButtonText
-            )
+            notificationRepo.postNotification(assets)
         }
 
     private suspend fun deleteOldLogs() = withContext(Dispatchers.Default) {

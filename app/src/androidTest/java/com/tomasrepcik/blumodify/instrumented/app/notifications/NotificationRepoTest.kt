@@ -14,6 +14,7 @@ import androidx.test.rule.GrantPermissionRule
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepo
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
+import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -55,11 +56,13 @@ class NotificationRepoTest {
     fun showNotification() = runBlocking {
         // ACTION
         notificationRepoTemplate.postNotification(
-            R.string.app_name,
-            R.string.notification_content,
-            Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
-            R.drawable.ic_bt_black,
-            R.string.main_screen_turn_off,
+            NotificationAssets(
+                R.string.app_name,
+                R.string.notification_content,
+                R.drawable.ic_bt_black,
+                R.string.main_screen_turn_off,
+                Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
+            )
         )
 
         // CHECK
@@ -77,11 +80,13 @@ class NotificationRepoTest {
     fun cancelNotification() = runBlocking {
         // ACTION
         notificationRepoTemplate.postNotification(
-            R.string.app_name,
-            R.string.notification_content,
-            Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
-            R.drawable.ic_bt_black,
-            R.string.main_screen_turn_off,
+            NotificationAssets(
+                R.string.app_name,
+                R.string.notification_content,
+                R.drawable.ic_bt_black,
+                R.string.main_screen_turn_off,
+                Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
+            )
         )
 
         // wait for notification
