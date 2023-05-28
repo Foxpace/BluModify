@@ -1,4 +1,4 @@
-package com.tomasrepcik.blumodify.app.bluetooth.viewmodel
+package com.tomasrepcik.blumodify.bluetooth.viewmodel
 
 import app.cash.turbine.test
 import com.tomasrepcik.blumodify.app.model.AppResult
@@ -6,22 +6,15 @@ import com.tomasrepcik.blumodify.app.model.ErrorCause
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
-import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyEvent
-import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyState
-import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyViewModel
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
-import com.tomasrepcik.blumodify.helpers.UnitTestHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
+import com.tomasrepcik.blumodify.helpers.AndroidLogMockRule
+import com.tomasrepcik.blumodify.helpers.StandardDispatcherRule
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.kotlin.doAnswer
@@ -33,8 +26,13 @@ import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class BluModifyViewModelTest {
+
+    @get:Rule(order = Integer.MIN_VALUE)
+    val dispatcherRule = StandardDispatcherRule()
+
+    @get:Rule(order = Integer.MIN_VALUE)
+    val androidLogs = AndroidLogMockRule()
 
     @Mock
     private var btWorkManager: BtWorkManagerTemplate = mock()
@@ -50,20 +48,16 @@ class BluModifyViewModelTest {
 
     private var sut: BluModifyViewModel =
         BluModifyViewModel(btWorkManager, btController, btDeviceDao, notificationRepo)
-    private val testDispatcher = StandardTestDispatcher()
+
 
     @Before
     fun setUp() {
         sut = BluModifyViewModel(btWorkManager, btController, btDeviceDao, notificationRepo)
 
-        Dispatchers.setMain(testDispatcher)
     }
 
     @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-        reset(btController, btWorkManager, btDeviceDao)
-    }
+    fun tearDown() = reset(btController, btWorkManager, btDeviceDao, notificationRepo)
 
     @Test
     fun `Given the sut is initialized, then the service is in Loading state`() =
@@ -328,14 +322,4 @@ class BluModifyViewModelTest {
                 verify(notificationRepo, times(1)).isPermission()
             }
         }
-
-    companion object {
-
-        @JvmStatic
-        @BeforeClass
-        fun setUpAll() {
-            UnitTestHelper.runForAll()
-        }
-    }
-
 }
