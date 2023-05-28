@@ -53,7 +53,6 @@ class BluModifyViewModelTest {
     @Before
     fun setUp() {
         sut = BluModifyViewModel(btWorkManager, btController, btDeviceDao, notificationRepo)
-
     }
 
     @After
@@ -154,22 +153,12 @@ class BluModifyViewModelTest {
                 assertEquals(BluModifyState.Loading, awaitItem())
 
                 // Error check
-                val errorStateBefore = awaitItem()
-                assertTrue(errorStateBefore is BluModifyState.ErrorOccurred)
-                errorStateBefore as BluModifyState.ErrorOccurred
-                assertEquals(errorStateBefore.error, error)
+                assertEquals(BluModifyState.ErrorOccurred(error), awaitItem())
 
                 // ACTION
-                sut.onEvent(BluModifyEvent.OnError)
+                sut.onEvent(BluModifyEvent.OnError).join()
 
-                // CHECK
-                val errorStateDueReset = awaitItem()
-                assertTrue(errorStateDueReset is BluModifyState.ErrorOccurred)
-                val errorStateAfter = awaitItem()
-                assertTrue(errorStateAfter is BluModifyState.ErrorOccurred)
-                errorStateAfter as BluModifyState.ErrorOccurred
-                assertEquals(errorStateAfter.error, error)
-
+                // CHECK - service restarted without resolving issue
                 verify(btWorkManager, times(1)).initWorkers()
                 verify(btWorkManager, times(1)).disposeWorkers()
                 verify(btDeviceDao, times(1)).resetDevices()

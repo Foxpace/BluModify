@@ -7,5 +7,5 @@ sealed class BluModifyState {
     object TurnedOff: BluModifyState()
     object TurnedOn: BluModifyState()
     object MissingPermission: BluModifyState()
-    class ErrorOccurred(val error: AppResult.Error<Boolean>): BluModifyState()
+    data class ErrorOccurred(val error: AppResult.Error<Boolean>): BluModifyState()
 }

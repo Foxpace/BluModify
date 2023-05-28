@@ -1,8 +1,8 @@
 package com.tomasrepcik.blumodify.app.model
 
 sealed class AppResult<T> {
-    class Success<T>(val data: T) : AppResult<T>()
-    class Error<T>(
+    data class Success<T>(val data: T) : AppResult<T>()
+    data class Error<T>(
         val message: String,
         val origin: String,
         val errorCause: ErrorCause,

@@ -10,6 +10,7 @@ import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -28,9 +29,9 @@ class BluModifyViewModel @Inject constructor(
         MutableStateFlow(BluModifyState.Loading)
     val blumodifyState = _bluModifyState.asStateFlow()
 
-    fun onEvent(event: BluModifyEvent) {
+    fun onEvent(event: BluModifyEvent): Job {
         Log.i(TAG, "Obtained event: $event")
-        when (event) {
+        return when (event) {
             BluModifyEvent.OnLaunch -> onLaunch()
             BluModifyEvent.OnMainButtonClickEvent -> onButtonClicked()
             BluModifyEvent.OnError -> onRestart()
