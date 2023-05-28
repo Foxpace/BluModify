@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.model.AppResult
-import com.tomasrepcik.blumodify.bluetooth.controller.BtController
+import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
+import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
 import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class BluModifyViewModel @Inject constructor(
     private val btWorkManager: BtWorkManagerTemplate,
-    private val btController: BtController,
+    private val btController: BtControllerTemplate,
     private val btDeviceDao: BtDeviceDao,
+    private val notificationRepo: NotificationRepoTemplate
 ) : ViewModel() {
 
     private val _bluModifyState: MutableStateFlow<BluModifyState> =
@@ -87,7 +89,7 @@ class BluModifyViewModel @Inject constructor(
 
     private suspend fun turnOn() = withContext(Dispatchers.Main) {
         Log.i(TAG, "Turning on the worker")
-        if (!btController.isPermission()) {
+        if (!btController.isPermission() || !notificationRepo.isPermission()) {
             Log.w(TAG, "Missing permission to launch the app")
             _bluModifyState.value = BluModifyState.MissingPermission
             return@withContext
