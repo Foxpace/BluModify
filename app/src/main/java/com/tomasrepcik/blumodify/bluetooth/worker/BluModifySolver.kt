@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.util.Log
 import androidx.work.ListenableWorker.Result
-import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
+import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
 import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
+import com.tomasrepcik.blumodify.app.time.TimeRepoTemplate
 import com.tomasrepcik.blumodify.bluetooth.controller.BtControllerTemplate
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,8 @@ class BluModifySolver @Inject constructor(
     private val btDeviceDao: BtDeviceDao,
     private val btLogsDao: LogsDao,
     private val appCache: AppCacheTemplate<AppCacheState>,
-    private val notificationRepo: NotificationRepoTemplate
+    private val notificationRepo: NotificationRepoTemplate,
+    private val timeRepo: TimeRepoTemplate
 ) : BluModifySolverTemplate {
 
     @SuppressLint("MissingPermission")
@@ -134,7 +136,7 @@ class BluModifySolver @Inject constructor(
 
     private suspend fun deleteOldLogs() = withContext(Dispatchers.Default) {
         Log.i(TAG, "Deleting older logs than 3 days")
-        btLogsDao.deleteOlderItemsThan(System.currentTimeMillis() - 3 * 24 * 3600 * 1000)
+        btLogsDao.deleteOlderItemsThan(timeRepo.currentMillis() - 3 * 24 * 3600 * 1000)
     }
 
     private suspend fun insertTrackedDeviceForFutureCheck(trackedDevice: BtDevice) =
@@ -150,7 +152,7 @@ class BluModifySolver @Inject constructor(
         withContext(Dispatchers.Default) {
             logsDao.insertReport(
                 LogReport(
-                    startTime = System.currentTimeMillis(),
+                    startTime = timeRepo.currentMillis(),
                     connectedDevices = connectedDevices.map { BtItem(it) },
                     isSuccess = true
                 )
@@ -162,8 +164,7 @@ class BluModifySolver @Inject constructor(
         errorMessage: String,
         connectedDevices: Set<BluetoothDevice>?,
     ) = withContext(Dispatchers.Default) {
-
-        logsDao.insertReport(LogReport(startTime = System.currentTimeMillis(),
+        logsDao.insertReport(LogReport(startTime = timeRepo.currentMillis(),
             connectedDevices = connectedDevices?.map { BtItem(it) } ?: emptyList(),
             isSuccess = false,
             stackTrace = errorMessage))

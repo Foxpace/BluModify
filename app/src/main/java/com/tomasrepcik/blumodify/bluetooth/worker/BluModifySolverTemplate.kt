@@ -4,5 +4,5 @@ import androidx.work.ListenableWorker.Result
 import com.tomasrepcik.blumodify.app.notifications.model.NotificationAssets
 
 interface BluModifySolverTemplate {
-    suspend fun onWorkerCall(assets: NotificationAssets?): Result
+    suspend fun onWorkerCall(assets: NotificationAssets? = null): Result
 }
