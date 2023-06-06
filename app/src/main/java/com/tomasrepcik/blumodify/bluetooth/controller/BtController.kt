@@ -14,6 +14,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -102,12 +103,11 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
     }
 
 
-    override fun getPairedBtDevices(): Set<BluetoothDevice> =
+    override fun getPairedBtDevices(): Set<BtItem> =
         bluetoothAdapter.bondedDevices.filter {
             it.bondState == BluetoothDevice.BOND_BONDED
                     && it.type != BluetoothDevice.DEVICE_TYPE_LE
-        }
-            .toSet()
+        }.map { BtItem(it.name, it.address) }.toSet()
 
     private fun registerReceiver() {
         val intentFilter = IntentFilter()
@@ -141,7 +141,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
     // 	BluetoothProfile.HEARING_AID or
     // 	BluetoothProfile.GATT_SERVER.
 
-    override suspend fun getConnectedBtDevices(): Set<BluetoothDevice> =
+    override suspend fun getConnectedBtDevices(): Set<BtItem> =
         withContext(Dispatchers.Default) {
             val devices = mutableSetOf<BluetoothDevice>()
             for (type in btProfile) {
@@ -150,7 +150,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
                 devices.addAll(connectedDevices)
             }
             Log.i(TAG, "Returning ${devices.size} BT devices")
-            return@withContext devices
+            return@withContext devices.map { BtItem(it.name, it.address) }.toSet()
         }
 
     private fun getConnectedDevicesByCallback(btProfile: Int) = callbackFlow {
@@ -184,7 +184,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
         awaitClose { channel.close() }
     }
 
-    override suspend fun getConnectedBleDevices(): Set<BluetoothDevice> =
+    override suspend fun getConnectedBleDevices(): Set<BtItem> =
         withContext(Dispatchers.Default) {
             val devices = mutableSetOf<BluetoothDevice>()
             for (profile in bleProfiles) {
@@ -192,7 +192,7 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
                 devices.addAll(connectedDevices)
             }
             Log.i(TAG, "Returning ${devices.size} BLE devices")
-            return@withContext devices
+            return@withContext devices.map { BtItem(it.name, it.address) }.toSet()
         }
 
     companion object {

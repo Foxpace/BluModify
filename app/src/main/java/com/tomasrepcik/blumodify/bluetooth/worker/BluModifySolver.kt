@@ -1,7 +1,6 @@
 package com.tomasrepcik.blumodify.bluetooth.worker
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothDevice
 import android.util.Log
 import androidx.work.ListenableWorker.Result
 import com.tomasrepcik.blumodify.app.notifications.NotificationRepoTemplate
@@ -37,7 +36,7 @@ class BluModifySolver @Inject constructor(
 
         if (!btController.isPermission()) {
             Log.e(TAG, "Missing BT permission to execute worker")
-            writeErrorLog(btLogsDao, "Missing Bluetooth permission", null)
+            writeErrorLog(btLogsDao, "Missing Bluetooth permission", emptySet())
             return@withContext Result.failure()
         }
 
@@ -49,27 +48,27 @@ class BluModifySolver @Inject constructor(
 
         if (!notificationRepo.isPermission()) {
             Log.e(TAG, "Missing Notification permission to execute worker")
-            writeErrorLog(btLogsDao, "Missing notification permission", null)
+            writeErrorLog(btLogsDao, "Missing notification permission", emptySet())
             return@withContext Result.failure()
         }
 
-        val connectedBtDevices: Set<BluetoothDevice>
+        val connectedBtDevices: Set<BtItem>
 
         try {
             connectedBtDevices = withContext(Dispatchers.Default) findDevices@{
-                val allConnectedDevices = mutableSetOf<BluetoothDevice>()
+                val allConnectedDevices = mutableSetOf<BtItem>()
                 allConnectedDevices.addAll(btController.getConnectedBleDevices())
                 allConnectedDevices.addAll(btController.getConnectedBtDevices())
                 return@findDevices allConnectedDevices
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to obtain connected devices", e)
-            writeErrorLog(btLogsDao, e.stackTraceToString(), null)
+            writeErrorLog(btLogsDao, e.stackTraceToString(), emptySet())
             return@withContext Result.failure()
         }
 
         Log.i(TAG, "Found connected devices: ${connectedBtDevices.size}")
-        val advanced: Boolean
+        var advanced = false
         try {
             val settings = appCache.loadInCacheSync()
             advanced = settings.isAdvancedSettings
@@ -80,7 +79,6 @@ class BluModifySolver @Inject constructor(
                 "Failed to load in settings of the app\n${e.stackTraceToString()}",
                 connectedBtDevices
             )
-            return@withContext Result.failure()
         }
         if (advanced) {
             try {
@@ -100,11 +98,11 @@ class BluModifySolver @Inject constructor(
         return@withContext Result.success()
     }
 
-    private suspend fun advancedTracker(assets: NotificationAssets?, connectedAddresses: Set<BluetoothDevice>): Result = withContext(Dispatchers.Default) {
+    private suspend fun advancedTracker(assets: NotificationAssets?, connectedAddresses: Set<BtItem>): Result = withContext(Dispatchers.Default) {
         val trackedDevices = btDeviceDao.getAll()
         val connectedDevicesInPast = trackedDevices.filter { it.wasConnected }
         for (connectedDeviceInPast in connectedDevicesInPast) {
-            if (!connectedAddresses.any { it.address == connectedDeviceInPast.macAddress }) {
+            if (!connectedAddresses.any { it.macAddress == connectedDeviceInPast.macAddress }) {
                 Log.i(TAG, "Showing notification for the device: ${connectedDeviceInPast.name}")
                 postNotificationToCancelBt(assets)
                 break
@@ -117,7 +115,7 @@ class BluModifySolver @Inject constructor(
 
         for (trackedDevice in trackedDevices) {
             val isDeviceConnectedNow =
-                connectedAddresses.any { it.address == trackedDevice.macAddress }
+                connectedAddresses.any { it.macAddress == trackedDevice.macAddress }
             val wasNotConnectedBefore = !trackedDevice.wasConnected
             if (wasNotConnectedBefore && isDeviceConnectedNow) {
                 Log.i(TAG, "Starting to track and storing to db: ${trackedDevice.name}")
@@ -148,12 +146,12 @@ class BluModifySolver @Inject constructor(
             )
         }
 
-    private suspend fun writeSuccessLog(logsDao: LogsDao, connectedDevices: Set<BluetoothDevice>) =
+    private suspend fun writeSuccessLog(logsDao: LogsDao, connectedDevices: Set<BtItem>) =
         withContext(Dispatchers.Default) {
             logsDao.insertReport(
                 LogReport(
                     startTime = timeRepo.currentMillis(),
-                    connectedDevices = connectedDevices.map { BtItem(it) },
+                    connectedDevices = connectedDevices.toList(),
                     isSuccess = true
                 )
             )
@@ -162,10 +160,10 @@ class BluModifySolver @Inject constructor(
     private suspend fun writeErrorLog(
         logsDao: LogsDao,
         errorMessage: String,
-        connectedDevices: Set<BluetoothDevice>?,
+        connectedDevices: Set<BtItem>,
     ) = withContext(Dispatchers.Default) {
         logsDao.insertReport(LogReport(startTime = timeRepo.currentMillis(),
-            connectedDevices = connectedDevices?.map { BtItem(it) } ?: emptyList(),
+            connectedDevices = connectedDevices.toList(),
             isSuccess = false,
             stackTrace = errorMessage))
     }

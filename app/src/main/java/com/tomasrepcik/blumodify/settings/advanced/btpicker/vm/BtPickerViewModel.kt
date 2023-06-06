@@ -97,11 +97,11 @@ class BtPickerViewModel @Inject constructor(
         _trackedDevicesState.value = TrackedDevicesState.Loading
 
         val devices = btController.getPairedBtDevices()
-        val devicesToPick = withContext(Dispatchers.Default){
+        val devicesToPick = withContext(Dispatchers.Default) {
             Log.i(tag, "Found ${devices.size} devices")
             val macAddresses = db.getMacAddresses()
-            return@withContext devices.filter { device -> !macAddresses.contains(device.address) }
-                .map { device -> BtItem(device.name, device.address) }.sortedBy { it.deviceName }
+            return@withContext devices.filter { device -> !macAddresses.contains(device.macAddress) }
+                .sortedBy { it.deviceName }
         }
 
         withContext(Dispatchers.Main) {

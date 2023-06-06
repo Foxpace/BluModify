@@ -1,6 +1,6 @@
 package com.tomasrepcik.blumodify.bluetooth.controller
 
-import android.bluetooth.BluetoothDevice
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 
 
 interface  BtControllerTemplate {
@@ -17,9 +17,9 @@ interface  BtControllerTemplate {
 
     fun removeObserver(btObserver: BtObserver)
 
-    fun getPairedBtDevices(): Set<BluetoothDevice>
+    fun getPairedBtDevices(): Set<BtItem>
 
-    suspend fun getConnectedBtDevices(): Set<BluetoothDevice>
-    suspend fun getConnectedBleDevices(): Set<BluetoothDevice>
+    suspend fun getConnectedBtDevices(): Set<BtItem>
+    suspend fun getConnectedBleDevices(): Set<BtItem>
 
 }

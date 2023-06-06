@@ -60,7 +60,7 @@ class LogsScreenDetailViewModel @Inject constructor(private val logsDao: LogsDao
                 dateFormat.format(log.startTime),
                 log.isSuccess,
                 log.connectedDevices.toTypedArray(),
-                log.stackTrace
+                log.stackTrace ?: ""
             )
         }
 

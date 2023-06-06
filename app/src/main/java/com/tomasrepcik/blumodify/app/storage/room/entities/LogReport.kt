@@ -11,5 +11,5 @@ data class LogReport(
     @ColumnInfo(name = "start_time") val startTime: Long,
     @ColumnInfo(name = "connected_devices") val connectedDevices: List<BtItem>,
     @ColumnInfo(name = "result") val isSuccess: Boolean,
-    @ColumnInfo(name = "stacktrace") val stackTrace: String = ""
+    @ColumnInfo(name = "stacktrace") val stackTrace: String? = null
 )

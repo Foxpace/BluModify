@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "53d714ff26de65a72122a817be55faa3",
+    "identityHash": "575cda5d82fc7d266abf88e02b6dda0f",
     "entities": [
       {
         "tableName": "BtDevice",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "LogReport",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `start_time` INTEGER NOT NULL, `connected_devices` TEXT NOT NULL, `result` INTEGER NOT NULL, `stacktrace` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `start_time` INTEGER NOT NULL, `connected_devices` TEXT NOT NULL, `result` INTEGER NOT NULL, `stacktrace` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -74,7 +74,7 @@
             "fieldPath": "stackTrace",
             "columnName": "stacktrace",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -90,7 +90,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '53d714ff26de65a72122a817be55faa3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '575cda5d82fc7d266abf88e02b6dda0f')"
     ]
   }
 }
