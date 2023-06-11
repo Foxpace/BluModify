@@ -30,7 +30,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyBlocking
 
-class BluModifySolverTest {
+class BluModifySolverSimpleTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
     val dispatcherRule = StandardDispatcherRule()

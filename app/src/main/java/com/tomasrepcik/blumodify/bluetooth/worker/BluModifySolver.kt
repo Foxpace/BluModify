@@ -98,31 +98,30 @@ class BluModifySolver @Inject constructor(
         return@withContext Result.success()
     }
 
-    private suspend fun advancedTracker(assets: NotificationAssets?, connectedAddresses: Set<BtItem>): Result = withContext(Dispatchers.Default) {
+    private suspend fun advancedTracker(assets: NotificationAssets?, connectedBtDevices: Set<BtItem>): Result = withContext(Dispatchers.Default) {
         val trackedDevices = btDeviceDao.getAll()
         val connectedDevicesInPast = trackedDevices.filter { it.wasConnected }
         for (connectedDeviceInPast in connectedDevicesInPast) {
-            if (!connectedAddresses.any { it.macAddress == connectedDeviceInPast.macAddress }) {
+            if (!connectedBtDevices.any { it.macAddress == connectedDeviceInPast.macAddress }) {
                 Log.i(TAG, "Showing notification for the device: ${connectedDeviceInPast.name}")
                 postNotificationToCancelBt(assets)
-                break
+                return@withContext Result.success()
             }
         }
 
-        if (connectedAddresses.isEmpty()) {
+        if (connectedBtDevices.isEmpty()) {
             return@withContext Result.success()
         }
 
         for (trackedDevice in trackedDevices) {
             val isDeviceConnectedNow =
-                connectedAddresses.any { it.macAddress == trackedDevice.macAddress }
+                connectedBtDevices.any { it.macAddress == trackedDevice.macAddress }
             val wasNotConnectedBefore = !trackedDevice.wasConnected
             if (wasNotConnectedBefore && isDeviceConnectedNow) {
                 Log.i(TAG, "Starting to track and storing to db: ${trackedDevice.name}")
                 insertTrackedDeviceForFutureCheck(trackedDevice)
             }
         }
-
         return@withContext Result.success()
     }
 
