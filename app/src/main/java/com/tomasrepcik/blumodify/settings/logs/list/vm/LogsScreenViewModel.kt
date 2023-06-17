@@ -8,6 +8,7 @@ import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.settings.logs.list.LogReportUiListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,14 +23,12 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
     private val _logsState: MutableStateFlow<LogsState> = MutableStateFlow(LogsState.Loading)
     var logsState = _logsState.asStateFlow()
 
-    fun onEvent(event: LogsEvent){
-        when(event){
-            LogsEvent.OnLaunch -> loadLogs()
-            LogsEvent.OnReverse -> reverseList()
-        }
+    fun onEvent(event: LogsEvent): Job = when(event){
+        LogsEvent.OnLaunch -> loadLogs()
+        LogsEvent.OnReverse -> reverseList()
     }
 
-    private fun loadLogs() = viewModelScope.launch(Dispatchers.Main) {
+    private fun loadLogs(): Job = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Loading all logs and formatting")
         val logs = withContext(Dispatchers.Default) {
             val logReports =  logsDao.getAll()
@@ -51,7 +50,7 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
         _logsState.value = LogsState.Logs(logs)
     }
 
-    private fun reverseList() = viewModelScope.launch(Dispatchers.Default) {
+    private fun reverseList(): Job = viewModelScope.launch(Dispatchers.Default) {
         when (val state = _logsState.value) {
             is LogsState.Logs -> {
                 val reversed = state.logs.reversed()

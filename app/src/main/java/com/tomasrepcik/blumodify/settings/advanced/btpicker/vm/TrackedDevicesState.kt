@@ -8,5 +8,5 @@ sealed class TrackedDevicesState{
     object RequireBtOn: TrackedDevicesState()
     object NoDeviceToAdd: TrackedDevicesState()
     object AllDevicesAdded: TrackedDevicesState()
-    class DevicesToAdd(val devices: List<BtItem>): TrackedDevicesState()
+    data class DevicesToAdd(val devices: List<BtItem>): TrackedDevicesState()
 }

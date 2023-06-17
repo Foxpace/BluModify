@@ -6,6 +6,7 @@ import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,19 +21,17 @@ class DeviceListViewModel @Inject constructor(
         MutableStateFlow(DeviceListState.Loading)
     var listState = _listState.asStateFlow()
 
-    fun onEvent(event: DeviceListEvent) {
-        when (event) {
-            is DeviceListEvent.OnDeviceDelete -> onDeviceDelete(event.btItem)
-            DeviceListEvent.OnLaunch -> onLaunch()
-        }
+    fun onEvent(event: DeviceListEvent): Job = when (event) {
+        is DeviceListEvent.OnDeviceDelete -> onDeviceDelete(event.btItem)
+        DeviceListEvent.OnLaunch -> onLaunch()
     }
 
-    private fun onLaunch() = viewModelScope.launch {
+    private fun onLaunch(): Job = viewModelScope.launch {
         refreshDevices()
     }
 
 
-    private fun onDeviceDelete(device: BtItem) = viewModelScope.launch {
+    private fun onDeviceDelete(device: BtItem): Job = viewModelScope.launch {
         deleteDevice(device)
         refreshDevices()
     }
