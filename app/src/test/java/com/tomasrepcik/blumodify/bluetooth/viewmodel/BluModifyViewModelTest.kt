@@ -25,6 +25,7 @@ import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
+import java.util.UUID
 
 class BluModifyViewModelTest {
 
@@ -174,7 +175,7 @@ class BluModifyViewModelTest {
             // ARRANGE
             btWorkManager.stub {
                 onBlocking { this.workersWork() } doAnswer { AppResult.Success(false) }
-                onBlocking { this.initWorkers() } doAnswer {}
+                onBlocking { this.initWorkers() } doAnswer { UUID.randomUUID() }
             }
             btController.stub {
                 on(it.isPermission()) doReturn (true)
@@ -250,7 +251,7 @@ class BluModifyViewModelTest {
             // ARRANGE
             btWorkManager.stub {
                 onBlocking { this.workersWork() } doAnswer { AppResult.Success(false) }
-                onBlocking { this.initWorkers() } doAnswer {}
+                onBlocking { this.initWorkers() } doAnswer { UUID.randomUUID() }
             }
             btController.stub {
                 on(it.isPermission()) doReturn (false)
@@ -284,7 +285,7 @@ class BluModifyViewModelTest {
             // ARRANGE
             btWorkManager.stub {
                 onBlocking { this.workersWork() } doAnswer { AppResult.Success(false) }
-                onBlocking { this.initWorkers() } doAnswer {}
+                onBlocking { this.initWorkers() } doAnswer { UUID.randomUUID() }
             }
             btController.stub {
                 on(it.isPermission()) doReturn (true)

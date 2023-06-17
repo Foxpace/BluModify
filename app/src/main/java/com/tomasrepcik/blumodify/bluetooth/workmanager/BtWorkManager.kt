@@ -14,14 +14,14 @@ import com.tomasrepcik.blumodify.app.model.ErrorCause
 import com.tomasrepcik.blumodify.bluetooth.worker.BtWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.Duration
+import java.util.UUID
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class BtWorkManager @Inject constructor(private val workManager: WorkManager) : BtWorkManagerTemplate {
 
-    private val workerTag = "BtWorker"
-    private val tag = "BtWorkManager"
     override suspend fun workersWork(): AppResult<Boolean> {
 
         return try {
@@ -30,10 +30,10 @@ class BtWorkManager @Inject constructor(private val workManager: WorkManager) : 
                 return@withContext workers.get()
             }
             val running = withContext(Dispatchers.Default) {
-                if (workerInfo == null){
+                if (workerInfo == null) {
                     return@withContext false
                 }
-                val state = workerInfo.firstOrNull first@ {
+                val state = workerInfo.firstOrNull first@{
                     val state = it.state
                     return@first state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
                 }
@@ -59,34 +59,31 @@ class BtWorkManager @Inject constructor(private val workManager: WorkManager) : 
         }
     }
 
-    override suspend fun initWorkers() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresCharging(false)
-            .setRequiresBatteryNotLow(false)
-            .setRequiresStorageNotLow(false)
-            .setRequiresDeviceIdle(false)
-            .setRequiresStorageNotLow(false)
-            .build()
+    override suspend fun initWorkers(): UUID {
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .setRequiresCharging(false).setRequiresBatteryNotLow(false)
+            .setRequiresStorageNotLow(false).setRequiresDeviceIdle(false)
+            .setRequiresStorageNotLow(false).build()
 
-        val btWork: PeriodicWorkRequest =
-            PeriodicWorkRequestBuilder<BtWorker>(
-                repeatInterval = 15, TimeUnit.MINUTES,
-            ).setConstraints(constraints)
-                .addTag(workerTag)
-                .build()
+        val btWork: PeriodicWorkRequest = PeriodicWorkRequestBuilder<BtWorker>(
+            repeatInterval = 15, TimeUnit.MINUTES,
+        ).setConstraints(constraints).setInitialDelay(Duration.ofMinutes(15L)).addTag(workerTag)
+            .build()
 
         disposeWorkers()
         val workerEnqueue = workManager.enqueueUniquePeriodicWork(
-            workerTag,
-            ExistingPeriodicWorkPolicy.UPDATE,
-            btWork
+            workerTag, ExistingPeriodicWorkPolicy.UPDATE, btWork
         )
         workerEnqueue.await()
+        return btWork.id
     }
 
     override suspend fun disposeWorkers() {
         val operation = workManager.cancelUniqueWork(workerTag)
         operation.await()
+    }
+    companion object {
+        const val workerTag = "BtWorker"
+        const val tag = "BtWorkManager"
     }
 }

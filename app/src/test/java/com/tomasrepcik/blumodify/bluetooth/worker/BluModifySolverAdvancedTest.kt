@@ -205,4 +205,40 @@ class BluModifySolverAdvancedTest {
         verifyBlocking(notificationRepo, never()) { notificationRepo.postNotification(null) }
     }
 
+    @Test
+    fun `When all permissions are granted and BT is on and not tracked device is connected, then returns success result and does call notification`() = runTest {
+
+        // ARRANGE
+        btController.stub {
+            onBlocking { it.getConnectedBleDevices() } doAnswer { setOf() }
+            onBlocking { it.getConnectedBtDevices() } doAnswer { setOf(btDevice1) }
+        }
+        btDeviceDao.stub {
+            onBlocking { it.getAll() } doAnswer {listOf(btConnectedDeviceInPast)}
+        }
+        btLogsDao.stub {
+            onBlocking {
+                it.insertReport(logReport.copy(isSuccess = true, connectedDevices = listOf(btDevice1)))
+            } doAnswer {}
+        }
+
+        // ACTION
+        val result = sut.onWorkerCall()
+
+        // CHECK
+        Assert.assertEquals(ListenableWorker.Result.success(), result)
+        verify(btController, times(1)).isPermission()
+        verify(btController, times(1)).isBtOn()
+        verify(btController, times(1)).registerObserver(notificationRepo)
+        verify(notificationRepo, times(1)).isPermission()
+        verify(btLogsDao, times(1)).deleteOlderItemsThan(minusThreeDays)
+        verify(btLogsDao, times(1)).insertReport(logReport.copy(isSuccess = true, connectedDevices = listOf(btDevice1)))
+        verify(btDeviceDao, times(1)).getAll()
+
+        verifyBlocking(btController, times(1)) { btController.getConnectedBtDevices() }
+        verifyBlocking(btController, times(1)) { btController.getConnectedBtDevices() }
+        verifyBlocking(appCache, times(1)) { appCache.loadInCacheSync() }
+        verifyBlocking(notificationRepo, times(1)) { notificationRepo.postNotification(null) }
+    }
+
 }

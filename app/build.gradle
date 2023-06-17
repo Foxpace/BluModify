@@ -20,7 +20,7 @@ android {
         versionCode 1
         versionName "1.0.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.tomasrepcik.blumodify.runner.HiltRunner"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -123,6 +123,8 @@ dependencies {
     testImplementation 'app.cash.turbine:turbine:0.13.0'
     
     // instrumentation testing
+    androidTestImplementation 'androidx.test:monitor:1.6.1'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
     androidTestImplementation 'androidx.test:rules:1.5.0'
@@ -131,7 +133,6 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-
 
     // test manager
     androidTestImplementation "androidx.work:work-testing:$work_manager_version"
