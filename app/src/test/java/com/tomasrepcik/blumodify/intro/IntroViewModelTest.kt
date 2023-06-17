@@ -32,8 +32,8 @@ class IntroViewModelTest {
     @Before
     fun setUp(){
         appCache.stub {
-            onBlocking { this.loadInCacheAsync() } doAnswer {}
-            on { this.state } doAnswer { MutableStateFlow<AppCacheState>(AppCacheState.Loading).asStateFlow() }
+            onBlocking { loadInCacheAsync() } doAnswer {}
+            on { state } doAnswer { MutableStateFlow<AppCacheState>(AppCacheState.Loading).asStateFlow() }
         }
         sut = IntroViewModel(appCache)
     }
@@ -64,7 +64,7 @@ class IntroViewModelTest {
     fun `Saving the onboarding`() = runTest {
         // ARRANGE
         appCache.stub {
-            onBlocking { this.storeOnboarding(true) } doAnswer {
+            onBlocking { storeOnboarding(true) } doAnswer {
                 sut.onAppCacheState(AppCacheState.Loaded(AppSettings(true, isAdvancedSettings = true)))
             }
         }

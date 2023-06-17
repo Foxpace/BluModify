@@ -6,8 +6,8 @@ import com.tomasrepcik.blumodify.app.storage.cache.AppSettings
 
 sealed class SettingsState {
 
-    class SettingsLoaded(val settings: AppSettings): SettingsState()
+    data class SettingsLoaded(val settings: AppSettings): SettingsState()
     object SettingsLoading: SettingsState()
-    class SettingsError(val error: AppResult.Error<ErrorCause>): SettingsState()
+    data class SettingsError(val error: AppResult.Error<ErrorCause>): SettingsState()
 
 }

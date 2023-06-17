@@ -53,11 +53,11 @@ class SettingsViewModel @Inject constructor(private val appCache: AppCacheTempla
         }
     }
 
-    fun onEvent(settingsEvent: SettingsEvent) {
-        when (settingsEvent) {
-            SettingsEvent.OnError -> Unit
-            SettingsEvent.ToggleAdvancedSettings -> toggleAdvancedSettings()
+    fun onEvent(settingsEvent: SettingsEvent): Job = when (settingsEvent) {
+        SettingsEvent.OnError -> viewModelScope.launch {
+            // nothing
         }
+        SettingsEvent.ToggleAdvancedSettings -> toggleAdvancedSettings()
     }
 
     private fun toggleAdvancedSettings(): Job = viewModelScope.launch {
