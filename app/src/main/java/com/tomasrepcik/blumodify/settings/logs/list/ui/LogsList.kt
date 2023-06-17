@@ -9,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.settings.logs.list.LogReportUiListItem
+import com.tomasrepcik.blumodify.settings.logs.list.LogUiListItem
 
 @Composable
-fun LogsList(logs: List<LogReportUiListItem>, onItemClick: (id: Int) -> Unit) {
+fun LogsList(logs: List<LogUiListItem>, onItemClick: (id: Int) -> Unit) {
     Box {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(logs) {
@@ -29,10 +29,10 @@ fun LogsListPreview() {
         Surface {
             LogsList(
                 logs = arrayListOf(
-                    LogReportUiListItem(0, "1.1.1990 20:00", true, "1"),
-                    LogReportUiListItem(0, "1.1.1990 20:00", true, "1"),
-                    LogReportUiListItem(0, "1.1.1990 20:00", true, "1"),
-                    LogReportUiListItem(0, "1.1.1990 20:00", true, "1"),
+                    LogUiListItem(0, "1.1.1990 20:00", true, "1"),
+                    LogUiListItem(0, "1.1.1990 20:00", true, "1"),
+                    LogUiListItem(0, "1.1.1990 20:00", true, "1"),
+                    LogUiListItem(0, "1.1.1990 20:00", true, "1"),
                 )
             ) {}
         }

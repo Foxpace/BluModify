@@ -16,10 +16,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.settings.logs.list.LogReportUiListItem
+import com.tomasrepcik.blumodify.settings.logs.list.LogUiListItem
 
 @Composable
-fun LogReportCompItem(log: LogReportUiListItem, onClick: (id: Int) -> Unit) {
+fun LogReportCompItem(log: LogUiListItem, onClick: (id: Int) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier

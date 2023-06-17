@@ -18,7 +18,7 @@ import com.tomasrepcik.blumodify.settings.advanced.explanation.AdvancedExplanati
 import com.tomasrepcik.blumodify.settings.logs.detail.LogsScreenDetail
 import com.tomasrepcik.blumodify.settings.logs.detail.vm.LogsDetailViewModel
 import com.tomasrepcik.blumodify.settings.logs.list.LogsScreen
-import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsScreenViewModel
+import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListViewModel
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     navigation(
@@ -43,7 +43,7 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
             AdvancedExplanationScreen(navController)
         }
         composable(SettingsNavOption.SettingsLogsScreen.name) {
-            val vm: LogsScreenViewModel = hiltViewModel()
+            val vm: LogsListViewModel = hiltViewModel()
             LogsScreen(navController, vm.logsState.collectAsState().value){
                 vm.onEvent(it)
             }

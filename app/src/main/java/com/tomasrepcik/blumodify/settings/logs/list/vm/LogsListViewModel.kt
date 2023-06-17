@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
-import com.tomasrepcik.blumodify.settings.logs.list.LogReportUiListItem
+import com.tomasrepcik.blumodify.settings.logs.list.LogUiListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -17,15 +17,15 @@ import java.text.DateFormat
 import javax.inject.Inject
 
 @HiltViewModel
-class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
+class LogsListViewModel @Inject constructor(private val logsDao: LogsDao) :
     ViewModel() {
 
-    private val _logsState: MutableStateFlow<LogsState> = MutableStateFlow(LogsState.Loading)
+    private val _logsState: MutableStateFlow<LogsListState> = MutableStateFlow(LogsListState.Loading)
     var logsState = _logsState.asStateFlow()
 
-    fun onEvent(event: LogsEvent): Job = when(event){
-        LogsEvent.OnLaunch -> loadLogs()
-        LogsEvent.OnReverse -> reverseList()
+    fun onEvent(event: LogsListEvent): Job = when(event){
+        LogsListEvent.OnLaunch -> loadLogs()
+        LogsListEvent.OnReverse -> reverseList()
     }
 
     private fun loadLogs(): Job = viewModelScope.launch(Dispatchers.Main) {
@@ -33,7 +33,7 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
         val logs = withContext(Dispatchers.Default) {
             val logReports =  logsDao.getAll()
             val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
-            return@withContext logReports.map { logReport -> LogReportUiListItem(
+            return@withContext logReports.map { logReport -> LogUiListItem(
                 id = logReport.id,
                 time = dateFormat.format(logReport.startTime),
                 isSuccess = logReport.isSuccess,
@@ -43,19 +43,19 @@ class LogsScreenViewModel @Inject constructor(private val logsDao: LogsDao) :
 
         if (logs.isEmpty()){
             Log.i(TAG, "Logs are empty")
-            _logsState.value = LogsState.NoLogs
+            _logsState.value = LogsListState.NoLogs
             return@launch
         }
         Log.i(TAG, "Showing logs in list")
-        _logsState.value = LogsState.Logs(logs)
+        _logsState.value = LogsListState.Logs(logs)
     }
 
     private fun reverseList(): Job = viewModelScope.launch(Dispatchers.Default) {
         when (val state = _logsState.value) {
-            is LogsState.Logs -> {
+            is LogsListState.Logs -> {
                 val reversed = state.logs.reversed()
                 withContext(Dispatchers.Main) {
-                    _logsState.value = LogsState.Logs(reversed)
+                    _logsState.value = LogsListState.Logs(reversed)
                 }
             }
             else -> Log.w(TAG, "No logs to reverse order")

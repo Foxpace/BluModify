@@ -15,18 +15,18 @@ import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.settings.SettingsNav
 import com.tomasrepcik.blumodify.settings.logs.list.ui.LogsList
-import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsEvent
-import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsState
+import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListEvent
+import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListState
 
 @Composable
 fun LogsScreen(
     navController: NavHostController,
-    state: LogsState,
-    onEvent: (LogsEvent) -> Unit
+    state: LogsListState,
+    onEvent: (LogsListEvent) -> Unit
 ) {
 
     LaunchedEffect(key1 = Unit) {
-        onEvent(LogsEvent.OnLaunch)
+        onEvent(LogsListEvent.OnLaunch)
     }
 
     Scaffold(topBar = {
@@ -35,18 +35,18 @@ fun LogsScreen(
                 navController.popBackStack()
             }
         }, appBarActions = arrayOf(AppBarAction(R.drawable.ic_reverse, R.string.ic_reverse) {
-            onEvent(LogsEvent.OnReverse)
+            onEvent(LogsListEvent.OnReverse)
         })
 
         )
     }) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             when (state) {
-                LogsState.Loading -> LoadingComp()
-                is LogsState.Logs -> LogsList(logs = state.logs){
+                LogsListState.Loading -> LoadingComp()
+                is LogsListState.Logs -> LogsList(logs = state.logs){
                     SettingsNav.goToLogScreenWithDetails(navController, it)
                 }
-                LogsState.NoLogs -> ErrorScreen<LogsState>(
+                LogsListState.NoLogs -> ErrorScreen<LogsListState>(
                     explanation = R.string.settings_no_logs_text,
                     primaryText = R.string.back,
                     onPrimaryClick = {
