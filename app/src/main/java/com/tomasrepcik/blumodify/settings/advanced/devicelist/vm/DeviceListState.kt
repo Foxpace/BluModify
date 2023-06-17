@@ -6,6 +6,6 @@ sealed class DeviceListState {
 
     object Loading : DeviceListState()
     object Empty : DeviceListState()
-    class Devices(val devices: List<BtItem>) : DeviceListState()
+    data class Devices(val devices: List<BtItem>) : DeviceListState()
 
 }
