@@ -1,10 +1,12 @@
 package com.tomasrepcik.blumodify.intro
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -21,23 +23,9 @@ class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<
     var isOnboarded = _isOnboarded.asStateFlow()
 
     init {
-
         viewModelScope.launch {
             appCache.state.collect{
-                when(it){
-                    is AppCacheState.Error -> {
-                        _isLoading.value = false
-                        _isOnboarded.value = false
-                    }
-                    is AppCacheState.Loaded -> {
-                        _isLoading.value = false
-                        _isOnboarded.value = it.settings.isOnboarded
-                    }
-                    AppCacheState.Loading -> {
-                        _isLoading.value = true
-                        _isOnboarded.value = true
-                    }
-                }
+                onAppCacheState(it)
             }
         }
 
@@ -46,10 +34,26 @@ class IntroViewModel @Inject constructor(private val appCache: AppCacheTemplate<
         }
     }
 
-
-    fun saveUserOnboarding() {
-        viewModelScope.launch {
-            appCache.storeOnboarding(true)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun onAppCacheState(appCache: AppCacheState) {
+        when(appCache){
+            is AppCacheState.Error -> {
+                _isLoading.value = false
+                _isOnboarded.value = false
+            }
+            is AppCacheState.Loaded -> {
+                _isLoading.value = false
+                _isOnboarded.value = appCache.settings.isOnboarded
+            }
+            AppCacheState.Loading -> {
+                _isLoading.value = true
+                _isOnboarded.value = false
+            }
         }
+    }
+
+
+    fun saveUserOnboarding(): Job = viewModelScope.launch {
+        appCache.storeOnboarding(true)
     }
 }
