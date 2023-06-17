@@ -16,7 +16,7 @@ import com.tomasrepcik.blumodify.settings.advanced.devicelist.DeviceListScreen
 import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListViewModel
 import com.tomasrepcik.blumodify.settings.advanced.explanation.AdvancedExplanationScreen
 import com.tomasrepcik.blumodify.settings.logs.detail.LogsScreenDetail
-import com.tomasrepcik.blumodify.settings.logs.detail.vm.LogsScreenDetailViewModel
+import com.tomasrepcik.blumodify.settings.logs.detail.vm.LogsDetailViewModel
 import com.tomasrepcik.blumodify.settings.logs.list.LogsScreen
 import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsScreenViewModel
 
@@ -57,7 +57,7 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
                 id = null
                 error = e.stackTraceToString()
             }
-            val vm: LogsScreenDetailViewModel = hiltViewModel()
+            val vm: LogsDetailViewModel = hiltViewModel()
             LogsScreenDetail(navController, id, error, vm.logsState.collectAsState().value){
                 vm.onEvent(it)
             }

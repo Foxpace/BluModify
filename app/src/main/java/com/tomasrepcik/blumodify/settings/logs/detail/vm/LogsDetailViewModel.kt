@@ -9,6 +9,7 @@ import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.settings.logs.detail.LogReportUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -17,22 +18,20 @@ import java.text.DateFormat
 import javax.inject.Inject
 
 @HiltViewModel
-class LogsScreenDetailViewModel @Inject constructor(private val logsDao: LogsDao) :
-    ViewModel() {
+class LogsDetailViewModel @Inject constructor(private val logsDao: LogsDao) : ViewModel() {
 
-    private val _logsState: MutableStateFlow<LogsDetailState> = MutableStateFlow(LogsDetailState.Loading)
+    private val _logsState: MutableStateFlow<LogsDetailState> =
+        MutableStateFlow(LogsDetailState.Loading)
     var logsState = _logsState.asStateFlow()
 
-    fun onEvent(event: LogsDetailEvent){
-        when(event){
-            is LogsDetailEvent.OnLaunch -> findLogById(event.id, event.error)
-        }
+    fun onEvent(event: LogsDetailEvent): Job = when (event) {
+        is LogsDetailEvent.OnLaunch -> findLogById(event.id, event.error)
     }
 
-    private fun findLogById(id: Int?, error: String?) = viewModelScope.launch(Dispatchers.Main) {
+    private fun findLogById(id: Int?, error: String?): Job = viewModelScope.launch(Dispatchers.Main) {
         Log.i(TAG, "Searching for log with ID $id")
 
-        if (error != null){
+        if (error != null) {
             Log.e(TAG, "Error occurred during searching for correct ID")
             _logsState.value = LogsDetailState.Error(
                 AppResult.Error(
@@ -42,9 +41,10 @@ class LogsScreenDetailViewModel @Inject constructor(private val logsDao: LogsDao
                     stacktrace = error
                 )
             )
+            return@launch
         }
 
-        if (id == null){
+        if (id == null) {
             Log.e(TAG, "ID of log is null")
             _logsState.value = LogsDetailState.NotFound
             return@launch
@@ -64,11 +64,12 @@ class LogsScreenDetailViewModel @Inject constructor(private val logsDao: LogsDao
             )
         }
 
-        if (log == null){
+        if (log == null) {
             Log.e(TAG, "Log was not found in the database")
             _logsState.value = LogsDetailState.NotFound
             return@launch
         }
+
         Log.i(TAG, "Showing log with ID: $id")
         _logsState.value = LogsDetailState.Loaded(log)
     }

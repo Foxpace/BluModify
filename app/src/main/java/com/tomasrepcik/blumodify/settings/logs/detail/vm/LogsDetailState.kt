@@ -7,6 +7,6 @@ import com.tomasrepcik.blumodify.settings.logs.detail.LogReportUiItem
 sealed class LogsDetailState {
     object Loading: LogsDetailState()
     object NotFound: LogsDetailState()
-    class Error(val error: AppResult.Error<ErrorCause>): LogsDetailState()
-    class Loaded(val log: LogReportUiItem): LogsDetailState()
+    data class Error(val error: AppResult.Error<ErrorCause>): LogsDetailState()
+    data class Loaded(val log: LogReportUiItem): LogsDetailState()
 }
