@@ -86,6 +86,18 @@
     </string>
     <string name="recommendation_image">Sleeping Bluetooth icon.</string>
 
+    <!-- BATTERY_OPTIMIZATION SCREEN -->
+    <string name="battery_saving_title">Battery routines</string>
+    <string name="battery_saving_text">
+        Android is tampered with vendors battery optimisations. The proper working of the app might be influenced by these optimisations and the app can get unreliable.
+        By adding the app to the whitelist, it may work better. You can still enable this option later in settings.
+    </string>
+    <string name="battery_saving_activate_button">Add to whitelist</string>
+    <string name="battery_saving_later_button">Later</string>
+    <string name="battery_saving_success">App added to whitelist, thanks!</string>
+    <string name="battery_saving_already_added">The app is already in whitelist.</string>
+    <string name="battery_saving_error">Error occurred during invocation.</string>
+
     <!-- DRAWER SCREEN VALUES -->
     <string name="drawer_home">Home</string>
     <string name="drawer_settings">Settings</string>
