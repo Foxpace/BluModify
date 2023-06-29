@@ -50,7 +50,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.4.7"
+        kotlinCompilerExtensionVersion "1.4.8"
     }
     kapt {
         correctErrorTypes true
@@ -86,7 +86,7 @@ dependencies {
     // UI
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.compose.material3:material3:1.2.0-alpha02"
+    implementation "androidx.compose.material3:material3:1.2.0-alpha03"
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation 'androidx.tracing:tracing:1.1.0'
 
