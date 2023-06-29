@@ -4,9 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.intro.IntroNavOption
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.intro.IntroNavOption
+import com.tomasrepcik.blumodify.intro.IntroTestTags
 import com.tomasrepcik.blumodify.intro.composables.ui.IntroCompose
 
 
@@ -17,6 +18,7 @@ fun MotivationPrivacyScreen(navController: NavController) = IntroCompose(
     imageDescription = R.string.motivation_privacy_image,
     textTitle = R.string.motivation_privacy_title,
     textDescription = R.string.motivation_privacy_text,
+    buttonTestTag = IntroTestTags.INTRO_MOTIVATION_PRIVACY_SCREEN_NEXT_BUTTON
 ) {
     navController.navigate(IntroNavOption.RecommendationScreen.name)
 }

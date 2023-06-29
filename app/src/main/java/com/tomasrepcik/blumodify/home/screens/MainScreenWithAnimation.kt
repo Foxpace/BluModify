@@ -7,15 +7,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyState
+import com.tomasrepcik.blumodify.home.HomeTestTags
 
 @Composable
 fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
         MainRiveAnimation(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .testTag(HomeTestTags.HOME_SCREEN_MAIN_ANIMATION),
             state = state
         )
         Spacer(modifier = Modifier.padding(vertical = 16.dp))

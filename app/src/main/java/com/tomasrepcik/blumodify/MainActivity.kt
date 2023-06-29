@@ -7,7 +7,6 @@ import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.collectAsState
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -17,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-@ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
 
     private val viewModel: IntroViewModel by viewModels()

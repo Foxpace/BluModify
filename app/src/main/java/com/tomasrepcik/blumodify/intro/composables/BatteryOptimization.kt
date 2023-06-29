@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +40,7 @@ import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.intro.IntroTestTags
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -53,8 +55,7 @@ fun BatteryOptimizationScreen(
     val context = LocalContext.current
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) {
-                data ->
+            SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
                     data,
                     containerColor = MaterialTheme.colorScheme.onPrimary,
@@ -93,7 +94,9 @@ fun BatteryOptimizationScreen(
 
             Spacer(modifier = Modifier.weight(1f))
             AppButton(
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .testTag(IntroTestTags.INTRO_BATTERY_OPTIMISATION_SCREEN_ENLIST_BUTTON),
                 text = R.string.battery_saving_activate_button
             ) {
                 PowerManagement.tryToIgnoreBatteryOptimisations(
@@ -101,7 +104,9 @@ fun BatteryOptimizationScreen(
                 )
             }
             AppButton(
-                modifier = Modifier.padding(bottom = 30.dp),
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
+                    .testTag(IntroTestTags.INTRO_BATTERY_OPTIMISATION_SCREEN_START_BUTTON),
                 text = R.string.start_app
             ) {
                 viewModel.saveUserOnboarding()

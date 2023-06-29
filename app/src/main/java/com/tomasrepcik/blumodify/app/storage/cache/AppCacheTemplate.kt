@@ -9,5 +9,6 @@ interface AppCacheTemplate<T> {
     suspend fun loadInCacheSync(): AppSettings
     suspend fun storeOnboarding(isOnboarded: Boolean)
     suspend fun storeAdvancedSettings(isAdvancedSettings: Boolean)
+    suspend fun setDefault()
 
 }

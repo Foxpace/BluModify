@@ -39,5 +39,11 @@ class AppCache @Inject constructor(private val dataStore: DataStore<AppSettings>
             }
         }
 
+    override suspend fun setDefault(): Unit = withContext(Dispatchers.IO) {
+        dataStore.updateData { actualSettings: AppSettings ->
+            actualSettings.copy(isAdvancedSettings = false, isOnboarded = false)
+        }
+    }
+
 
 }

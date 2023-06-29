@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +32,7 @@ fun IntroCompose(
     @StringRes textTitle: Int,
     @StringRes textDescription: Int,
     @StringRes buttonText: Int = R.string.next,
+    buttonTestTag: String,
     onNext: OnClickFunction
 
 ) = Scaffold(topBar = {
@@ -72,7 +74,9 @@ fun IntroCompose(
         }
         Spacer(modifier = Modifier.weight(1f))
         AppButton(
-            modifier = Modifier.padding(bottom = 30.dp, top = 16.dp),
+            modifier = Modifier
+                .padding(bottom = 30.dp, top = 16.dp)
+                .testTag(buttonTestTag),
             text = buttonText,
             onClick = onNext
         )

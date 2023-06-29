@@ -7,6 +7,7 @@ import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.intro.IntroNavOption
+import com.tomasrepcik.blumodify.intro.IntroTestTags
 import com.tomasrepcik.blumodify.intro.composables.ui.IntroCompose
 
 @Composable
@@ -18,7 +19,8 @@ fun RecommendationScreen(
     imageDescription = R.string.recommendation_image,
     textTitle = R.string.recommendation_title,
     textDescription = R.string.recommendation_text,
-    buttonText = R.string.next
+    buttonText = R.string.next,
+    buttonTestTag = IntroTestTags.INTRO_RECOMMENDATION_SCREEN_NEXT_BUTTON
 ) {
     navController.navigate(IntroNavOption.BatteryOptimisation.name)
 }
