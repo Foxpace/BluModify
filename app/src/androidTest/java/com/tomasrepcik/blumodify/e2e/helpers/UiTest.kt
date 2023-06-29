@@ -1,16 +1,18 @@
-package com.tomasrepcik.blumodify.e2e
+package com.tomasrepcik.blumodify.e2e.helpers
 
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.GrantPermissionRule
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.tomasrepcik.blumodify.MainActivity
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheState
 import com.tomasrepcik.blumodify.app.storage.cache.AppCacheTemplate
+import com.tomasrepcik.blumodify.e2e.helpers.config.TestConfig
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -19,7 +21,7 @@ import org.junit.Rule
 import javax.inject.Inject
 
 @HiltAndroidTest
-abstract class UiTest {
+abstract class UiTest(testConfig: TestConfig) {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -27,6 +29,9 @@ abstract class UiTest {
     @Suppress("LeakingThis")
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule
+    val permissionsRule: GrantPermissionRule = GrantPermissionRule.grant(*testConfig.permissions)
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
