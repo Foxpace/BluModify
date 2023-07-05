@@ -199,14 +199,13 @@ class BtController @Inject constructor(@ApplicationContext private val context: 
 
         const val TAG = "BtController"
 
-        @JvmStatic
-        val btProfile = arrayOf(
+
+        val btProfile get() = arrayOf(
             BluetoothProfile.HEADSET,
             BluetoothProfile.A2DP,
         )
 
-        @JvmStatic
-        val bleProfiles = arrayOf(
+        val bleProfiles get() = arrayOf(
             BluetoothProfile.GATT,
             BluetoothProfile.GATT_SERVER
         )

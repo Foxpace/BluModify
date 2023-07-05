@@ -63,6 +63,11 @@ android {
 }
 
 dependencies {
+    ext.compose_version = '1.4.3'
+    ext.hilt_version = '2.46.1'
+    ext.work_manager_version = '2.8.1'
+    ext.room_version = '2.5.2'
+    ext.kotlin_version = '1.8.22'
 
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

@@ -10,6 +10,13 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 
+/**
+ * Example usage:
+ *
+ *      @get:Rule
+ *      val dispatcherRule = StandardDispatcherRule()
+ *
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class StandardDispatcherRule: TestWatcher() {
 
