@@ -1,6 +1,6 @@
 package com.tomasrepcik.blumodify.settings.advanced.devicelist
 
-import app.cash.turbine.testIn
+import app.cash.turbine.turbineScope
 import com.tomasrepcik.blumodify.app.storage.room.dao.BtDeviceDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.BtDevice
 import com.tomasrepcik.blumodify.helpers.AndroidLogMockRule
@@ -53,76 +53,81 @@ class DeviceListViewModelTest {
 
     @Test
     fun `On launch - no device stored`() = runTest {
-        // ARRANGE
-        btDeviceDao.stub {
-            on { getAll() } doAnswer { listOf() }
+        turbineScope {
+            // ARRANGE
+            btDeviceDao.stub {
+                on { getAll() } doAnswer { listOf() }
+            }
+            val receiver = sut.listState.testIn(this)
+
+            // ACTION
+            sut.onEvent(DeviceListEvent.OnLaunch)
+
+            // CHECK
+            assertEquals(DeviceListState.Loading, receiver.awaitItem())
+            assertEquals(DeviceListState.Empty, receiver.awaitItem())
+            receiver.cancel()
         }
-        val receiver = sut.listState.testIn(this)
-
-        // ACTION
-        sut.onEvent(DeviceListEvent.OnLaunch)
-
-        // CHECK
-        assertEquals(DeviceListState.Loading, receiver.awaitItem())
-        assertEquals(DeviceListState.Empty, receiver.awaitItem())
-        receiver.cancel()
     }
 
     @Test
     fun `On launch - 1 device stored`() = runTest {
-        // ARRANGE
-        btDeviceDao.stub {
-            on { getAll() } doAnswer { listOf(BtDevice("00:00", "BtDevice", false, -1L)) }
+        turbineScope {
+            // ARRANGE
+            btDeviceDao.stub {
+                on { getAll() } doAnswer { listOf(BtDevice("00:00", "BtDevice", false, -1L)) }
+            }
+            val receiver = sut.listState.testIn(this)
+
+            // ACTION
+            sut.onEvent(DeviceListEvent.OnLaunch)
+
+            // CHECK
+            assertEquals(DeviceListState.Loading, receiver.awaitItem())
+            assertEquals(
+                DeviceListState.Devices(listOf(BtItem("BtDevice", "00:00"))), receiver.awaitItem()
+            )
+            receiver.cancel()
         }
-        val receiver = sut.listState.testIn(this)
-
-        // ACTION
-        sut.onEvent(DeviceListEvent.OnLaunch)
-
-        // CHECK
-        assertEquals(DeviceListState.Loading, receiver.awaitItem())
-        assertEquals(
-            DeviceListState.Devices(listOf(BtItem("BtDevice", "00:00"))), receiver.awaitItem()
-        )
-        receiver.cancel()
     }
 
     @Test
     fun `On launch - remove device`() = runTest {
-        // ARRANGE
-        val btItem = BtItem("BtDevice", "00:00")
-        val btDevice = BtDevice("00:00", "BtDevice", false, -1L)
-        btDeviceDao.stub {
-            on { getAll() } doAnswer { listOf(btDevice) }
-            on { deleteByMacAddress("00:00") } doAnswer {}
+        turbineScope {
+            // ARRANGE
+            val btItem = BtItem("BtDevice", "00:00")
+            val btDevice = BtDevice("00:00", "BtDevice", false, -1L)
+            btDeviceDao.stub {
+                on { getAll() } doAnswer { listOf(btDevice) }
+                on { deleteByMacAddress("00:00") } doAnswer {}
+            }
+            val receiver = sut.listState.testIn(this)
+
+            // ACTION
+            sut.onEvent(DeviceListEvent.OnLaunch)
+
+            // CHECK
+            assertEquals(DeviceListState.Loading, receiver.awaitItem())
+            assertEquals(
+                DeviceListState.Devices(listOf(btItem)), receiver.awaitItem()
+            )
+
+            // ACTION - removal of device
+            btDeviceDao.stub {
+                on { getAll() } doAnswer { listOf() }
+            }
+            sut.onEvent(DeviceListEvent.OnDeviceDelete(btItem))
+
+            // CHECK
+            assertEquals(
+                DeviceListState.Loading, receiver.awaitItem()
+            )
+            assertEquals(
+                DeviceListState.Empty, receiver.awaitItem()
+            )
+            verify(btDeviceDao, times(1)).deleteByMacAddress(btItem.macAddress)
+
+            receiver.cancel()
         }
-        val receiver = sut.listState.testIn(this)
-
-        // ACTION
-        sut.onEvent(DeviceListEvent.OnLaunch)
-
-        // CHECK
-        assertEquals(DeviceListState.Loading, receiver.awaitItem())
-        assertEquals(
-            DeviceListState.Devices(listOf(btItem)), receiver.awaitItem()
-        )
-
-        // ACTION - removal of device
-        btDeviceDao.stub {
-            on { getAll() } doAnswer { listOf() }
-        }
-        sut.onEvent(DeviceListEvent.OnDeviceDelete(btItem))
-
-        // CHECK
-        assertEquals(
-            DeviceListState.Loading, receiver.awaitItem()
-        )
-        assertEquals(
-            DeviceListState.Empty, receiver.awaitItem()
-        )
-        verify(btDeviceDao, times(1)).deleteByMacAddress(btItem.macAddress)
-
-        receiver.cancel()
     }
-
 }
