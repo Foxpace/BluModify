@@ -15,22 +15,23 @@ import com.tomasrepcik.blumodify.helpers.AndroidLogMockRule
 import com.tomasrepcik.blumodify.helpers.StandardDispatcherRule
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyBlocking
-
+@RunWith(JUnit4::class)
 class BluModifySolverAdvancedTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
@@ -39,27 +40,30 @@ class BluModifySolverAdvancedTest {
     @get:Rule(order = Integer.MIN_VALUE)
     val androidLogs = AndroidLogMockRule()
 
-    @Mock
-    private var btController: BtControllerTemplate = mock()
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @Mock
-    private var btDeviceDao: BtDeviceDao = mock()
+    lateinit var btController: BtControllerTemplate
 
     @Mock
-    private var btLogsDao: LogsDao = mock()
+    lateinit var btDeviceDao: BtDeviceDao
 
     @Mock
-    private var appCache: AppCacheTemplate<AppCacheState> = mock()
+    lateinit var btLogsDao: LogsDao
 
     @Mock
-    private var notificationRepo: NotificationRepoTemplate = mock()
+    lateinit var appCache: AppCacheTemplate<AppCacheState>
 
     @Mock
-    private var timeRepo: TimeRepoTemplate = mock()
+    lateinit var notificationRepo: NotificationRepoTemplate
+
+    @Mock
+    lateinit var timeRepo: TimeRepoTemplate
 
 
-    private var sut: BluModifySolverTemplate =
-        BluModifySolver(btController, btDeviceDao, btLogsDao, appCache, notificationRepo, timeRepo)
+    private lateinit var sut: BluModifySolverTemplate
+
 
     private val minusThreeDays = (-3 * 24 * 3600 * 1000).toLong()
 
@@ -72,7 +76,7 @@ class BluModifySolverAdvancedTest {
         BtDevice("00:00", "device 2", wasConnected = true, lastConnection = 0L)
 
     private val logReport = LogReport(
-        startTime = 0L, connectedDevices = emptyList(), isSuccess = false, stackTrace = any()
+        startTime = 0L, connectedDevices = emptyList(), isSuccess = false, stackTrace = null
     )
 
     @Before
@@ -102,10 +106,6 @@ class BluModifySolverAdvancedTest {
             btController, btDeviceDao, btLogsDao, appCache, notificationRepo, timeRepo
         )
     }
-
-    @After
-    fun tearDown() =
-        reset(btController, btDeviceDao, btLogsDao, appCache, notificationRepo, timeRepo)
 
     @Test
     fun `When all permissions are granted and BT is on and no device was connected, then return success result and do not call notification`() = runTest {

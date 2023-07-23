@@ -10,23 +10,24 @@ import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManagerTemplate
 import com.tomasrepcik.blumodify.helpers.AndroidLogMockRule
 import com.tomasrepcik.blumodify.helpers.StandardDispatcherRule
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import java.util.UUID
-
+@RunWith(JUnit4::class)
 class BluModifyViewModelTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
@@ -35,29 +36,27 @@ class BluModifyViewModelTest {
     @get:Rule(order = Integer.MIN_VALUE)
     val androidLogs = AndroidLogMockRule()
 
-    @Mock
-    private var btWorkManager: BtWorkManagerTemplate = mock()
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @Mock
-    private var btController: BtControllerTemplate = mock()
+    lateinit var btWorkManager: BtWorkManagerTemplate
 
     @Mock
-    private var btDeviceDao: BtDeviceDao = mock()
+    lateinit var btController: BtControllerTemplate
 
     @Mock
-    private var notificationRepo: NotificationRepoTemplate = mock()
+    lateinit var btDeviceDao: BtDeviceDao
 
-    private var sut: BluModifyViewModel =
-        BluModifyViewModel(btWorkManager, btController, btDeviceDao, notificationRepo)
+    @Mock
+    lateinit var notificationRepo: NotificationRepoTemplate
 
+    lateinit var sut: BluModifyViewModel
 
     @Before
     fun setUp() {
         sut = BluModifyViewModel(btWorkManager, btController, btDeviceDao, notificationRepo)
     }
-
-    @After
-    fun tearDown() = reset(btController, btWorkManager, btDeviceDao, notificationRepo)
 
     @Test
     fun `Given the sut is initialized, then the service is in Loading state`() =

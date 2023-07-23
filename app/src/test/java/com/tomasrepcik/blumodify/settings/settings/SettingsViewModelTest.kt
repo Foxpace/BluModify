@@ -12,19 +12,21 @@ import com.tomasrepcik.blumodify.settings.settings.states.SettingsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
+@RunWith(JUnit4::class)
 class SettingsViewModelTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
@@ -33,8 +35,11 @@ class SettingsViewModelTest {
     @get:Rule(order = Integer.MIN_VALUE)
     val androidLogs = AndroidLogMockRule()
 
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
+
     @Mock
-    var appCacheTemplate: AppCacheTemplate<AppCacheState> = mock()
+    lateinit var appCacheTemplate: AppCacheTemplate<AppCacheState>
 
     private lateinit var sut: SettingsViewModel
 
@@ -44,11 +49,6 @@ class SettingsViewModelTest {
             on { state } doAnswer { MutableStateFlow<AppCacheState>(AppCacheState.Loading).asStateFlow() }
         }
         sut = SettingsViewModel(appCacheTemplate)
-    }
-
-    @After
-    fun tearDown() {
-        reset(appCacheTemplate)
     }
 
     @Test

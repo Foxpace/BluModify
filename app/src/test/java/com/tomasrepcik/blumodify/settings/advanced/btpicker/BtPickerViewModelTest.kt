@@ -11,19 +11,20 @@ import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.TrackedDevicesEve
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.vm.TrackedDevicesState
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-
+@RunWith(JUnit4::class)
 class BtPickerViewModelTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
@@ -32,22 +33,20 @@ class BtPickerViewModelTest {
     @get:Rule(order = Integer.MIN_VALUE)
     val androidLogs = AndroidLogMockRule()
 
-    @Mock
-    var btController: BtControllerTemplate = mock()
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @Mock
-    var btDeviceDao: BtDeviceDao = mock()
+    lateinit var btController: BtControllerTemplate
 
-    private var sut = BtPickerViewModel(btController, btDeviceDao)
+    @Mock
+    lateinit var btDeviceDao: BtDeviceDao
+
+    private lateinit var sut: BtPickerViewModel
 
     @Before
     fun setUp() {
         sut = BtPickerViewModel(btController, btDeviceDao)
-    }
-
-    @After
-    fun tearDown() {
-        reset(btController, btDeviceDao)
     }
 
     @Test

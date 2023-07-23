@@ -7,25 +7,29 @@ import com.tomasrepcik.blumodify.helpers.StandardDispatcherRule
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
-
+@RunWith(JUnit4::class)
 class IntroViewModelTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
     val dispatcherRule = StandardDispatcherRule()
 
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
+
     @Mock
-    private var appCache: AppCacheTemplate<AppCacheState> = mock()
+    lateinit var appCache: AppCacheTemplate<AppCacheState>
 
     private lateinit var sut: IntroViewModel
 
@@ -36,11 +40,6 @@ class IntroViewModelTest {
             on { state } doAnswer { MutableStateFlow<AppCacheState>(AppCacheState.Loading).asStateFlow() }
         }
         sut = IntroViewModel(appCache)
-    }
-
-    @After
-    fun tearDown(){
-        reset(appCache)
     }
 
     @Test

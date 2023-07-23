@@ -9,17 +9,18 @@ import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListEvent
 import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListState
 import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListViewModel
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
-
+@RunWith(JUnit4::class)
 class LogListViewModelTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
@@ -28,19 +29,17 @@ class LogListViewModelTest {
     @get:Rule(order = Integer.MIN_VALUE)
     val androidLogs = AndroidLogMockRule()
 
-    @Mock
-    var logsDao: LogsDao = mock()
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
-    private var sut: LogsListViewModel = LogsListViewModel(logsDao)
+    @Mock
+    lateinit var logsDao: LogsDao
+
+    private lateinit var sut: LogsListViewModel
 
     @Before
     fun setUp() {
         sut = LogsListViewModel(logsDao)
-    }
-
-    @After
-    fun tearDown() {
-        reset(logsDao)
     }
 
     @Test

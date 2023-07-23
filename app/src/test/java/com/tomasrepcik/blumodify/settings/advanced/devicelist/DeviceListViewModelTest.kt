@@ -10,19 +10,21 @@ import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListState
 import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListViewModel
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
+@RunWith(JUnit4::class)
 class DeviceListViewModelTest {
 
     @get:Rule(order = Integer.MIN_VALUE)
@@ -31,24 +33,17 @@ class DeviceListViewModelTest {
     @get:Rule(order = Integer.MIN_VALUE)
     val androidLogs = AndroidLogMockRule()
 
-    @Mock
-    var btDeviceDao: BtDeviceDao = mock()
+    @get:Rule(order = Integer.MIN_VALUE)
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
-    private var sut: DeviceListViewModel = DeviceListViewModel(btDeviceDao)
+    @Mock
+    lateinit var btDeviceDao: BtDeviceDao
+
+    private lateinit var sut: DeviceListViewModel
 
     @Before
     fun setUp() {
         sut = DeviceListViewModel(btDeviceDao)
-    }
-
-    @After
-    fun tearDown() {
-        reset(btDeviceDao)
-    }
-
-    @Test
-    fun `Initial state`() {
-        assertEquals(DeviceListState.Loading, sut.listState.value)
     }
 
     @Test

@@ -106,7 +106,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // rive
-    implementation 'app.rive:rive-android:5.1.2'
+    implementation 'app.rive:rive-android:6.0.1'
     implementation "androidx.startup:startup-runtime:1.1.1"
 
     // google play licenses
@@ -125,7 +125,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:5.3.1"
     testImplementation 'org.mockito.kotlin:mockito-kotlin:5.0.0'
     testImplementation "io.mockk:mockk:1.13.5"
-    testImplementation 'app.cash.turbine:turbine:0.13.0'
+    testImplementation 'app.cash.turbine:turbine:1.0.0'
     
     // instrumentation testing
     androidTestImplementation 'androidx.test:monitor:1.6.1'
