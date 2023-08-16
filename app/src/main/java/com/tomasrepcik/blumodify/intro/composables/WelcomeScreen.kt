@@ -29,7 +29,9 @@ import com.tomasrepcik.blumodify.intro.IntroNavOption
 import com.tomasrepcik.blumodify.intro.IntroTestTags
 
 @Composable
-fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaffold {
+fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaffold(
+    modifier = Modifier.testTag("WelcomeScreen")
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
