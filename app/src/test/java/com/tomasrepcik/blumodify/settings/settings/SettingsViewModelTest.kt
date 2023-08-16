@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,22 +42,16 @@ class SettingsViewModelTest {
 
     private lateinit var sut: SettingsViewModel
 
-    @Before
-    fun setUp() {
-        appCacheTemplate.stub {
-            on { state } doAnswer { MutableStateFlow<AppCacheState>(AppCacheState.Loading).asStateFlow() }
-        }
-        sut = SettingsViewModel(appCacheTemplate)
-    }
-
     @Test
     fun `Initial state`() {
+        sut = SettingsViewModel(appCacheTemplate)
         assertEquals(SettingsState.SettingsLoading, sut.settingsState.value)
     }
 
     @Test
     fun `On settings loaded`() {
         // ARRANGE
+        sut = SettingsViewModel(appCacheTemplate)
         val settings = AppSettings(isOnboarded = true, isAdvancedSettings = true)
 
         // ACTION
@@ -71,6 +64,7 @@ class SettingsViewModelTest {
     @Test
     fun `On settings error`() {
         // ARRANGE
+        sut = SettingsViewModel(appCacheTemplate)
         val error = AppResult.Error<ErrorCause>(
             message = "error", origin = "appcache", errorCause = ErrorCause.MISSING_SETTINGS, null
         )
@@ -90,7 +84,11 @@ class SettingsViewModelTest {
             onBlocking { storeAdvancedSettings(false) } doAnswer {
                 sut.onSettingsChange(AppCacheState.Loaded(settings.copy(isAdvancedSettings = false)))
             }
+            on { state } doAnswer { MutableStateFlow<AppCacheState>(AppCacheState.Loading).asStateFlow() }
         }
+        sut = SettingsViewModel(appCacheTemplate)
+
+
 
         // ACTION
         sut.onSettingsChange(AppCacheState.Loaded(settings))

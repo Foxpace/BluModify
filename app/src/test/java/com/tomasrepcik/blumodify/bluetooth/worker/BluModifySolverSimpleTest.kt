@@ -92,11 +92,6 @@ class BluModifySolverSimpleTest {
         btController.stub {
             on { it.isPermission() } doAnswer { false }
         }
-        btLogsDao.stub {
-            onBlocking {
-                it.insertReport(logReport)
-            } doAnswer {}
-        }
 
         // ACTION
         val result = sut.onWorkerCall()
@@ -147,11 +142,6 @@ class BluModifySolverSimpleTest {
             }
             notificationRepo.stub {
                 on { it.isPermission() } doAnswer { false }
-            }
-            btLogsDao.stub {
-                onBlocking {
-                    it.insertReport(logReport)
-                } doAnswer {}
             }
 
             // ACTION
@@ -220,23 +210,17 @@ class BluModifySolverSimpleTest {
             }
             notificationRepo.stub {
                 on { it.isPermission() } doAnswer { true }
-                onBlocking { it.postNotification(null) } doAnswer {}
             }
             appCache.stub {
                 onBlocking { it.loadInCacheSync() } doAnswer { AppSettings.default }
             }
-            btLogsDao.stub {
-                onBlocking {
-                    it.insertReport(logReport.copy(isSuccess = true))
-                } doAnswer {}
-            }
+
 
             // ACTION
             val result = sut.onWorkerCall()
 
             // CHECK
             assertEquals(ListenableWorker.Result.success(), result)
-            verify(btController, times(1)).isPermission()
             verify(btController, times(1)).isBtOn()
             verify(btController, times(1)).registerObserver(notificationRepo)
             verify(notificationRepo, times(1)).isPermission()

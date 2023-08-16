@@ -211,12 +211,6 @@ class BluModifyViewModelTest {
                 onBlocking { this.workersWork() } doAnswer { AppResult.Success(true) }
                 onBlocking { this.disposeWorkers() } doAnswer {}
             }
-            btController.stub {
-                on(it.isPermission()) doReturn (true)
-            }
-            notificationRepo.stub {
-                on(it.isPermission()) doReturn (true)
-            }
             btDeviceDao.stub {
                 onBlocking { this.resetDevices() } doAnswer {}
             }
@@ -250,13 +244,9 @@ class BluModifyViewModelTest {
             // ARRANGE
             btWorkManager.stub {
                 onBlocking { this.workersWork() } doAnswer { AppResult.Success(false) }
-                onBlocking { this.initWorkers() } doAnswer { UUID.randomUUID() }
             }
             btController.stub {
                 on(it.isPermission()) doReturn (false)
-            }
-            notificationRepo.stub {
-                on(it.isPermission()) doReturn (true)
             }
 
             sut.blumodifyState.test {
@@ -284,13 +274,9 @@ class BluModifyViewModelTest {
             // ARRANGE
             btWorkManager.stub {
                 onBlocking { this.workersWork() } doAnswer { AppResult.Success(false) }
-                onBlocking { this.initWorkers() } doAnswer { UUID.randomUUID() }
             }
             btController.stub {
                 on(it.isPermission()) doReturn (true)
-            }
-            notificationRepo.stub {
-                on(it.isPermission()) doReturn (false)
             }
 
             sut.blumodifyState.test {

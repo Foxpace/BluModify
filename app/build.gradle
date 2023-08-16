@@ -10,7 +10,7 @@ plugins {
 android {
     namespace "com.tomasrepcik.blumodify"
     compileSdk 34
-    buildToolsVersion "34.0.0"
+    buildToolsVersion = "34.0.0"
     ndkVersion "21.1.6352462"
 
     defaultConfig {
@@ -50,7 +50,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.4.8"
+        kotlinCompilerExtensionVersion "1.5.1"
     }
     kapt {
         correctErrorTypes true
@@ -63,11 +63,11 @@ android {
 }
 
 dependencies {
-    ext.compose_version = '1.4.3'
-    ext.hilt_version = '2.46.1'
+    ext.compose_version = '1.5.0'
+    ext.hilt_version = '2.47'
     ext.work_manager_version = '2.8.1'
     ext.room_version = '2.5.2'
-    ext.kotlin_version = '1.8.22'
+    ext.kotlin_version = '1.9.0'
 
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -75,7 +75,7 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // navigation
-    implementation "androidx.navigation:navigation-compose:2.6.0"
+    implementation "androidx.navigation:navigation-compose:2.7.0"
 
     // data storage
     implementation "androidx.datastore:datastore:1.0.0"
@@ -86,12 +86,12 @@ dependencies {
     implementation "androidx.core:core-ktx:1.10.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
     implementation "androidx.activity:activity-compose:1.7.2"
-    implementation "androidx.compose.material:material:1.4.3"
+    implementation "androidx.compose.material:material:1.5.0"
 
     // UI
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.compose.material3:material3:1.2.0-alpha03"
+    implementation "androidx.compose.material3:material3:1.2.0-alpha05"
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation 'androidx.tracing:tracing:1.1.0'
 
@@ -106,7 +106,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // rive
-    implementation 'app.rive:rive-android:6.0.1'
+    implementation 'app.rive:rive-android:8.2.1'
     implementation "androidx.startup:startup-runtime:1.1.1"
 
     // google play licenses
@@ -121,10 +121,10 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
 
     // third parties
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
-    testImplementation "org.mockito:mockito-core:5.3.1"
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.0.0'
-    testImplementation "io.mockk:mockk:1.13.5"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+    testImplementation 'org.mockito:mockito-core:5.4.0'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
+    testImplementation 'io.mockk:mockk:1.13.7'
     testImplementation 'app.cash.turbine:turbine:1.0.0'
     
     // instrumentation testing

@@ -93,10 +93,6 @@ class BtPickerViewModelTest {
             assertEquals(TrackedDevicesState.Loading, receiver.awaitItem())
             assertEquals(TrackedDevicesState.RequirePermission, receiver.awaitItem())
 
-            btController.stub {
-                on { isPermission() } doAnswer { true }
-            }
-
             // ACTION
             sut.onEvent(TrackedDevicesEvent.OnPermissionGranted)
 
@@ -298,9 +294,6 @@ class BtPickerViewModelTest {
             assertEquals(TrackedDevicesState.RequireBtOn, receiver.awaitItem())
 
             // ACTION - bt on
-            btController.stub {
-                on { isBtOn() } doAnswer { true }
-            }
             sut.onEvent(TrackedDevicesEvent.OnBtOn)
 
             // CHECK
