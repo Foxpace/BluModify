@@ -35,7 +35,7 @@ class BluModifyViewModel @Inject constructor(
             BluModifyEvent.OnLaunch -> onLaunch()
             BluModifyEvent.OnMainButtonClickEvent -> onButtonClicked()
             BluModifyEvent.OnError -> onRestart()
-            BluModifyEvent.OnPermissionGranted -> onButtonClicked()
+            BluModifyEvent.OnPermissionGranted -> onPermissionGranted()
             BluModifyEvent.OnPermissionDenied -> onPermissionDenied()
         }
     }
@@ -44,6 +44,11 @@ class BluModifyViewModel @Inject constructor(
         Log.i(TAG, "Main on launch was called")
         _bluModifyState.value = BluModifyState.Loading
         checkCurrentState()
+    }
+
+    private fun onPermissionGranted() = viewModelScope.launch(Dispatchers.Main) {
+        Log.i(TAG, "Permission was granted by user")
+        turnOn()
     }
 
     private fun onPermissionDenied() = viewModelScope.launch(Dispatchers.Main) {
@@ -68,7 +73,6 @@ class BluModifyViewModel @Inject constructor(
                 _bluModifyState.value = BluModifyState.ErrorOccurred(state)
                 return@withContext BluModifyState.ErrorOccurred(state)
             }
-
             is AppResult.Success -> {
                 if (state.data) {
                     _bluModifyState.value = BluModifyState.TurnedOn
@@ -109,6 +113,6 @@ class BluModifyViewModel @Inject constructor(
     }
 
     companion object {
-        const val TAG = "BluModifyModel"
+        const val TAG = "BluModifyViewModel"
     }
 }

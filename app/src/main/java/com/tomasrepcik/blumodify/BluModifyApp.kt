@@ -12,13 +12,15 @@ class BluModifyApp : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    override fun getWorkManagerConfiguration(): Configuration {
-        val builder = Configuration.Builder().setWorkerFactory(workerFactory)
-        if (BuildConfig.DEBUG) {
-            // logcat - search for "WM-"
-            builder.setMinimumLoggingLevel(android.util.Log.DEBUG)
+    override val workManagerConfiguration: Configuration
+        get() {
+            val builder = Configuration.Builder().setWorkerFactory(workerFactory)
+            if (BuildConfig.DEBUG) {
+                // logcat - search for "WM-"
+                builder.setMinimumLoggingLevel(android.util.Log.DEBUG)
+            }
+            return builder.build()
         }
-        return builder.build()
 
-    }
+
 }

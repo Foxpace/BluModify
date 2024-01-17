@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -21,11 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.tomasrepcik.blumodify.settings.SettingsTestTags
 
 @Composable
 fun SettingsSwitchComp(
@@ -33,11 +35,12 @@ fun SettingsSwitchComp(
     @StringRes iconDesc: Int,
     @StringRes name: Int,
     state: Boolean,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Surface(
         color = Color.Transparent,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
         onClick = onClick,
@@ -68,6 +71,7 @@ fun SettingsSwitchComp(
                 }
                 Spacer(modifier = Modifier.weight(1.0f))
                 Switch(
+                    modifier = Modifier.testTag(SettingsTestTags.SETTINGS_MAIN_ADVANCED_CHECKMARK),
                     checked = state,
                     onCheckedChange = { onClick() },
                     colors = SwitchDefaults.colors(
@@ -75,7 +79,7 @@ fun SettingsSwitchComp(
                     ),
                 )
             }
-            Divider()
+            HorizontalDivider()
         }
     }
 }

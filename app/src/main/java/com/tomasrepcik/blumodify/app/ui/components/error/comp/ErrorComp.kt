@@ -16,12 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.model.AppResult
+import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
@@ -42,7 +44,8 @@ fun <T> ErrorComp(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .testTag(AppTestTags.APP_ERROR_SCREEN),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -72,17 +75,24 @@ fun <T> ErrorComp(
 
         Column {
             if (!ignoreDetails){
-                AppButton(text = R.string.show_details, onClick = onDetails)
+                AppButton(
+                    modifier = Modifier.testTag(AppTestTags.APP_ERROR_SCREEN_BUTTON_DETAIL),
+                    text = R.string.show_details, onClick = onDetails
+                )
             }
             if (onPrimaryClick != null && primaryText != null) {
                 Spacer(modifier = Modifier.height(16.dp))
-                AppButton(text = primaryText, onClick = onPrimaryClick)
+                AppButton(
+                    modifier = Modifier.testTag(AppTestTags.APP_ERROR_SCREEN_BUTTON_PRIMARY),
+                    text = primaryText, onClick = onPrimaryClick)
             }
             if (onPrimaryClick != null && onSecondaryClick != null) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
             if (secondaryText != null && onSecondaryClick != null) {
-                AppButton(text = secondaryText, onClick = { onSecondaryClick(error) })
+                AppButton(
+                    modifier = Modifier.testTag(AppTestTags.APP_ERROR_SCREEN_BUTTON_SECONDARY),
+                    text = secondaryText, onClick = { onSecondaryClick(error) })
             }
 
         }

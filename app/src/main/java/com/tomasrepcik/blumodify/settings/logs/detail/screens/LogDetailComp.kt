@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import com.tomasrepcik.blumodify.settings.logs.detail.LogReportUiItem
 
@@ -30,11 +32,17 @@ fun LogDetailComp(log: LogReportUiItem) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 16.dp)
+            .testTag(SettingsTestTags.LOG_DETAIL)
     ) {
-        LogItem(title = R.string.settings_logs_time_title, value = log.time)
+        LogItem(
+            title = R.string.settings_logs_time_title,
+            value = log.time,
+            modifier = Modifier.testTag(SettingsTestTags.LOG_DETAIL_TIME)
+        )
         LogItem(
             title = R.string.settings_logs_success_title,
-            value = stringResource(id = if (log.isSuccess) R.string.success else R.string.failure)
+            value = stringResource(id = if (log.isSuccess) R.string.success else R.string.failure),
+            modifier = Modifier.testTag(SettingsTestTags.LOG_DETAIL_STATUS)
         )
         if (log.connectedDevices.isNotEmpty()) {
             Text(
@@ -43,49 +51,59 @@ fun LogDetailComp(log: LogReportUiItem) {
                 textAlign = TextAlign.Start,
                 overflow = TextOverflow.Ellipsis,
             )
-            for (device in log.connectedDevices){
-                Text(
-                    text = device.deviceName,
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Start,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Text(
-                    text = device.macAddress,
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Start,
-                    overflow = TextOverflow.Ellipsis,
-                )
+            Column(modifier = Modifier.testTag(SettingsTestTags.LOG_DETAIL_DEVICES)) {
+                Spacer(modifier = Modifier.height(8.dp))
+                for (device in log.connectedDevices) {
+                    Text(
+                        text = device.deviceName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Start,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        text = device.macAddress,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Start,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
+            Spacer(modifier = Modifier.height(16.dp))
         } else {
             LogItem(
+                modifier = Modifier.testTag(SettingsTestTags.LOG_DETAIL_DEVICES),
                 title = R.string.settings_logs_devices_count_detail,
-                value = stringResource(id = R.string.zero)
+                value = stringResource(id = R.string.zero),
             )
         }
-        if (log.stackTrace.isNotBlank()){
-            LogItem(title = R.string.settings_logs_error_title, value = log.stackTrace)
+        if (log.stackTrace.isNotBlank()) {
+            LogItem(
+                title = R.string.settings_logs_error_title, value = log.stackTrace,
+                modifier = Modifier.testTag(SettingsTestTags.LOG_DETAIL_STACKTRACE)
+            )
         }
     }
 }
 
 @Composable
-private fun LogItem(@StringRes title: Int, value: String) {
-    Text(
-        text = stringResource(id = title),
-        style = MaterialTheme.typography.titleMedium,
-        textAlign = TextAlign.Start,
-        overflow = TextOverflow.Ellipsis,
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    Text(
-        text = value,
-        style = MaterialTheme.typography.bodyMedium,
-        textAlign = TextAlign.Start,
-        overflow = TextOverflow.Ellipsis,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-}
+private fun LogItem(@StringRes title: Int, value: String, modifier: Modifier = Modifier) =
+    Column(modifier = modifier) {
+        Text(
+            text = stringResource(id = title),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Start,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Start,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+    }
 
 @AllScreenPreview
 @Composable

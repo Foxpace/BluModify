@@ -20,6 +20,7 @@ import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import com.tomasrepcik.blumodify.settings.logs.detail.screens.LogDetailComp
 import com.tomasrepcik.blumodify.settings.logs.detail.vm.LogsDetailEvent
@@ -54,7 +55,8 @@ fun LogsScreenDetail(
                         arrayOf(
                             AppBarAction(
                                 icon = R.drawable.ic_mail,
-                                description = R.string.ic_mail
+                                description = R.string.ic_mail,
+                                testTag = SettingsTestTags.LOG_MAIL_BUTTON
                             ) {
                                 MailSending.reportLog(context, state.log)
                             }

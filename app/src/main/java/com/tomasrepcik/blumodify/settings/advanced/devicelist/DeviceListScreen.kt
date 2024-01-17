@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
@@ -14,6 +15,7 @@ import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.settings.SettingsNavOption
+import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListEvent
 import com.tomasrepcik.blumodify.settings.advanced.devicelist.vm.DeviceListState
 import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DeviceAction
@@ -31,6 +33,7 @@ fun DeviceListScreen(
     }
 
     Scaffold(
+        modifier = Modifier.testTag(SettingsTestTags.ADVANCED_LIST_SCREEN),
         topBar = {
             AppBar(
                 title = R.string.settings_tracked_devices,
@@ -42,7 +45,8 @@ fun DeviceListScreen(
                 appBarActions = arrayOf(
                     AppBarAction(
                         R.drawable.ic_add,
-                        R.string.settings_bt_picker
+                        R.string.settings_bt_picker,
+                        SettingsTestTags.ADVANCED_ADD_DEVICE_BUTTON
                     ) {
                         navController.navigate(SettingsNavOption.SettingsBtPicker.name)
                     }
@@ -53,8 +57,9 @@ fun DeviceListScreen(
         Column(modifier = Modifier.padding(padding)) {
             when (state) {
                 is DeviceListState.Devices -> DevicePickerComp(
+                    modifier = Modifier.testTag(SettingsTestTags.ADVANCED_LIST_TO_DELETE),
                     dataItems = state.devices,
-                    DeviceAction.DELETE
+                    action = DeviceAction.DELETE
                 ) { device ->
                     onEvent(DeviceListEvent.OnDeviceDelete(device))
                 }
@@ -65,9 +70,7 @@ fun DeviceListScreen(
                     onPrimaryClick = {
                         navController.navigate(SettingsNavOption.SettingsBtPicker.name)
                     }
-
                 )
-
                 DeviceListState.Loading -> LoadingComp()
             }
         }

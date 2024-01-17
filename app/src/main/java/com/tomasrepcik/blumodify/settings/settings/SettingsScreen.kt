@@ -13,6 +13,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.R
@@ -22,6 +23,7 @@ import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
+import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.settings.screens.SettingsLoadedComp
 import com.tomasrepcik.blumodify.settings.settings.states.SettingsEvent
 import com.tomasrepcik.blumodify.settings.settings.states.SettingsState
@@ -34,7 +36,9 @@ fun SettingsScreen(
     onEvent: (SettingsEvent) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    Scaffold(snackbarHost = {
+    Scaffold(
+        modifier = Modifier.testTag(SettingsTestTags.SETTINGS_SCREEN),
+        snackbarHost = {
         SnackbarHost(hostState = snackbarHostState) { data ->
             Snackbar(
                 data,

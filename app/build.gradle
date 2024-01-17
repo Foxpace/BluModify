@@ -50,7 +50,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.5.1"
+        kotlinCompilerExtensionVersion "1.5.8"
     }
     kapt {
         correctErrorTypes true
@@ -58,46 +58,48 @@ android {
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
         }
     }
 }
 
 dependencies {
     ext.compose_version = '1.5.0'
-    ext.hilt_version = '2.47'
-    ext.work_manager_version = '2.8.1'
-    ext.room_version = '2.5.2'
-    ext.kotlin_version = '1.9.0'
+    ext.hilt_version = '2.48'
+    ext.work_manager_version = '2.9.0'
+    ext.room_version = '2.6.1'
+    ext.kotlin_version = '1.9.22'
 
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation "androidx.hilt:hilt-navigation-compose:1.1.0"
 
     // navigation
-    implementation "androidx.navigation:navigation-compose:2.7.0"
+    implementation 'androidx.navigation:navigation-compose:2.7.6'
 
     // data storage
     implementation "androidx.datastore:datastore:1.0.0"
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
 
     // android core
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "androidx.core:core-ktx:1.10.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
-    implementation "androidx.activity:activity-compose:1.7.2"
-    implementation "androidx.compose.material:material:1.5.0"
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
+    implementation "androidx.activity:activity-compose:1.8.2"
+    implementation "androidx.compose.material:material:1.5.4"
 
     // UI
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.compose.material3:material3:1.2.0-alpha05"
+    implementation 'androidx.compose.material3:material3:1.2.0-beta02'
     implementation "androidx.core:core-splashscreen:1.0.1"
-    implementation 'androidx.tracing:tracing:1.1.0'
+    implementation 'androidx.tracing:tracing:1.2.0'
 
     // workmanager
-    implementation "androidx.hilt:hilt-work:1.0.0"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    implementation "androidx.hilt:hilt-work:1.1.0"
+    kapt "androidx.hilt:hilt-compiler:1.1.0"
     implementation "androidx.work:work-runtime-ktx:$work_manager_version"
 
     // room
@@ -106,7 +108,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // rive
-    implementation 'app.rive:rive-android:8.2.1'
+    implementation 'app.rive:rive-android:8.2.3'
     implementation "androidx.startup:startup-runtime:1.1.1"
 
     // google play licenses
@@ -122,7 +124,7 @@ dependencies {
 
     // third parties
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
-    testImplementation 'org.mockito:mockito-core:5.4.0'
+    testImplementation 'org.mockito:mockito-core:5.5.0'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
     testImplementation 'io.mockk:mockk:1.13.7'
     testImplementation 'app.cash.turbine:turbine:1.0.0'
@@ -133,6 +135,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
     androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'org.mockito:mockito-android:5.5.0'
+    androidTestImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
 
     // compose
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"

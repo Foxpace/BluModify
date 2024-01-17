@@ -27,11 +27,12 @@ import com.tomasrepcik.blumodify.app.ui.components.conditional
 fun AboutScreenLine(
     @DrawableRes img: Int,
     @StringRes imageDescription: Int,
+    modifier: Modifier = Modifier,
     text: String,
     onClick: (() -> Unit)? = null
 ) = Column {
     Column(
-        modifier = Modifier.conditional(onClick != null) {
+        modifier = modifier.conditional(onClick != null) {
             clickable {
                 onClick?.invoke()
             }

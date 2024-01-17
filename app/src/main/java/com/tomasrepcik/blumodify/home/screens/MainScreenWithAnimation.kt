@@ -29,6 +29,7 @@ fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
                 text = R.string.main_screen_turn_on,
                 modifier = Modifier
                     .fillMaxSize()
+                    .testTag(HomeTestTags.HOME_BUTTON_ON)
                     .weight(1f), onClick = onClick
             )
 
@@ -37,6 +38,7 @@ fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
                 text = R.string.main_screen_turn_off,
                 modifier = Modifier
                     .fillMaxSize()
+                    .testTag(HomeTestTags.HOME_BUTTON_OFF)
                     .weight(1f), onClick = onClick
             )
 
@@ -45,6 +47,7 @@ fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
                 text = R.string.try_again,
                 modifier = Modifier
                     .fillMaxSize()
+                    .testTag(HomeTestTags.HOME_BUTTON_TRY_AGAIN)
                     .weight(1f), onClick = onClick
             )
         }

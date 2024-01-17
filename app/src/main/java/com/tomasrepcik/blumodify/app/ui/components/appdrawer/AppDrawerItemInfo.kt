@@ -7,5 +7,6 @@ data class AppDrawerItemInfo<T>(
     val drawerOption: T,
     @StringRes val title: Int,
     @DrawableRes val drawableId: Int,
-    @StringRes val descriptionId: Int
+    @StringRes val descriptionId: Int,
+    val testTag: String
 )

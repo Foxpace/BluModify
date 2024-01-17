@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +38,7 @@ import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 @Composable
 fun AboutScreen(drawerState: DrawerState) {
     Scaffold(
+        modifier = Modifier.testTag(AboutTestTags.ABOUT_SCREEN),
         topBar = { AppBar(drawerState = drawerState, title = R.string.about_screen_title) }
     ) { padding ->
         val context = LocalContext.current
@@ -49,6 +51,7 @@ fun AboutScreen(drawerState: DrawerState) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_ICON),
                 painter = painterResource(id = R.drawable.ic_app_empty),
                 contentScale = ContentScale.Fit,
                 contentDescription = stringResource(
@@ -56,11 +59,13 @@ fun AboutScreen(drawerState: DrawerState) {
                 )
             )
             Text(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_TITLE),
                 text = stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_DESCRIPTION),
                 text = stringResource(id = R.string.about_screen_text),
                 style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Justify),
             )
@@ -72,6 +77,7 @@ fun AboutScreen(drawerState: DrawerState) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             AboutScreenLine(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_VERSION),
                 img = R.drawable.ic_android,
                 imageDescription = R.string.ic_android,
                 text = stringResource(
@@ -81,6 +87,7 @@ fun AboutScreen(drawerState: DrawerState) {
                 )
             )
             AboutScreenLine(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_GITHUB),
                 img = R.drawable.ic_github,
                 imageDescription = R.string.ic_github,
                 text = stringResource(id = R.string.about_screen_github_text)
@@ -93,6 +100,7 @@ fun AboutScreen(drawerState: DrawerState) {
                 }
             }
             AboutScreenLine(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_MAIL),
                 img = R.drawable.ic_mail,
                 imageDescription = R.string.ic_mail,
                 text = stringResource(id = R.string.about_screen_mail_text)
@@ -103,6 +111,7 @@ fun AboutScreen(drawerState: DrawerState) {
                 }
             }
             AboutScreenLine(
+                modifier = Modifier.testTag(AboutTestTags.ABOUT_LICENSES),
                 img = R.drawable.ic_license,
                 imageDescription = R.string.ic_license,
                 text = stringResource(id = R.string.about_screen_license_text)

@@ -10,10 +10,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +43,7 @@ fun AppBar(
             }
         },
         navigationIcon = {
-            if (drawerState != null && navigationIcon == null){
+            if (drawerState != null && navigationIcon == null) {
                 DrawerIcon(drawerState = drawerState)
             } else {
                 navigationIcon?.invoke()
@@ -53,11 +55,13 @@ fun AppBar(
 @Composable
 private fun DrawerIcon(drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
-    IconButton(onClick = {
-        coroutineScope.launch {
-            drawerState.open()
-        }
-    }) {
+    IconButton(
+        modifier = Modifier.testTag(AppTestTags.APP_DRAWER_BUTTON),
+        onClick = {
+            coroutineScope.launch {
+                drawerState.open()
+            }
+        }) {
         Icon(
             Icons.Rounded.Menu,
             tint = MaterialTheme.colorScheme.onBackground,
@@ -68,10 +72,11 @@ private fun DrawerIcon(drawerState: DrawerState) {
 
 @Composable
 fun AppBarAction(appBarAction: AppBarAction) {
-    IconButton(onClick = appBarAction.onClick) {
+    IconButton(onClick = appBarAction.onClick, modifier = Modifier.testTag(appBarAction.testTag)) {
         Icon(
             painter = painterResource(id = appBarAction.icon),
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier
+                .size(24.dp),
             tint = MaterialTheme.colorScheme.onBackground,
             contentDescription = stringResource(id = appBarAction.description)
         )

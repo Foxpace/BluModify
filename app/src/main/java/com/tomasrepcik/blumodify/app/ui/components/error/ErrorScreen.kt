@@ -52,7 +52,7 @@ fun <T> ErrorScreen(
 @AllScreenPreview
 @Composable
 fun ErrorScreenPreview() {
-    BluModifyTheme() {
+    BluModifyTheme {
         Surface {
             ErrorScreen(
                 explanation = R.string.main_screen_error,

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package com.tomasrepcik.blumodify.instrumented.bluetooth.workmanager
 
 
@@ -7,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.WorkInfo
@@ -18,7 +17,6 @@ import com.tomasrepcik.blumodify.bluetooth.workmanager.BtWorkManager
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import org.hamcrest.CoreMatchers.`is`
@@ -26,9 +24,11 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import javax.inject.Inject
 
 @HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class BtWorkManagerTests {
 
     @get:Rule
@@ -51,7 +51,6 @@ class BtWorkManagerTests {
         WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testingInitOfBtWorker() = runTest {
         // ARRANGE
@@ -69,7 +68,6 @@ class BtWorkManagerTests {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testingNoWorkerInitialized() = runTest {
         // ARRANGE
@@ -83,7 +81,6 @@ class BtWorkManagerTests {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testingCancellationOfWork() = runTest {
         // ARRANGE
@@ -109,7 +106,6 @@ class BtWorkManagerTests {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testingFirstRun() = runTest {
         // ARRANGE
@@ -128,7 +124,6 @@ class BtWorkManagerTests {
         assertThat(workInfo.state, `is`(WorkInfo.State.RUNNING))
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testingEnqueuedRun() = runTest {
         // ARRANGE

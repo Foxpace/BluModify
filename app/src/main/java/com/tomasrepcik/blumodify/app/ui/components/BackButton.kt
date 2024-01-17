@@ -4,25 +4,32 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
+import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import com.tomasrepcik.blumodify.app.ui.previews.AllPreviews
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
 @Composable
 fun BackButton( onClick: OnClickFunction) {
     IconButton(
-        onClick = onClick, modifier = Modifier.defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
+        onClick = onClick,
+        modifier = Modifier
+            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
+            .testTag(
+                AppTestTags.APP_BACK_BUTTON
+            )
     ) {
         Icon(
-            Icons.Filled.ArrowBack,
+            Icons.AutoMirrored.Filled.ArrowBack,
             stringResource(id = R.string.ic_arrow_back),
             modifier = Modifier
                 .size(32.dp)

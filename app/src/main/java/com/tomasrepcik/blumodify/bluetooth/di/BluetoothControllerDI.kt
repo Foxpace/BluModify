@@ -17,8 +17,14 @@ abstract class BluetoothControllerDI {
     @Singleton
     abstract fun providesBluetoothController(btController: BtController): BtControllerTemplate
 
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BluetoothSolverDI {
     @Binds
     @Singleton
     abstract fun providesBluModifySolver(btController: BluModifySolver): BluModifySolverTemplate
 
 }
+

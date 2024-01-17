@@ -51,7 +51,7 @@ class BluModifyViewModelTest {
     @Mock
     lateinit var notificationRepo: NotificationRepoTemplate
 
-    lateinit var sut: BluModifyViewModel
+    private lateinit var sut: BluModifyViewModel
 
     @Before
     fun setUp() {

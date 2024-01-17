@@ -23,14 +23,20 @@ abstract class AppCacheDi {
     abstract fun provideAppCache(appCache: AppCache): AppCacheTemplate<AppCacheState>
 
 }
+
 @Module
 @InstallIn(SingletonComponent::class)
-object DbDI {
+object DataStoreDI {
 
     @Provides
     @Singleton
     fun provideAppSettingsDataStore(@ApplicationContext context: Context): DataStore<AppSettings> =
         context.settingsDataStore
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object DbDI {
 
     @Provides
     @Singleton
@@ -38,6 +44,11 @@ object DbDI {
         context,
         AppDatabase::class.java, "BluModifyDb"
     ).build()
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object DbAccessDI {
 
     @Provides
     @Singleton

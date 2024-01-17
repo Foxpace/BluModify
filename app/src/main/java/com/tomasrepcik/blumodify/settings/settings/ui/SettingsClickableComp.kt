@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,11 +33,12 @@ fun SettingsClickableComp(
     @DrawableRes icon: Int,
     @StringRes iconDesc: Int,
     @StringRes name: Int,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Surface(
         color = Color.Transparent,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
         onClick = onClick,
@@ -68,7 +69,7 @@ fun SettingsClickableComp(
                 }
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(
-                    Icons.Rounded.KeyboardArrowRight,
+                    Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                     tint = MaterialTheme.colorScheme.surfaceTint,
                     contentDescription = stringResource(id = R.string.ic_arrow_forward)
                 )

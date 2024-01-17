@@ -10,12 +10,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.BackButton
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
+import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.AllDevicesAddedComp
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.NoDeviceComp
 import com.tomasrepcik.blumodify.settings.advanced.btpicker.ui.PermissionComp
@@ -39,6 +41,7 @@ fun SettingsBtPickerScreen(navController: NavController, state: TrackedDevicesSt
     }
 
     Scaffold(
+        modifier = Modifier.testTag(SettingsTestTags.ADVANCED_BT_PICKER_SCREEN),
         topBar = {
             AppBar(
                 title = R.string.settings_bt_picker,
@@ -48,10 +51,18 @@ fun SettingsBtPickerScreen(navController: NavController, state: TrackedDevicesSt
                     }
                 },
                 appBarActions = arrayOf(
-                    AppBarAction(R.drawable.ic_refresh, R.string.ic_refresh){
+                    AppBarAction(
+                        R.drawable.ic_refresh,
+                        R.string.ic_refresh,
+                        SettingsTestTags.ADVANCED_REFRESH_BUTTON
+                    ) {
                         onEvent(TrackedDevicesEvent.OnLaunch)
                     },
-                    AppBarAction(R.drawable.ic_bt, R.string.ic_bt_permission){
+                    AppBarAction(
+                        R.drawable.ic_bt,
+                        R.string.ic_bt_permission,
+                        SettingsTestTags.ADVANCED_BT_SETTINGS_BUTTON
+                    ) {
                         val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
                         context.startActivity(intentOpenBluetoothSettings)
                     }
