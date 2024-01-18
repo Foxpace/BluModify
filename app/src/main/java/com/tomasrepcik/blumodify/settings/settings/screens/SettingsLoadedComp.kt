@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.intro.composables.PowerManagement
+import com.tomasrepcik.blumodify.intro.composables.battery.PowerManagement
 import com.tomasrepcik.blumodify.settings.SettingsNavOption
 import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.settings.states.SettingsEvent

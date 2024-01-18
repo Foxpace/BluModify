@@ -1,12 +1,5 @@
-package com.tomasrepcik.blumodify.intro.composables
+package com.tomasrepcik.blumodify.intro.composables.battery
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.PowerManager
-import android.provider.Settings
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tomasrepcik.blumodify.NavRoutes
@@ -41,14 +33,11 @@ import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.intro.IntroTestTags
-import com.tomasrepcik.blumodify.intro.IntroViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun BatteryOptimizationScreen(
     navController: NavController = rememberNavController(),
-    viewModel: IntroViewModel = hiltViewModel()
+    onEvent: (BatteryOptimizationEvents) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -99,8 +88,12 @@ fun BatteryOptimizationScreen(
                     .testTag(IntroTestTags.INTRO_BATTERY_OPTIMISATION_SCREEN_ENLIST_BUTTON),
                 text = R.string.battery_saving_activate_button
             ) {
-                PowerManagement.tryToIgnoreBatteryOptimisations(
-                    context, coroutineScope, snackbarHostState
+                onEvent(
+                    BatteryOptimizationEvents.RemoveBatteryOptimization(
+                        context,
+                        coroutineScope,
+                        snackbarHostState
+                    )
                 )
             }
             AppButton(
@@ -109,7 +102,7 @@ fun BatteryOptimizationScreen(
                     .testTag(IntroTestTags.INTRO_BATTERY_OPTIMISATION_SCREEN_START_BUTTON),
                 text = R.string.start_app
             ) {
-                viewModel.saveUserOnboarding()
+                onEvent(BatteryOptimizationEvents.FinishOnboarding)
                 navController.navigate(NavRoutes.MainRoute.name) {
                     popUpTo(NavRoutes.IntroRoute.name)
                 }
@@ -118,45 +111,12 @@ fun BatteryOptimizationScreen(
     }
 }
 
-object PowerManagement {
-
-    /**
-     * request to add app to whitelist
-     */
-    @SuppressLint("BatteryLife")
-    fun tryToIgnoreBatteryOptimisations(
-        context: Context, coroutineScope: CoroutineScope, snackbarState: SnackbarHostState
-    ) {
-        val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager? ?: return
-
-        if (pm.isIgnoringBatteryOptimizations(context.packageName)) {
-            coroutineScope.launch {
-                snackbarState.showSnackbar(context.getString(R.string.battery_saving_already_added))
-            }
-        }
-
-        val intent = Intent()
-        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-        intent.data = Uri.parse("package:" + context.packageName)
-
-        try {
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            coroutineScope.launch {
-                snackbarState.showSnackbar(context.getString(R.string.battery_saving_error))
-            }
-            Log.e("BatteryOptimisation", "Battery optimisation error", e)
-        }
-    }
-
-}
-
 
 @AllScreenPreview
 @Composable
 fun BatteryOptimizationPreview() {
     BluModifyTheme {
-        BatteryOptimizationScreen()
+        BatteryOptimizationScreen {}
     }
 }
 
