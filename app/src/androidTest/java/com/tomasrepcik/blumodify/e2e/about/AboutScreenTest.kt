@@ -1,5 +1,7 @@
 package com.tomasrepcik.blumodify.e2e.about
 
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
 import androidx.datastore.core.DataStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -41,7 +43,8 @@ class AboutScreenTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(AboutRobot(composeTestRule)) {
-            checkAboutScreenContent()
+            composeRule.onRoot(useUnmergedTree = true).printToLog("AboutScreen")
+            checkAboutScreen()
         }
     }
 }
