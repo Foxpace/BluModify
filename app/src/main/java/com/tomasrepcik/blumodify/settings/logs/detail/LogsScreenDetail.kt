@@ -20,7 +20,6 @@ import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import com.tomasrepcik.blumodify.settings.logs.detail.screens.LogDetailComp
 import com.tomasrepcik.blumodify.settings.logs.detail.vm.LogsDetailEvent
@@ -44,43 +43,35 @@ fun LogsScreenDetail(
             BackButton {
                 navController.popBackStack()
             }
-        },
-            appBarActions =
-            when (state) {
-                is LogsDetailState.Loaded -> {
-                    val context = LocalContext.current
-                    if (state.log.isSuccess) {
-                        arrayOf()
-                    } else {
-                        arrayOf(
-                            AppBarAction(
-                                icon = R.drawable.ic_mail,
-                                description = R.string.ic_mail,
-                                testTag = SettingsTestTags.LOG_MAIL_BUTTON
-                            ) {
-                                MailSending.reportLog(context, state.log)
-                            }
-                        )
-                    }
+        }, appBarActions = when (state) {
+            is LogsDetailState.Loaded -> {
+                val context = LocalContext.current
+                if (state.log.isSuccess) {
+                    arrayOf()
+                } else {
+                    arrayOf(AppBarAction(
+                        icon = R.drawable.ic_mail,
+                        description = R.string.ic_mail,
+                    ) {
+                        MailSending.reportLog(context, state.log)
+                    })
                 }
-
-                else -> arrayOf()
             }
-        )
+
+            else -> arrayOf()
+        })
     }) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             when (state) {
                 is LogsDetailState.Loaded -> LogDetailComp(state.log)
                 LogsDetailState.Loading -> LoadingComp()
-                is LogsDetailState.Error -> ErrorScreen(
-                    explanation = R.string.settings_empty_log,
+                is LogsDetailState.Error -> ErrorScreen(explanation = R.string.settings_empty_log,
                     ignoreDetails = false,
                     error = state.error,
                     primaryText = R.string.back,
                     onPrimaryClick = {
                         navController.popBackStack()
-                    }
-                )
+                    })
 
                 LogsDetailState.NotFound -> ErrorScreen<Error>(
                     explanation = R.string.settings_empty_log,
@@ -103,11 +94,7 @@ fun LogsScreenDetailPreview() {
                 error = null,
                 LogsDetailState.Loaded(
                     LogReportUiItem(
-                        "0",
-                        "1.1.1999",
-                        true,
-                        arrayOf(BtItem("Device", "00:00:00")),
-                        ""
+                        "0", "1.1.1999", true, arrayOf(BtItem("Device", "00:00:00")), ""
                     )
                 )
             ) {
@@ -128,11 +115,7 @@ fun LogsScreenDetailUnsuccessfulPreview() {
                 error = null,
                 LogsDetailState.Loaded(
                     LogReportUiItem(
-                        "0",
-                        "1.1.1999",
-                        false,
-                        arrayOf(BtItem("Device", "00:00:00")),
-                        "Stacktrace"
+                        "0", "1.1.1999", false, arrayOf(BtItem("Device", "00:00:00")), "Stacktrace"
                     )
                 )
             ) {

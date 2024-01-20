@@ -54,14 +54,12 @@ fun SettingsBtPickerScreen(navController: NavController, state: TrackedDevicesSt
                     AppBarAction(
                         R.drawable.ic_refresh,
                         R.string.ic_refresh,
-                        SettingsTestTags.ADVANCED_REFRESH_BUTTON
                     ) {
                         onEvent(TrackedDevicesEvent.OnLaunch)
                     },
                     AppBarAction(
                         R.drawable.ic_bt,
                         R.string.ic_bt_permission,
-                        SettingsTestTags.ADVANCED_BT_SETTINGS_BUTTON
                     ) {
                         val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
                         context.startActivity(intentOpenBluetoothSettings)

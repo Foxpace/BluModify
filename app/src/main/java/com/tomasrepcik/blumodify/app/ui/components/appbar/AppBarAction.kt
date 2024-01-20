@@ -6,6 +6,5 @@ import androidx.annotation.StringRes
 data class AppBarAction(
     @DrawableRes val icon: Int,
     @StringRes val description: Int,
-    val testTag: String,
     val onClick: () -> Unit
 )

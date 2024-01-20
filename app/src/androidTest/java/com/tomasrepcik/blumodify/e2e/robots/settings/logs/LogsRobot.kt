@@ -1,28 +1,57 @@
 package com.tomasrepcik.blumodify.e2e.robots.settings.logs
 
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasAnyChild
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import com.tomasrepcik.blumodify.app.ui.AppTestTags
+import androidx.compose.ui.test.performClick
+import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
 import com.tomasrepcik.blumodify.e2e.robots.Robot
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
+import com.tomasrepcik.blumodify.settings.logs.list.LogUiListItem
+import java.text.DateFormat
 
 class LogsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
-    fun checkEmptyLogs(text: String) {
-        waitForImage(AppTestTags.APP_ERROR_SCREEN)
-        assertContent(AppTestTags.APP_ERROR_SCREEN)
-        assertContent(AppTestTags.APP_ERROR_SCREEN_BUTTON_PRIMARY)
-        assertDoesNotExist(AppTestTags.APP_ERROR_SCREEN_BUTTON_SECONDARY)
-        assertText(text)
+    fun checkEmptyLogsScreen() {
+        waitFor(hasContentDescription("Sad face"))
+        assertContentDescription("Sad face")
+        assertTextBesideImage(
+            "No logs are in database. Use the app for a while and some logs will be recorded.",
+            "Sad face"
+        )
+        assertTextButton("Back")
     }
 
-    fun checkLogWithId(id: Int){
-        wait(SettingsTestTags.LOGS_LIST)
-        assertContent(id.toString())
+    fun checkLogItem(logReport: LogReport) {
+        composeRule.onNode(hasAnyChild(returnMatcher(reportToLogUi(logReport)))).assertExists()
+        reportToNode(logReport).assertExists()
     }
 
-    fun goBackError() = click(AppTestTags.APP_ERROR_SCREEN_BUTTON_PRIMARY)
+    fun goBackFromError() = clickButtonByText("Back")
 
-    fun openLogWithId(i: Int) = click(i.toString())
+    fun openLogWithId(logReport: LogReport) = reportToNode(logReport).performClick()
+
+
+    private fun reportToLogUi(logReport: LogReport): LogUiListItem = LogUiListItem(
+        id = logReport.id,
+        time = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+            .format(logReport.startTime),
+        isSuccess = logReport.isSuccess,
+        connectedDevices = logReport.connectedDevices.size.toString()
+    )
+
+    private fun reportToNode(logReport: LogReport): SemanticsNodeInteraction =
+        composeRule.onNode(returnMatcher(reportToLogUi(logReport)))
+
+    private fun returnMatcher(logUi: LogUiListItem): SemanticsMatcher = hasText(logUi.time).and(
+        hasText("Connected devices: ${logUi.connectedDevices}").and(
+            hasText(
+                if (logUi.isSuccess) "Success" else "Failure"
+            )
+        )
+    )
 
 
 }

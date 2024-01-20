@@ -72,7 +72,7 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(LogsRobot(composeTestRule)) {
-            checkLogWithId(1)
+            checkLogItem(logReport)
             goBack()
         }
 
@@ -96,8 +96,8 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(LogsRobot(composeTestRule)) {
-            checkLogWithId(1)
-            openLogWithId(1)
+            checkLogItem(logReport)
+            openLogWithId(logReport)
         }
 
         with(LogDetailRobot(composeTestRule)) {

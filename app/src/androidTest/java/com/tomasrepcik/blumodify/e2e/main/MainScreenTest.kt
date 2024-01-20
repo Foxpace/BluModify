@@ -9,8 +9,10 @@ import com.tomasrepcik.blumodify.app.storage.cache.AppSettings
 import com.tomasrepcik.blumodify.e2e.helpers.UiTest
 import com.tomasrepcik.blumodify.e2e.helpers.config.TestConfig
 import com.tomasrepcik.blumodify.e2e.helpers.launchApp
+import com.tomasrepcik.blumodify.e2e.robots.AboutRobot
 import com.tomasrepcik.blumodify.e2e.robots.MainRobot
 import com.tomasrepcik.blumodify.e2e.robots.NavigationRobot
+import com.tomasrepcik.blumodify.e2e.robots.settings.MainSettingsRobot
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
@@ -91,8 +93,26 @@ class MainScreenTest : UiTest(TestConfig.AllPermissions) {
 
         with(NavigationRobot(composeTestRule)) {
             openSettingsScreenViaDrawer()
+        }
+
+        with(MainSettingsRobot(composeTestRule)) {
+            checkScreenContentWithoutAdvanced()
+        }
+
+        with(NavigationRobot(composeTestRule)) {
             openAboutScreenViaDrawer()
+        }
+
+        with(AboutRobot(composeTestRule)) {
+            checkAboutScreen()
+        }
+
+        with(NavigationRobot(composeTestRule)) {
             openMainScreenViaDrawer()
+        }
+
+        with(MainRobot(composeTestRule)) {
+            checkMainScreen()
         }
     }
 

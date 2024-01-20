@@ -23,37 +23,25 @@ import com.tomasrepcik.blumodify.settings.advanced.shared.ui.DevicePickerComp
 
 @Composable
 fun DeviceListScreen(
-    navController: NavHostController,
-    state: DeviceListState,
-    onEvent: (DeviceListEvent) -> Unit
+    navController: NavHostController, state: DeviceListState, onEvent: (DeviceListEvent) -> Unit
 ) {
 
     LaunchedEffect(key1 = Unit) {
         onEvent(DeviceListEvent.OnLaunch)
     }
 
-    Scaffold(
-        modifier = Modifier.testTag(SettingsTestTags.ADVANCED_LIST_SCREEN),
-        topBar = {
-            AppBar(
-                title = R.string.settings_tracked_devices,
-                navigationIcon = {
-                    BackButton {
-                        navController.popBackStack()
-                    }
-                },
-                appBarActions = arrayOf(
-                    AppBarAction(
-                        R.drawable.ic_add,
-                        R.string.settings_bt_picker,
-                        SettingsTestTags.ADVANCED_ADD_DEVICE_BUTTON
-                    ) {
-                        navController.navigate(SettingsNavOption.SettingsBtPicker.name)
-                    }
-                )
-            )
-        }
-    ) { padding ->
+    Scaffold(modifier = Modifier.testTag(SettingsTestTags.ADVANCED_LIST_SCREEN), topBar = {
+        AppBar(title = R.string.settings_tracked_devices, navigationIcon = {
+            BackButton {
+                navController.popBackStack()
+            }
+        }, appBarActions = arrayOf(AppBarAction(
+            R.drawable.ic_add,
+            R.string.settings_bt_picker,
+        ) {
+            navController.navigate(SettingsNavOption.SettingsBtPicker.name)
+        }))
+    }) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             when (state) {
                 is DeviceListState.Devices -> DevicePickerComp(
@@ -64,13 +52,12 @@ fun DeviceListScreen(
                     onEvent(DeviceListEvent.OnDeviceDelete(device))
                 }
 
-                DeviceListState.Empty -> ErrorScreen<DeviceListState>(
-                    explanation = R.string.settings_no_tracked_device,
+                DeviceListState.Empty -> ErrorScreen<DeviceListState>(explanation = R.string.settings_no_tracked_device,
                     primaryText = R.string.settings_bt_picker,
                     onPrimaryClick = {
                         navController.navigate(SettingsNavOption.SettingsBtPicker.name)
-                    }
-                )
+                    })
+
                 DeviceListState.Loading -> LoadingComp()
             }
         }

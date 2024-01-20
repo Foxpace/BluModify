@@ -16,14 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.mail.MailSending
 import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.model.ErrorCause
-import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
@@ -38,8 +36,7 @@ fun <T> ErrorDetailComp(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .testTag(AppTestTags.APP_ERROR_SCREEN_DETAIL),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -72,14 +69,12 @@ fun <T> ErrorDetailComp(
             Spacer(modifier = Modifier.height(16.dp))
             AppButton(
                 text = R.string.send_report,
-                modifier = Modifier.testTag(AppTestTags.APP_ERROR_SCREEN_BUTTON_DETAIL_MAIL)
             ) {
                 MailSending.reportError(context, error)
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
         AppButton(
-            modifier = Modifier.testTag(AppTestTags.APP_ERROR_SCREEN_BUTTON_DETAIL_BACK),
             text = R.string.back,
             onClick = onBackButton
         )

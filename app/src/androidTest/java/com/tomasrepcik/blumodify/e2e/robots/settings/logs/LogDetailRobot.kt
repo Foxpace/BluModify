@@ -8,7 +8,7 @@ import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 class LogDetailRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkLogDetailContent(devices: Array<BtItem> = emptyArray(), stackTrace: Boolean = false) {
-        wait(SettingsTestTags.LOG_DETAIL)
+//        wait(SettingsTestTags.LOG_DETAIL)
         assertContent(SettingsTestTags.LOG_DETAIL_TIME)
         assertContent(SettingsTestTags.LOG_DETAIL_STATUS)
         assertContent(SettingsTestTags.LOG_DETAIL_DEVICES)

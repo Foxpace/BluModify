@@ -44,9 +44,8 @@ class EmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(LogsRobot(composeTestRule)) {
-            val emptyLogsErrorMessage = "No logs are in database. Use the app for a while and some logs will be recorded."
-            checkEmptyLogs(emptyLogsErrorMessage)
-            goBackError()
+            checkEmptyLogsScreen()
+            goBackFromError()
         }
 
         with(MainSettingsRobot(composeTestRule)) {

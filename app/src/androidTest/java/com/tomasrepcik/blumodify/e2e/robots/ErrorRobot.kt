@@ -6,7 +6,7 @@ class ErrorRobot(composeRule: ComposeTestRule) :
     Robot(composeRule) {
 
     fun checkErrorScreen(issueDescription: String, primaryButtonText: String) {
-        assertImage("Sad face")
+        assertContentDescription("Sad face")
         assertTextBesideImage(issueDescription, "Sad face")
         assertTextButton(primaryButtonText)
     }

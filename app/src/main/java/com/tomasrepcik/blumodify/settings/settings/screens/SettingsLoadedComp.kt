@@ -9,13 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.intro.composables.battery.PowerManagement
 import com.tomasrepcik.blumodify.settings.SettingsNavOption
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.settings.states.SettingsEvent
 import com.tomasrepcik.blumodify.settings.settings.states.SettingsState
 import com.tomasrepcik.blumodify.settings.settings.ui.SettingsClickableComp
@@ -43,7 +41,6 @@ fun SettingsLoadedComp(
                 name = R.string.settings_advanced_tracking,
                 icon = R.drawable.ic_bt,
                 iconDesc = R.string.ic_bt,
-                modifier = Modifier.testTag(SettingsTestTags.SETTINGS_MAIN_ADVANCED),
                 state = state.settings.isAdvancedSettings
             ) {
                 onEvent(SettingsEvent.ToggleAdvancedSettings)
@@ -53,7 +50,6 @@ fun SettingsLoadedComp(
                 SettingsClickableComp(
                     name = R.string.settings_advanced_tracking_dialog_button,
                     icon = R.drawable.ic_question_mark,
-                    modifier = Modifier.testTag(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ABOUT),
                     iconDesc = R.string.ic_question_mark
                 ) {
                     navController.navigate(SettingsNavOption.SettingsAdvancedExplanation.name)
@@ -61,7 +57,6 @@ fun SettingsLoadedComp(
                 SettingsClickableComp(
                     name = R.string.settings_devices_list,
                     icon = R.drawable.ic_check,
-                    modifier = Modifier.testTag(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ADD),
                     iconDesc = R.string.ic_check
                 ) {
                     navController.navigate(SettingsNavOption.SettingsDeviceList.name)
@@ -74,7 +69,6 @@ fun SettingsLoadedComp(
                 name = R.string.settings_logs,
                 icon = R.drawable.ic_history_reset,
                 iconDesc = R.string.settings_logs_button_description,
-                modifier = Modifier.testTag(SettingsTestTags.SETTINGS_MAIN_LOGS),
             ) {
                 navController.navigate(SettingsNavOption.SettingsLogsScreen.name)
             }
@@ -85,7 +79,6 @@ fun SettingsLoadedComp(
                 name = R.string.battery_saving_activate_button,
                 icon = R.drawable.ic_battery_settings,
                 iconDesc = R.string.ic_battery_happy,
-                modifier = Modifier.testTag(SettingsTestTags.SETTINGS_MAIN_WHITELIST),
             ) {
                 PowerManagement.tryToIgnoreBatteryOptimisations(
                     context,

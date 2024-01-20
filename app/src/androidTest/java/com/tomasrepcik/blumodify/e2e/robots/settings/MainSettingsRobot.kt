@@ -2,33 +2,37 @@ package com.tomasrepcik.blumodify.e2e.robots.settings
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import com.tomasrepcik.blumodify.e2e.robots.Robot
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 
 class MainSettingsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkScreenContentWithoutAdvanced() {
-        assertContent(SettingsTestTags.SETTINGS_MAIN_ADVANCED)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_ADVANCED_CHECKMARK)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_WHITELIST)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_LOGS)
+        assertText("Devices")
+        assertTextButtonWithIcon("Advanced tracking", "Bluetooth button")
+        assertText("History")
+        assertTextButtonWithIcon("Execution logs", "Execution logs button")
+        assertText("Battery routines")
+        assertTextButtonWithIcon("Add to whitelist", "Happy battery")
 
-        assertDoesNotExist(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ADD)
-        assertDoesNotExist(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ABOUT)
+        assertDoesNotExistText("Explanation")
+        assertDoesNotExistText("Tracked devices list")
     }
 
     fun checkScreenContentWithAdvanced() {
-        assertContent(SettingsTestTags.SETTINGS_MAIN_ADVANCED)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_ADVANCED_CHECKMARK)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_WHITELIST)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_LOGS)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ADD)
-        assertContent(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ABOUT)
+        assertText("Devices")
+        assertTextButtonWithIcon("Advanced tracking", "Bluetooth button")
+        assertTextButtonWithIcon("Explanation", "Question mark")
+        assertTextButtonWithIcon("Tracked devices list", "Check mark")
+        assertTextButtonWithIcon("Advanced tracking", "Bluetooth button")
+        assertText("History")
+        assertTextButtonWithIcon("Execution logs", "Execution logs button")
+        assertText("Battery routines")
+        assertTextButtonWithIcon("Add to whitelist", "Happy battery")
     }
 
-    fun enableAdvanced() = click(SettingsTestTags.SETTINGS_MAIN_ADVANCED_CHECKMARK)
+    fun enableAdvanced() = clickButtonByText("Advanced tracking")
 
-    fun openLogs() = click(SettingsTestTags.SETTINGS_MAIN_LOGS)
-    fun openAdvancedList() = click(SettingsTestTags.SETTINGS_MAIN_ADVANCED_ADD)
+    fun openLogs() = clickButtonByText("Execution logs")
+    fun openAdvancedList() = clickButtonByText("Tracked devices list")
 
 
 }

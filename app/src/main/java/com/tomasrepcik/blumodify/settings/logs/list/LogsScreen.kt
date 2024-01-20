@@ -14,7 +14,6 @@ import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBarAction
 import com.tomasrepcik.blumodify.app.ui.components.error.ErrorScreen
 import com.tomasrepcik.blumodify.app.ui.components.loading.LoadingComp
 import com.tomasrepcik.blumodify.settings.SettingsNav
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.logs.list.ui.LogsList
 import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListEvent
 import com.tomasrepcik.blumodify.settings.logs.list.vm.LogsListState
@@ -35,7 +34,7 @@ fun LogsScreen(
                     navController.popBackStack()
                 }
             }, appBarActions = arrayOf(AppBarAction(
-                R.drawable.ic_reverse, R.string.ic_reverse, SettingsTestTags.LOGS_REVERSE_BUTTON
+                R.drawable.ic_reverse, R.string.ic_reverse
             ) {
                 onEvent(LogsListEvent.OnReverse)
             })

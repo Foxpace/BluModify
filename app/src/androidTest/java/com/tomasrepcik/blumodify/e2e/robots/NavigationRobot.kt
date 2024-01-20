@@ -1,43 +1,40 @@
 package com.tomasrepcik.blumodify.e2e.robots
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import com.tomasrepcik.blumodify.app.ui.AppTestTags
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 
-class NavigationRobot(composeRule: ComposeTestRule) :
-    Robot(composeRule) {
+class NavigationRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
+
+    private fun openDrawer() {
+        assertContentDescriptionWithButton("Menu navigation button")
+        clickContentDescriptionWithButton("Menu navigation button")
+    }
+
+    private fun checkDrawer() {
+        assertContentDescription("BluModify app icon")
+        assertTextBesideImage("BluModify", "BluModify app icon")
+        assertTextButtonWithIcon("Home", "Home navigation button")
+        assertTextButtonWithIcon("Settings", "Settings navigation button")
+        assertTextButtonWithIcon("About", "About navigation button")
+    }
 
     fun openAndCheckDrawer() {
-        click(AppTestTags.APP_DRAWER_BUTTON)
-        assertContent(AppTestTags.APP_DRAWER_SHEET)
-
+        openDrawer()
+        checkDrawer()
     }
 
-    fun openMainScreenViaDrawer(){
-        openDrawerAndClick(AppTestTags.APP_DRAWER_SHEET_HOME)
-        checkMainScreen()
+    fun openMainScreenViaDrawer() {
+        openAndCheckDrawer()
+        clickButtonByText("Home")
     }
 
-    fun openSettingsScreenViaDrawer(){
-        openDrawerAndClick(AppTestTags.APP_DRAWER_SHEET_SETTINGS)
-        checkSettingsScreen()
+    fun openSettingsScreenViaDrawer() {
+        openAndCheckDrawer()
+        clickButtonByText("Settings")
     }
 
-    fun openAboutScreenViaDrawer(){
-        openDrawerAndClick(AppTestTags.APP_DRAWER_SHEET_ABOUT)
+    fun openAboutScreenViaDrawer() {
+        openAndCheckDrawer()
+        clickButtonByText("About")
     }
-
-    private fun openDrawerAndClick(option: String) {
-        click(AppTestTags.APP_DRAWER_BUTTON)
-        assertContent(AppTestTags.APP_DRAWER_SHEET)
-        click(option)
-    }
-
-    private fun checkMainScreen() {
-
-    }
-
-    private fun checkSettingsScreen() = assertContent(SettingsTestTags.SETTINGS_SCREEN)
-
 
 }
