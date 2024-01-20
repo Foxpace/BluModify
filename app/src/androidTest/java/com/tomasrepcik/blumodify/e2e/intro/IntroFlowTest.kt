@@ -1,5 +1,7 @@
 package com.tomasrepcik.blumodify.e2e.intro
 
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
 import androidx.datastore.core.DataStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -12,7 +14,6 @@ import com.tomasrepcik.blumodify.e2e.helpers.launchApp
 import com.tomasrepcik.blumodify.e2e.robots.IntroRobot
 import com.tomasrepcik.blumodify.e2e.robots.MainRobot
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
@@ -24,8 +25,6 @@ import org.junit.runner.RunWith
 @UninstallModules(DataStoreDI::class)
 class IntroFlowTest : UiTest(TestConfig.AllPermissions) {
 
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
-
     @BindValue
     @JvmField
     val appSettings: DataStore<AppSettings> = generateSettingsMock()
@@ -35,14 +34,11 @@ class IntroFlowTest : UiTest(TestConfig.AllPermissions) {
         launchApp<MainActivity>()
 
         with(IntroRobot(composeTestRule)) {
-            clickWelcomeButton()
-            clickEnergyButton()
-            clickPrivacyButton()
-            clickRecommendationButton()
-            clickBatteryStartButton()
+            passIntro()
         }
         with(MainRobot(composeTestRule)) {
             checkMainScreen()
         }
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("HAha")
     }
 }

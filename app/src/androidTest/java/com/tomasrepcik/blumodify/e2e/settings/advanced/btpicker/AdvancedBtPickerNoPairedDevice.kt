@@ -16,7 +16,6 @@ import com.tomasrepcik.blumodify.e2e.robots.settings.MainSettingsRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.advanced.AdvancedListRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.advanced.BtPickerRobot
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
@@ -30,8 +29,6 @@ import org.mockito.kotlin.stub
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class, BluetoothControllerDI::class)
 class AdvancedBtPickerNoPairedDevice : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField

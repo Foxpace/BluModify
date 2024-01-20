@@ -12,7 +12,6 @@ import com.tomasrepcik.blumodify.e2e.helpers.launchApp
 import com.tomasrepcik.blumodify.e2e.robots.NavigationRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.MainSettingsRobot
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
@@ -23,8 +22,6 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class)
 class MainSettingsTest : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField
@@ -69,8 +66,6 @@ class MainSettingsTest : UiTest(TestConfig.AllPermissions) {
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class)
 class MainSettingsAdvancedOnTest : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField

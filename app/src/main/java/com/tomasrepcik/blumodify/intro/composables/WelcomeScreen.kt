@@ -26,7 +26,6 @@ import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 import com.tomasrepcik.blumodify.intro.IntroNavOption
-import com.tomasrepcik.blumodify.intro.IntroTestTags
 
 @Composable
 fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaffold(
@@ -64,8 +63,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController()) = Scaf
         Spacer(modifier = Modifier.weight(1f))
         AppButton(
             modifier = Modifier
-                .padding(bottom = 30.dp)
-                .testTag(IntroTestTags.INTRO_WELCOME_SCREEN_NEXT_BUTTON),
+                .padding(bottom = 30.dp),
             text = R.string.next
         ) {
             navController.navigate(IntroNavOption.MotivationEnergyScreen.name)

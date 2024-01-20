@@ -108,7 +108,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // rive
-    implementation 'app.rive:rive-android:8.2.3'
+    implementation 'app.rive:rive-android:8.7.0'
     implementation "androidx.startup:startup-runtime:1.1.1"
 
     // google play licenses

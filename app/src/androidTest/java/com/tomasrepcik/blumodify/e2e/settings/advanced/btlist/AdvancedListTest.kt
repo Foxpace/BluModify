@@ -15,7 +15,6 @@ import com.tomasrepcik.blumodify.e2e.robots.NavigationRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.MainSettingsRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.advanced.AdvancedListRobot
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.Dispatchers
@@ -29,8 +28,6 @@ import javax.inject.Inject
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class)
 class AdvancedListTest : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField

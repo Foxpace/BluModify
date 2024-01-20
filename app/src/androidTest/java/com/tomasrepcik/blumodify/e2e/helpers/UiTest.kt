@@ -27,8 +27,9 @@ import javax.inject.Inject
 @HiltAndroidTest
 abstract class UiTest(testConfig: TestConfig) {
 
+    @Suppress("LeakingThis")
     @get:Rule(order = 0)
-    abstract val hiltRule: HiltAndroidRule
+    val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
     val permissionsRule: GrantPermissionRule = GrantPermissionRule.grant(*testConfig.permissions)

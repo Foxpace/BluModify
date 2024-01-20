@@ -8,8 +8,8 @@ import com.tomasrepcik.blumodify.settings.SettingsTestTags
 class AdvancedListRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
     fun checkAdvancedEmptyListScreen() {
         assertContent(SettingsTestTags.ADVANCED_LIST_SCREEN)
-        wait(AppTestTags.APP_ERROR_SCREEN)
-        assertContent(AppTestTags.APP_ERROR_SCREEN)
+        waitForImage("Sad face")
+        assertImage("Sad face")
     }
 
     fun checkAdvancedListScreenWithDeviceMac(macAddress: String) {
@@ -21,7 +21,7 @@ class AdvancedListRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun openAdder() = click(SettingsTestTags.ADVANCED_ADD_DEVICE_BUTTON)
 
-    fun removeDevice(macAddress: String) = clickByText(macAddress)
+    fun removeDevice(macAddress: String) = clickButtonByText(macAddress)
 
 
 }

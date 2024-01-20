@@ -7,20 +7,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyState
-import com.tomasrepcik.blumodify.home.HomeTestTags
 
 @Composable
 fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+
+        val turnedOffStateDescription =
+            stringResource(id = R.string.main_screen_animation_state_off)
+        val turnedOnStateDescription = stringResource(id = R.string.main_screen_animation_state_on)
+        val waitingStateDescription =
+            stringResource(id = R.string.main_screen_animation_state_waiting)
+
         MainRiveAnimation(
             modifier = Modifier
                 .weight(1f)
-                .testTag(HomeTestTags.HOME_SCREEN_MAIN_ANIMATION),
-            state = state
+                .semantics {
+                    stateDescription = when (state) {
+                        BluModifyState.TurnedOff -> turnedOffStateDescription
+                        BluModifyState.TurnedOn -> turnedOnStateDescription
+                        else -> waitingStateDescription
+                    }
+                }, state = state
         )
         Spacer(modifier = Modifier.padding(vertical = 16.dp))
         when (state) {
@@ -29,8 +42,8 @@ fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
                 text = R.string.main_screen_turn_on,
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag(HomeTestTags.HOME_BUTTON_ON)
-                    .weight(1f), onClick = onClick
+                    .weight(1f),
+                onClick = onClick
             )
 
             BluModifyState.TurnedOn -> MainButtonComp(
@@ -38,8 +51,8 @@ fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
                 text = R.string.main_screen_turn_off,
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag(HomeTestTags.HOME_BUTTON_OFF)
-                    .weight(1f), onClick = onClick
+                    .weight(1f),
+                onClick = onClick
             )
 
             else -> MainButtonComp(
@@ -47,8 +60,8 @@ fun MainScreenWithAnimation(state: BluModifyState, onClick: () -> Unit) {
                 text = R.string.try_again,
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag(HomeTestTags.HOME_BUTTON_TRY_AGAIN)
-                    .weight(1f), onClick = onClick
+                    .weight(1f),
+                onClick = onClick
             )
         }
 

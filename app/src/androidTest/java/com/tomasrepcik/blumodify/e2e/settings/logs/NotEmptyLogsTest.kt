@@ -17,7 +17,6 @@ import com.tomasrepcik.blumodify.e2e.robots.settings.logs.LogDetailRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.logs.LogsRobot
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.Dispatchers
@@ -31,8 +30,6 @@ import javax.inject.Inject
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class)
 class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField

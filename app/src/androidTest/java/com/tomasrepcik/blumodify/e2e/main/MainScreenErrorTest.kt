@@ -14,7 +14,6 @@ import com.tomasrepcik.blumodify.e2e.helpers.launchApp
 import com.tomasrepcik.blumodify.e2e.robots.ErrorRobot
 import com.tomasrepcik.blumodify.e2e.robots.MainRobot
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
@@ -29,8 +28,6 @@ import org.mockito.kotlin.stub
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class, BluetoothControllerDI::class)
 class MainScreenErrorTest : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField
@@ -54,16 +51,13 @@ class MainScreenErrorTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(ErrorRobot(composeTestRule)){
-            checkErrorScreen()
-            resolveIssue()
+            checkErrorScreen("Bluetooth permission", "Give permission")
+            resolveIssueByClickingButton("Give permission")
         }
+
 
         with(MainRobot(composeTestRule)) {
             checkWorking()
         }
-
-
     }
-
-
 }

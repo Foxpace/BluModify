@@ -8,7 +8,7 @@ import com.tomasrepcik.blumodify.settings.SettingsTestTags
 class LogsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkEmptyLogs(text: String) {
-        wait(AppTestTags.APP_ERROR_SCREEN)
+        waitForImage(AppTestTags.APP_ERROR_SCREEN)
         assertContent(AppTestTags.APP_ERROR_SCREEN)
         assertContent(AppTestTags.APP_ERROR_SCREEN_BUTTON_PRIMARY)
         assertDoesNotExist(AppTestTags.APP_ERROR_SCREEN_BUTTON_SECONDARY)

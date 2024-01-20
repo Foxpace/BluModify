@@ -36,7 +36,7 @@ class BtPickerRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         assertText(macAddress)
     }
 
-    fun addDevice(macAddress: String) = clickByText(macAddress)
+    fun addDevice(macAddress: String) = clickButtonByText(macAddress)
 
 
 }

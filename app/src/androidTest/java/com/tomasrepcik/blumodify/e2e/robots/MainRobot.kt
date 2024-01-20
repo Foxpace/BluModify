@@ -1,29 +1,42 @@
 package com.tomasrepcik.blumodify.e2e.robots
 
+import androidx.compose.ui.test.hasStateDescription
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import com.tomasrepcik.blumodify.home.HomeTestTags
 
-class MainRobot(composeRule: ComposeTestRule) :
-    Robot(composeRule) {
+class MainRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkIdling() {
         checkButtonTurnOn()
-        checkMainScreen()
+        checkAnimationOff()
     }
 
     fun checkWorking() {
         checkCheckButtonOff()
-        checkMainScreen()
+        checkAnimationOn()
     }
 
-    fun checkMainScreen() = assertContent(HomeTestTags.HOME_SCREEN_MAIN_ANIMATION)
+    private fun checkAnimationOff() = composeRule.onNode(
+        hasStateDescription("Turned off")
+    ).assertExists()
 
-    private fun checkButtonTurnOn() = assertContent(HomeTestTags.HOME_BUTTON_ON)
+    private fun checkAnimationOn() = composeRule.onNode(
+        hasStateDescription("Turned on")
+    ).assertExists()
 
-    private fun checkCheckButtonOff() = assertContent(HomeTestTags.HOME_BUTTON_OFF)
+    fun checkMainScreen() = composeRule.onNode(
+        hasStateDescription("Turned off").or(
+            hasStateDescription("Turned on").or(
+                hasStateDescription("Waiting to resolve issue")
+            )
+        )
+    ).assertExists()
 
-    fun clickTurnOnButton() = click(HomeTestTags.HOME_BUTTON_ON)
-    fun clickTurnOffButton() = click(HomeTestTags.HOME_BUTTON_OFF)
+    private fun checkButtonTurnOn() = assertTextButton("Turn on")
+
+    private fun checkCheckButtonOff() = assertTextButton("Turn off")
+
+    fun clickTurnOnButton() = clickButtonByText("Turn on")
+    fun clickTurnOffButton() = clickButtonByText("Turn off")
 
 
 }

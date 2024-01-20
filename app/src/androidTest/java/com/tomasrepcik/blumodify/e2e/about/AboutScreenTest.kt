@@ -14,7 +14,6 @@ import com.tomasrepcik.blumodify.e2e.helpers.launchApp
 import com.tomasrepcik.blumodify.e2e.robots.AboutRobot
 import com.tomasrepcik.blumodify.e2e.robots.NavigationRobot
 import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
@@ -25,8 +24,6 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @UninstallModules(DataStoreDI::class)
 class AboutScreenTest : UiTest(TestConfig.AllPermissions) {
-
-    override val hiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     @BindValue
     @JvmField

@@ -109,6 +109,10 @@
     <string name="drawer_info_description">About navigation button</string>
 
     <!-- MAIN SCREEN -->
+    <string name="main_screen_animation_description">Rive main animation</string>
+    <string name="main_screen_animation_state_off">Turned off</string>
+    <string name="main_screen_animation_state_on">Turned on</string>
+    <string name="main_screen_animation_state_waiting">Waiting to resolve issue</string>
     <string name="main_screen_turn_on">Turn on</string>
     <string name="main_screen_turn_off">Turn off</string>
     <string name="main_screen_turn_on_title">Optimize Bluetooth usage</string>

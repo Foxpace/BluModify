@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +31,6 @@ import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.intro.IntroTestTags
 
 @Composable
 fun BatteryOptimizationScreen(
@@ -84,8 +82,7 @@ fun BatteryOptimizationScreen(
             Spacer(modifier = Modifier.weight(1f))
             AppButton(
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .testTag(IntroTestTags.INTRO_BATTERY_OPTIMISATION_SCREEN_ENLIST_BUTTON),
+                    .padding(bottom = 16.dp),
                 text = R.string.battery_saving_activate_button
             ) {
                 onEvent(
@@ -98,8 +95,7 @@ fun BatteryOptimizationScreen(
             }
             AppButton(
                 modifier = Modifier
-                    .padding(bottom = 30.dp)
-                    .testTag(IntroTestTags.INTRO_BATTERY_OPTIMISATION_SCREEN_START_BUTTON),
+                    .padding(bottom = 30.dp) ,
                 text = R.string.start_app
             ) {
                 onEvent(BatteryOptimizationEvents.FinishOnboarding)
