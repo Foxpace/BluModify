@@ -7,10 +7,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 
 @Composable
@@ -22,7 +20,6 @@ fun DevicePickerComp(
 ) {
     Box(
         modifier = modifier
-            .testTag(SettingsTestTags.ADVANCED_BT_PICKER_LIST)
             .fillMaxSize()
     ) {
         LazyColumn {

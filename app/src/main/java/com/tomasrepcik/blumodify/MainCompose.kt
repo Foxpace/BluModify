@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerContent
 import com.tomasrepcik.blumodify.app.ui.components.appdrawer.AppDrawerItemInfo
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
@@ -80,21 +79,18 @@ object DrawerParams {
             R.string.drawer_home,
             R.drawable.ic_home,
             R.string.drawer_home_description,
-            AppTestTags.APP_DRAWER_SHEET_HOME
         ),
         AppDrawerItemInfo(
             MainNavOption.SettingsScreen,
             R.string.drawer_settings,
             R.drawable.ic_settings,
             R.string.drawer_settings_description,
-            AppTestTags.APP_DRAWER_SHEET_SETTINGS
         ),
         AppDrawerItemInfo(
             MainNavOption.AboutScreen,
             R.string.drawer_about,
             R.drawable.ic_info,
             R.string.drawer_info_description,
-            AppTestTags.APP_DRAWER_SHEET_ABOUT
         )
     )
 }

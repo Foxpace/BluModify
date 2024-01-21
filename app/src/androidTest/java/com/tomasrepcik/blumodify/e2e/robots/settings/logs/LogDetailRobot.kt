@@ -1,32 +1,45 @@
 package com.tomasrepcik.blumodify.e2e.robots.settings.logs
 
+import androidx.compose.ui.test.hasAnySibling
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.hasTextExactly
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
 import com.tomasrepcik.blumodify.e2e.robots.Robot
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
-import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
+import com.tomasrepcik.blumodify.settings.logs.detail.LogReportUiItem
+import java.text.DateFormat
 
 class LogDetailRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
-    fun checkLogDetailContent(devices: Array<BtItem> = emptyArray(), stackTrace: Boolean = false) {
-//        wait(SettingsTestTags.LOG_DETAIL)
-        assertContent(SettingsTestTags.LOG_DETAIL_TIME)
-        assertContent(SettingsTestTags.LOG_DETAIL_STATUS)
-        assertContent(SettingsTestTags.LOG_DETAIL_DEVICES)
+    fun checkLogDetailContent(logReport: LogReport) {
+        val logReportUi = logReportToUi(logReport)
 
-        if (devices.isNotEmpty()) {
-            devices.forEach {
-                assertText(it.deviceName)
-                assertText(it.macAddress)
-            }
-        } else {
-            assertText("0")
+        waitFor(hasTextExactly(logReportUi.time))
+        assertText("Time")
+        assertText(logReportUi.time)
+        assertText("Result")
+        assertText(if (logReportUi.isSuccess) "Success" else "Failure")
+        assertText("Connected devices")
+        logReportUi.connectedDevices.forEach {
+            composeRule.onNode(hasText(it.deviceName).and(hasAnySibling(hasText(it.macAddress))))
         }
 
-        if (stackTrace){
-            assertContent(SettingsTestTags.LOG_DETAIL_STACKTRACE)
+        if (logReportUi.stackTrace.isNotBlank()) {
+            assertText("Error")
+            assertText(logReportUi.stackTrace)
         } else {
-            assertDoesNotExist(SettingsTestTags.LOG_DETAIL_STACKTRACE)
+            assertDoesNotExistText("Error")
+            composeRule.onNode(hasText("Error").and(hasAnySibling(hasText(logReportUi.stackTrace))))
+                .assertDoesNotExist()
         }
     }
+
+    private fun logReportToUi(log: LogReport): LogReportUiItem = LogReportUiItem(
+        log.id.toString(),
+        DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(log.startTime),
+        log.isSuccess,
+        log.connectedDevices.toTypedArray(),
+        log.stackTrace ?: ""
+    )
 
 }

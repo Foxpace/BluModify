@@ -66,7 +66,7 @@ class AdvancedBtPickerPairedDevice : UiTest(TestConfig.AllPermissions) {
         }
 
         with(BtPickerRobot(composeTestRule)) {
-            checkPairedDevicesScreenWithMacAddress(btItem.macAddress)
+            checkBtItemExists(btItem)
         }
     }
 }

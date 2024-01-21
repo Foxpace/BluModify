@@ -14,6 +14,7 @@ import com.tomasrepcik.blumodify.e2e.helpers.launchApp
 import com.tomasrepcik.blumodify.e2e.robots.NavigationRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.MainSettingsRobot
 import com.tomasrepcik.blumodify.e2e.robots.settings.advanced.AdvancedListRobot
+import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
@@ -38,6 +39,7 @@ class AdvancedListTest : UiTest(TestConfig.AllPermissions) {
     lateinit var deviceDao: BtDeviceDao
 
     private val btDeviceDao = BtDevice("00:00", "device", false, 0L)
+    private val btItem = BtItem(btDeviceDao.name, btDeviceDao.macAddress)
 
     @Test
     fun checkAdvancedWithDeviceTest() {
@@ -58,7 +60,7 @@ class AdvancedListTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(AdvancedListRobot(composeTestRule)) {
-            checkAdvancedListScreenWithDeviceMac(btDeviceDao.macAddress)
+            checkAdvancedListScreenWithDeviceMac(btItem)
             goBack()
         }
 

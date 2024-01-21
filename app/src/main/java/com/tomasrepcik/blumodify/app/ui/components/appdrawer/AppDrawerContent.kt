@@ -16,9 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,7 +29,7 @@ fun <T : Enum<T>> AppDrawerContent(
     var currentPick by remember { mutableStateOf(defaultPick) }
     val coroutineScope = rememberCoroutineScope()
 
-    ModalDrawerSheet(modifier = Modifier.testTag(AppTestTags.APP_DRAWER_SHEET)) {
+    ModalDrawerSheet() {
         Surface(color = MaterialTheme.colorScheme.background) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally

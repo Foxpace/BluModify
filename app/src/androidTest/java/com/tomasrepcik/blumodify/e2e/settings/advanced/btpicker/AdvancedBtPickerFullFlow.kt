@@ -1,5 +1,7 @@
 package com.tomasrepcik.blumodify.e2e.settings.advanced.btpicker
 
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
 import androidx.datastore.core.DataStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -42,12 +44,10 @@ class AdvancedBtPickerFullFlow : UiTest(TestConfig.AllPermissions) {
     @BindValue
     @JvmField
     val btController: BtControllerTemplate = mock<BtControllerTemplate>().stub {
-        on { isPermission() } doReturn(true)
-        on { isBtOn() } doReturn(true)
+        on { isPermission() } doReturn (true)
+        on { isBtOn() } doReturn (true)
         on { getPairedBtDevices() } doReturnConsecutively (listOf(
-            setOf(btItem),
-            setOf(),
-            setOf(btItem)
+            setOf(btItem), setOf(), setOf(btItem)
         ))
     }
 
@@ -71,21 +71,22 @@ class AdvancedBtPickerFullFlow : UiTest(TestConfig.AllPermissions) {
         }
 
         with(BtPickerRobot(composeTestRule)) {
-            checkPairedDevicesScreenWithMacAddress(btItem.macAddress)
-            addDevice(btItem.macAddress)
-            checkAllDevicesAddedScreen()
+            checkBtItemExists(btItem)
+            addDevice(btItem)
+            checkBtItemDoesNotExists(btItem)
             goBack()
         }
 
         with(AdvancedListRobot(composeTestRule)) {
-            checkAdvancedListScreenWithDeviceMac(btItem.macAddress)
-            removeDevice(btItem.macAddress)
+            checkAdvancedListScreenWithDeviceMac(btItem)
+            composeRule.onRoot(useUnmergedTree = true).printToLog("haha")
+            removeDevice(btItem)
             checkAdvancedEmptyListScreen()
             openAdder()
         }
 
         with(BtPickerRobot(composeTestRule)) {
-            checkPairedDevicesScreenWithMacAddress(btItem.macAddress)
+            checkBtItemExists(btItem)
         }
     }
 }

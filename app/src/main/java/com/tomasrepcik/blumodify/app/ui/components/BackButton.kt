@@ -10,11 +10,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tomasrepcik.blumodify.R
-import com.tomasrepcik.blumodify.app.ui.AppTestTags
 import com.tomasrepcik.blumodify.app.ui.previews.AllPreviews
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
 
@@ -24,9 +22,6 @@ fun BackButton( onClick: OnClickFunction) {
         onClick = onClick,
         modifier = Modifier
             .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
-            .testTag(
-                AppTestTags.APP_BACK_BUTTON
-            )
     ) {
         Icon(
             Icons.AutoMirrored.Filled.ArrowBack,

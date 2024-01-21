@@ -8,5 +8,4 @@ data class AppDrawerItemInfo<T>(
     @StringRes val title: Int,
     @DrawableRes val drawableId: Int,
     @StringRes val descriptionId: Int,
-    val testTag: String
 )

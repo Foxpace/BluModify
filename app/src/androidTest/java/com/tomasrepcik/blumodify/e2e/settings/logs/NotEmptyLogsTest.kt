@@ -41,7 +41,6 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
 
     private val btDevice1 = BtItem(deviceName = "device 1", macAddress = "AA:AA")
     private val btDevice2 = BtItem(deviceName = "device 2", macAddress = "00:00")
-    private val devices = arrayOf(btDevice1, btDevice2)
     private val logReport = LogReport(
         startTime = 0L,
         connectedDevices = listOf(btDevice1, btDevice2),
@@ -101,7 +100,7 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(LogDetailRobot(composeTestRule)) {
-            checkLogDetailContent(devices = devices)
+            checkLogDetailContent(logReport)
             goBack()
         }
 

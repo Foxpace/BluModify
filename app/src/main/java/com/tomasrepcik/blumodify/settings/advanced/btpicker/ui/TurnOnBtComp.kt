@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +28,6 @@ import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.AppButton
 import com.tomasrepcik.blumodify.app.ui.previews.AllScreenPreview
 import com.tomasrepcik.blumodify.app.ui.theme.BluModifyTheme
-import com.tomasrepcik.blumodify.settings.SettingsTestTags
 
 
 @Composable
@@ -44,9 +42,7 @@ fun TurnOnBtComp(onBtOn: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .testTag(SettingsTestTags.ADVANCED_BT_OFF_SCREEN)
-        ,
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -65,7 +61,7 @@ fun TurnOnBtComp(onBtOn: () -> Unit) {
             style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center)
         )
         Spacer(modifier = Modifier.weight(1f))
-        AppButton(text = R.string.settings_bt_off_button, modifier = Modifier.testTag(SettingsTestTags.ADVANCED_TURN_ON_BT_BUTTON)) {
+        AppButton(text = R.string.settings_bt_off_button) {
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             launcher.launch(enableBtIntent)
         }
