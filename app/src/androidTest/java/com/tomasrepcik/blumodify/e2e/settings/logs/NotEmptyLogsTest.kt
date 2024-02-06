@@ -66,7 +66,7 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
             openLogs()
         }
 
@@ -76,7 +76,7 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
         }
     }
 
@@ -90,7 +90,7 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
             openLogs()
         }
 
@@ -109,7 +109,7 @@ class NotEmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
         }
     }
 }

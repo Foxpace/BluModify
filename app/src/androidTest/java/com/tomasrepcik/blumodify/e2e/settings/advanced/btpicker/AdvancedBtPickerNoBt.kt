@@ -52,7 +52,7 @@ class AdvancedBtPickerNoBt : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            enableAdvanced()
+            enableAdvancedTracking()
             openAdvancedList()
         }
 

@@ -61,7 +61,7 @@ class AdvancedBtPickerFullFlow : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            enableAdvanced()
+            enableAdvancedTracking()
             openAdvancedList()
         }
 

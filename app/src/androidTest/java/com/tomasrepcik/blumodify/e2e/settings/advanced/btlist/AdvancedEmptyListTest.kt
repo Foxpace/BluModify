@@ -39,7 +39,7 @@ class AdvancedEmptyListTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            enableAdvanced()
+            enableAdvancedTracking()
             openAdvancedList()
         }
 
@@ -49,7 +49,7 @@ class AdvancedEmptyListTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithAdvanced()
+            checkScreenContentWithAdvancedTracking()
         }
     }
 }

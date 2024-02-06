@@ -39,7 +39,7 @@ class EmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
             openLogs()
         }
 
@@ -49,7 +49,7 @@ class EmptyLogsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
         }
     }
 }

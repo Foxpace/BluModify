@@ -6,14 +6,28 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 class MainRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkIdling() {
-        checkButtonTurnOn()
         checkAnimationOff()
+        assertText("Optimise Bluetooth usage")
+        assertTextButton("Turn on")
     }
 
     fun checkWorking() {
-        checkCheckButtonOff()
         checkAnimationOn()
+        assertText("Checking Bluetooth perpetually")
+        assertTextButton("Turn off")
     }
+
+    fun checkMainScreen() = composeRule.onNode(
+        hasStateDescription("Turned off").or(
+            hasStateDescription("Turned on")
+        ).or(
+            hasStateDescription("Waiting to resolve issue")
+        )
+    ).assertExists()
+
+    fun clickTurnOnButton() = clickTextButton("Turn on")
+    fun clickTurnOffButton() = clickTextButton("Turn off")
+
 
     private fun checkAnimationOff() = composeRule.onNode(
         hasStateDescription("Turned off")
@@ -22,21 +36,5 @@ class MainRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
     private fun checkAnimationOn() = composeRule.onNode(
         hasStateDescription("Turned on")
     ).assertExists()
-
-    fun checkMainScreen() = composeRule.onNode(
-        hasStateDescription("Turned off").or(
-            hasStateDescription("Turned on").or(
-                hasStateDescription("Waiting to resolve issue")
-            )
-        )
-    ).assertExists()
-
-    private fun checkButtonTurnOn() = assertTextButton("Turn on")
-
-    private fun checkCheckButtonOff() = assertTextButton("Turn off")
-
-    fun clickTurnOnButton() = clickTextButton("Turn on")
-    fun clickTurnOffButton() = clickTextButton("Turn off")
-
 
 }

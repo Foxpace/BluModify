@@ -56,7 +56,7 @@ class AdvancedBtPickerPairedDevice : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            enableAdvanced()
+            enableAdvancedTracking()
             openAdvancedList()
         }
 

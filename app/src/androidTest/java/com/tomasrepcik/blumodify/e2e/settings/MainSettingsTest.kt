@@ -38,7 +38,7 @@ class MainSettingsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
         }
     }
 
@@ -52,11 +52,11 @@ class MainSettingsTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
-            enableAdvanced()
-            checkScreenContentWithAdvanced()
-            enableAdvanced()
-            checkScreenContentWithoutAdvanced()
+            checkScreenContentWithoutAdvancedTracking()
+            enableAdvancedTracking()
+            checkScreenContentWithAdvancedTracking()
+            enableAdvancedTracking()
+            checkScreenContentWithoutAdvancedTracking()
         }
     }
 }
@@ -82,7 +82,7 @@ class MainSettingsAdvancedOnTest : UiTest(TestConfig.AllPermissions) {
         }
 
         with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithAdvanced()
+            checkScreenContentWithAdvancedTracking()
         }
     }
 }

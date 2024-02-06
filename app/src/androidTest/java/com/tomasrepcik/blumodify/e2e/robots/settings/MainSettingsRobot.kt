@@ -5,7 +5,7 @@ import com.tomasrepcik.blumodify.e2e.robots.Robot
 
 class MainSettingsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
-    fun checkScreenContentWithoutAdvanced() {
+    fun checkScreenContentWithoutAdvancedTracking() {
         assertText("Devices")
         assertTextButtonWithIcon("Advanced tracking", "Bluetooth button")
         assertText("History")
@@ -17,7 +17,7 @@ class MainSettingsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         assertDoesNotExistText("Tracked devices list")
     }
 
-    fun checkScreenContentWithAdvanced() {
+    fun checkScreenContentWithAdvancedTracking() {
         assertText("Devices")
         assertTextButtonWithIcon("Advanced tracking", "Bluetooth button")
         assertTextButtonWithIcon("Explanation", "Question mark")
@@ -29,7 +29,7 @@ class MainSettingsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         assertTextButtonWithIcon("Add to whitelist", "Happy battery")
     }
 
-    fun enableAdvanced() = clickTextButton("Advanced tracking")
+    fun enableAdvancedTracking() = clickTextButton("Advanced tracking")
 
     fun openLogs() = clickTextButton("Execution logs")
     fun openAdvancedList() = clickTextButton("Tracked devices list")

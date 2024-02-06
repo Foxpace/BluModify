@@ -5,10 +5,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import app.rive.runtime.kotlin.RiveAnimationView
 import app.rive.runtime.kotlin.core.Alignment
+import app.rive.runtime.kotlin.core.ExperimentalAssetLoader
 import app.rive.runtime.kotlin.core.Loop
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.bluetooth.viewmodel.BluModifyState
 
+@OptIn(ExperimentalAssetLoader::class)
 @Composable
 fun MainRiveAnimation(state: BluModifyState, modifier: Modifier) = AndroidView(
     modifier = modifier,

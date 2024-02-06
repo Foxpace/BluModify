@@ -35,10 +35,8 @@ class MainScreenTest : UiTest(TestConfig.AllPermissions) {
     fun checkIfJobIsOff() {
 
         launchApp<MainActivity>()
+        MainRobot(composeTestRule).checkIdling()
 
-        with(MainRobot(composeTestRule)) {
-            checkIdling()
-        }
     }
 
     @Test
@@ -69,50 +67,30 @@ class MainScreenTest : UiTest(TestConfig.AllPermissions) {
     }
 
     @Test
-    fun checkDrawer() {
+    fun checkAppDrawer() {
 
         launchApp<MainActivity>()
 
-        with(MainRobot(composeTestRule)) {
-            checkIdling()
-        }
+        MainRobot(composeTestRule).checkIdling()
+        NavigationRobot(composeTestRule).openAndCheckDrawer()
 
-        with(NavigationRobot(composeTestRule)) {
-            openAndCheckDrawer()
-        }
     }
 
     @Test
-    fun navigateThroughDrawer() {
+    fun navigateThroughAppDrawerAllScreens() {
 
         launchApp<MainActivity>()
 
-        with(MainRobot(composeTestRule)) {
-            checkIdling()
-        }
-
         with(NavigationRobot(composeTestRule)) {
+
+            MainRobot(composeTestRule).checkIdling()
             openSettingsScreenViaDrawer()
-        }
-
-        with(MainSettingsRobot(composeTestRule)) {
-            checkScreenContentWithoutAdvanced()
-        }
-
-        with(NavigationRobot(composeTestRule)) {
+            MainSettingsRobot(composeTestRule).checkScreenContentWithoutAdvancedTracking()
             openAboutScreenViaDrawer()
-        }
-
-        with(AboutRobot(composeTestRule)) {
-            checkAboutScreen()
-        }
-
-        with(NavigationRobot(composeTestRule)) {
+            AboutRobot(composeTestRule).checkAboutScreen()
             openMainScreenViaDrawer()
-        }
+            MainRobot(composeTestRule).checkMainScreen()
 
-        with(MainRobot(composeTestRule)) {
-            checkMainScreen()
         }
     }
 
