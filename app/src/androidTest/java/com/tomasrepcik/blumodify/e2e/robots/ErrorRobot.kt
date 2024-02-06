@@ -6,14 +6,14 @@ class ErrorRobot(composeRule: ComposeTestRule) :
     Robot(composeRule) {
 
     fun checkErrorScreen(issueDescription: String, primaryButtonText: String) {
-        assertContentDescription("Sad face")
+        assertImage("Sad face")
         assertTextBesideImage(issueDescription, "Sad face")
         assertTextButton(primaryButtonText)
     }
 
     fun resolveIssueByClickingButton(buttonText: String, beforeClick: (() -> Unit)? = null) {
         beforeClick?.invoke()
-        clickButtonByText(buttonText)
+        clickTextButton(buttonText)
     }
 
 }

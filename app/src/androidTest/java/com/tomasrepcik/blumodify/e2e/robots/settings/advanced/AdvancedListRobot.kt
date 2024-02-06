@@ -12,7 +12,7 @@ import com.tomasrepcik.blumodify.settings.advanced.shared.model.BtItem
 class AdvancedListRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
     fun checkAdvancedEmptyListScreen() {
         waitFor(hasContentDescription("Sad face"))
-        assertContentDescription("Sad face")
+        assertImage("Sad face")
         assertTextBesideImage(
             "The app does not track any device, please add at least one!", "Sad face"
         )
@@ -30,7 +30,7 @@ class AdvancedListRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         )
     }
 
-    fun openAdder() = clickContentDescriptionWithButton("Add device")
+    fun openAdder() = clickIconButton("Add device")
 
     fun removeDevice(btItem: BtItem) = composeRule.onNode(
         hasText(btItem.deviceName).and(

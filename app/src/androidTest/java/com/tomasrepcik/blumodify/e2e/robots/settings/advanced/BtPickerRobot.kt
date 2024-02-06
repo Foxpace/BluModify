@@ -14,7 +14,7 @@ class BtPickerRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkMissingBtScreen() {
         waitFor(hasContentDescription("Bluetooth is off").and(hasNoClickAction()))
-        assertContentDescription("Bluetooth is off")
+        assertImage("Bluetooth is off")
         assertText("The Bluetooth is off", substring = true)
         assertText("To get recent list of Bluetooth devices", substring = true)
         assertTextButton("Turn on")
@@ -28,7 +28,7 @@ class BtPickerRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkNoPairedDevicesScreen() {
         waitFor(hasContentDescription("No device available").and(hasNoClickAction()))
-        assertContentDescription("No device available")
+        assertImage("No device available")
         assertText("There are no paired Bluetooth devices", substring = true)
         assertTextButton("Add device")
     }

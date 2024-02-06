@@ -35,8 +35,8 @@ class MainRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     private fun checkCheckButtonOff() = assertTextButton("Turn off")
 
-    fun clickTurnOnButton() = clickButtonByText("Turn on")
-    fun clickTurnOffButton() = clickButtonByText("Turn off")
+    fun clickTurnOnButton() = clickTextButton("Turn on")
+    fun clickTurnOffButton() = clickTextButton("Turn off")
 
 
 }

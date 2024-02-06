@@ -29,10 +29,10 @@ class MainSettingsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         assertTextButtonWithIcon("Add to whitelist", "Happy battery")
     }
 
-    fun enableAdvanced() = clickButtonByText("Advanced tracking")
+    fun enableAdvanced() = clickTextButton("Advanced tracking")
 
-    fun openLogs() = clickButtonByText("Execution logs")
-    fun openAdvancedList() = clickButtonByText("Tracked devices list")
+    fun openLogs() = clickTextButton("Execution logs")
+    fun openAdvancedList() = clickTextButton("Tracked devices list")
 
 
 }

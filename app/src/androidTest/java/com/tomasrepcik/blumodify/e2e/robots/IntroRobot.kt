@@ -4,8 +4,8 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 
 class IntroRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
-    private fun clickNextButton() = clickButtonByText("Next")
-    private fun clickStartButton() = clickButtonByText("Start")
+    private fun clickNextButton() = clickTextButton("Next")
+    private fun clickStartButton() = clickTextButton("Start")
 
     fun passIntro() {
         clickNextButton()

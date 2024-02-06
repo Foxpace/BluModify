@@ -5,12 +5,12 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 class NavigationRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     private fun openDrawer() {
-        assertContentDescriptionWithButton("Menu navigation button")
-        clickContentDescriptionWithButton("Menu navigation button")
+        assertIconButton("Menu navigation button")
+        clickIconButton("Menu navigation button")
     }
 
     private fun checkDrawer() {
-        assertContentDescription("BluModify app icon")
+        assertImage("BluModify app icon")
         assertTextBesideImage("BluModify", "BluModify app icon")
         assertTextButtonWithIcon("Home", "Home navigation button")
         assertTextButtonWithIcon("Settings", "Settings navigation button")
@@ -24,17 +24,17 @@ class NavigationRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun openMainScreenViaDrawer() {
         openAndCheckDrawer()
-        clickButtonByText("Home")
+        clickTextButton("Home")
     }
 
     fun openSettingsScreenViaDrawer() {
         openAndCheckDrawer()
-        clickButtonByText("Settings")
+        clickTextButton("Settings")
     }
 
     fun openAboutScreenViaDrawer() {
         openAndCheckDrawer()
-        clickButtonByText("About")
+        clickTextButton("About")
     }
 
 }

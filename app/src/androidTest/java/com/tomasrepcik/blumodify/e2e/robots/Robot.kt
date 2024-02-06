@@ -10,39 +10,22 @@ import androidx.compose.ui.test.hasTextExactly
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.performClick
 
-abstract class Robot(open val composeRule: ComposeTestRule) {
+abstract class Robot(val composeRule: ComposeTestRule) {
 
-    fun clickButtonByText(text: String) = composeRule.onNode(hasTextExactly(text)).performClick()
 
-    @OptIn(ExperimentalTestApi::class)
-    fun waitFor(matcher: SemanticsMatcher) = composeRule.waitUntilExactlyOneExists(matcher)
+    // assertion of buttons and clicking them
+    fun clickTextButton(text: String) = composeRule.onNode(hasTextExactly(text)).performClick()
 
-    fun assertContentDescription(description: String) =
-        composeRule.onNode(hasContentDescription(description)).assertExists()
-
-    fun assertContentDescriptionWithButton(description: String) =
-        composeRule.onNode(hasContentDescription(description).and(hasClickAction())).assertExists()
-
-    fun clickContentDescriptionWithButton(description: String) = composeRule.onNode(
+    fun clickIconButton(description: String) = composeRule.onNode(
         hasContentDescription(description).and(
             hasClickAction()
         )
     ).performClick()
 
-    fun assertText(text: String, ignoreCase: Boolean = false, substring: Boolean = false) =
-        composeRule.onNode(hasText(text, ignoreCase = ignoreCase, substring = substring))
-            .assertExists()
+    fun goBack() = clickIconButton("Back button") // uses the same description in all app
 
-    fun assertDoesNotExistText(text: String) =
-        composeRule.onNode(hasText(text)).assertDoesNotExist()
-
-    fun assertTextBesideImage(text: String, description: String) {
-        composeRule.onNode(
-            hasText(text).and(
-                hasAnySibling(hasContentDescription(description))
-            )
-        )
-    }
+    fun assertIconButton(description: String) =
+        composeRule.onNode(hasContentDescription(description).and(hasClickAction())).assertExists()
 
     fun assertTextButton(text: String) = composeRule.onNode(hasText(text).and(hasClickAction()))
 
@@ -52,6 +35,27 @@ abstract class Robot(open val composeRule: ComposeTestRule) {
         )
     )
 
-    fun goBack() = clickContentDescriptionWithButton("Back button")
+    fun assertImage(description: String) =
+        composeRule.onNode(hasContentDescription(description)).assertExists()
+
+    fun assertText(text: String, ignoreCase: Boolean = false, substring: Boolean = false) =
+        composeRule.onNode(hasText(text, ignoreCase = ignoreCase, substring = substring))
+            .assertExists()
+
+    fun assertDoesNotExistText(
+        text: String, ignoreCase: Boolean = false, substring: Boolean = false
+    ) = composeRule.onNode(hasText(text, ignoreCase = ignoreCase, substring = substring))
+        .assertDoesNotExist()
+
+    fun assertTextBesideImage(text: String, description: String) {
+        composeRule.onNode(
+            hasText(text).and(
+                hasAnySibling(hasContentDescription(description))
+            )
+        )
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun waitFor(matcher: SemanticsMatcher) = composeRule.waitUntilExactlyOneExists(matcher)
 
 }

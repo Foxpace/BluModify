@@ -16,7 +16,7 @@ class LogsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
 
     fun checkEmptyLogsScreen() {
         waitFor(hasContentDescription("Sad face"))
-        assertContentDescription("Sad face")
+        assertImage("Sad face")
         assertTextBesideImage(
             "No logs are in database. Use the app for a while and some logs will be recorded.",
             "Sad face"
@@ -29,7 +29,7 @@ class LogsRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         reportToNode(logReport).assertExists()
     }
 
-    fun goBackFromError() = clickButtonByText("Back")
+    fun goBackFromError() = clickTextButton("Back")
 
     fun openLogWithId(logReport: LogReport) = reportToNode(logReport).performClick()
 
