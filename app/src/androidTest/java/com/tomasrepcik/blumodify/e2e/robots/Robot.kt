@@ -27,13 +27,13 @@ abstract class Robot(val composeRule: ComposeTestRule) {
     fun assertIconButton(description: String) =
         composeRule.onNode(hasContentDescription(description).and(hasClickAction())).assertExists()
 
-    fun assertTextButton(text: String) = composeRule.onNode(hasText(text).and(hasClickAction()))
+    fun assertTextButton(text: String) = composeRule.onNode(hasText(text).and(hasClickAction())).assertExists()
 
     fun assertTextButtonWithIcon(text: String, description: String) = composeRule.onNode(
         hasText(text).and(hasClickAction()).and(
             hasAnySibling(hasClickAction().and(hasContentDescription(description)))
         )
-    )
+    ).assertExists()
 
     fun assertImage(description: String) =
         composeRule.onNode(hasContentDescription(description)).assertExists()
@@ -52,7 +52,7 @@ abstract class Robot(val composeRule: ComposeTestRule) {
             hasText(text).and(
                 hasAnySibling(hasContentDescription(description))
             )
-        )
+        ).assertExists()
     }
 
     @OptIn(ExperimentalTestApi::class)
