@@ -1,5 +1,7 @@
 package com.tomasrepcik.blumodify.settings.logs.list
 
+import java.util.Locale
+
 import app.cash.turbine.turbineScope
 import com.tomasrepcik.blumodify.app.storage.room.dao.LogsDao
 import com.tomasrepcik.blumodify.app.storage.room.entities.LogReport
@@ -39,6 +41,7 @@ class LogListViewModelTest {
 
     @Before
     fun setUp() {
+        Locale.setDefault(Locale.forLanguageTag("sk-SK"))
         sut = LogsListViewModel(logsDao)
     }
 

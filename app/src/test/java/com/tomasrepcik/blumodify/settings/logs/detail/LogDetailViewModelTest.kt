@@ -1,5 +1,7 @@
 package com.tomasrepcik.blumodify.settings.logs.detail
 
+import java.util.Locale
+
 import app.cash.turbine.turbineScope
 import com.tomasrepcik.blumodify.app.model.AppResult
 import com.tomasrepcik.blumodify.app.model.ErrorCause
@@ -42,6 +44,7 @@ class LogDetailViewModelTest {
 
     @Before
     fun setUp() {
+        Locale.setDefault(Locale.forLanguageTag("sk-SK"))
         sut = LogsDetailViewModel(logsDao)
     }
 

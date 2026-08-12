@@ -1,7 +1,6 @@
 package com.tomasrepcik.blumodify.about
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +25,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.android.gms.oss.licenses.v2.OssLicensesMenuActivity
+import androidx.core.net.toUri
 import com.tomasrepcik.blumodify.BuildConfig
 import com.tomasrepcik.blumodify.R
 import com.tomasrepcik.blumodify.app.ui.components.appbar.AppBar
@@ -40,6 +40,8 @@ fun AboutScreen(drawerState: DrawerState) {
         topBar = { AppBar(drawerState = drawerState, title = R.string.about_screen_title) }
     ) { padding ->
         val context = LocalContext.current
+        val githubLink = stringResource(R.string.about_screen_github_link)
+        val mailContact = stringResource(R.string.about_screen_mail_contact)
         Column(
             modifier = Modifier
                 .padding(padding)
@@ -87,7 +89,7 @@ fun AboutScreen(drawerState: DrawerState) {
             ) {
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(context.getString(R.string.about_screen_github_link))
+                    githubLink.toUri()
                 ).also {
                     context.startActivity(it)
                 }
@@ -98,7 +100,7 @@ fun AboutScreen(drawerState: DrawerState) {
                 text = stringResource(id = R.string.about_screen_mail_text)
             ) {
                 Intent(Intent.ACTION_SENDTO).let {
-                    it.data = Uri.parse("mailto:${context.getString(R.string.about_screen_mail_contact)}")
+                    it.data = "mailto:$mailContact".toUri()
                     context.startActivity(it)
                 }
             }

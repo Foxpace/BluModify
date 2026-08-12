@@ -22,14 +22,12 @@
 
 
     <!-- GENERAL PURPOSE TEXT-->
-    <string name="ok">OK</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="none">None</string>
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="start_app">Start</string>
-    <string name="more_info">More info</string>
     <string name="more_actions">More actions</string>
     <string name="try_again">Try again</string>
     <string name="zero">0</string>
@@ -93,8 +91,6 @@
         By adding the app to the whitelist, it may work better. You can still enable this option later in settings.
     </string>
     <string name="battery_saving_activate_button">Add to whitelist</string>
-    <string name="battery_saving_later_button">Later</string>
-    <string name="battery_saving_success">App added to whitelist, thanks!</string>
     <string name="battery_saving_already_added">The app is already in whitelist.</string>
     <string name="battery_saving_error">Error occurred during invocation.</string>
 
@@ -109,7 +105,6 @@
     <string name="drawer_info_description">About navigation button</string>
 
     <!-- MAIN SCREEN -->
-    <string name="main_screen_animation_description">Rive main animation</string>
     <string name="main_screen_animation_state_off">Turned off</string>
     <string name="main_screen_animation_state_on">Turned on</string>
     <string name="main_screen_animation_state_waiting">Waiting to resolve issue</string>
@@ -126,7 +121,6 @@
     <!-- NOTIFICATION -->
     <string name="notification_channel_name">Blumodify notification channel</string>
     <string name="notification_channel_description">To request user to turn off bluetooth, if it is not needed anymore</string>
-    <string name="notification_title">"No connected device"</string>
     <string name="notification_content">"Turn off the Bluetooth to preserve battery and privacy."</string>
     <string name="notification_content_unknown">"Open app."</string>
 `
@@ -147,7 +141,6 @@
     <string name="settings_advanced_tracking_dialog_button">Explanation</string>
     <string name="settings_devices_list">Tracked devices list</string>
     <string name="settings_tracked_devices">Tracked devices</string>
-    <string name="settings_tracked_button_description">Button to add tracked device</string>
 
 
     <!-- SETTINGS - LOGS -->
@@ -186,7 +179,7 @@
         Here comes BluModify, which can alert you with notification about this situation and you can turn off the Bluetooth.
         Unfortunately, with advanced versions of Android, the Bluetooth can be turned off only manually by user.
     </string>
-    <string name="about_screen_version">Version %s / %s</string>
+    <string name="about_screen_version">Version %1$s / %2$s</string>
     <string name="about_screen_github_text">Check app\'s repository</string>
     <string name="about_screen_github_link">https://github.com/Foxpace/BluModify</string>
     <string name="about_screen_mail_text">Contact us</string>

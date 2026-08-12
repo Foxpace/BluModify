@@ -27,7 +27,7 @@ class AdvancedListRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
             ).and(
                 hasAnySibling(hasContentDescription("Remove device").and(hasClickAction()))
             )
-        )
+        ).assertExists()
     }
 
     fun openAdder() = clickIconButton("Add device")

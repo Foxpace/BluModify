@@ -13,6 +13,8 @@ annotation class DarkScreens
 
 @BrightScreens
 @DarkScreens
+@Preview(name = "Compact landscape", widthDp = 840, heightDp = 480)
+@Preview(name = "Expanded tablet", widthDp = 1280, heightDp = 800)
 annotation class AllScreenPreview
 
 @Preview(device = "id:pixel_5", name = "Pixel 5")

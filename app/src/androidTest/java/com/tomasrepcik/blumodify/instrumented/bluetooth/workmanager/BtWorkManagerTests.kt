@@ -121,7 +121,7 @@ class BtWorkManagerTests {
         val workInfo = withContext(Dispatchers.IO) {
             workManager.getWorkInfoById(uuid).get()
         }
-        assertThat(workInfo.state, `is`(WorkInfo.State.RUNNING))
+        assertThat(requireNotNull(workInfo).state, `is`(WorkInfo.State.RUNNING))
     }
 
     @Test
@@ -137,6 +137,6 @@ class BtWorkManagerTests {
         val workInfo = withContext(Dispatchers.IO) {
             workManager.getWorkInfoById(uuid).get()
         }
-        assertThat(workInfo.state, `is`(WorkInfo.State.ENQUEUED))
+        assertThat(requireNotNull(workInfo).state, `is`(WorkInfo.State.ENQUEUED))
     }
 }

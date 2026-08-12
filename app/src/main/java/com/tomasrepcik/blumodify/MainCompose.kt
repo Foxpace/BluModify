@@ -1,11 +1,18 @@
 package com.tomasrepcik.blumodify
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -53,13 +60,25 @@ fun MainCompose(
                         }
                 }
             ) {
-                NavHost(
-                    navController,
-                    startDestination = if (isOnboarded) NavRoutes.MainRoute.name else NavRoutes.IntroRoute.name
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.TopCenter,
                 ) {
-                    introGraph(navController)
-                    mainGraph(navController, drawerState)
-                    settingsGraph(navController)
+                    NavHost(
+                        navController = navController,
+                        startDestination = if (isOnboarded) {
+                            NavRoutes.MainRoute.name
+                        } else {
+                            NavRoutes.IntroRoute.name
+                        },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .widthIn(max = 840.dp),
+                    ) {
+                        introGraph(navController)
+                        mainGraph(navController, drawerState)
+                        settingsGraph(navController)
+                    }
                 }
             }
         }

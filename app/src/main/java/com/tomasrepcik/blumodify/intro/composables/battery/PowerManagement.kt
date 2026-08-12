@@ -3,11 +3,11 @@ package com.tomasrepcik.blumodify.intro.composables.battery
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.material3.SnackbarHostState
+import androidx.core.net.toUri
 import com.tomasrepcik.blumodify.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ object PowerManagement {
 
         val intent = Intent()
         intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-        intent.data = Uri.parse("package:" + context.packageName)
+        intent.data = "package:${context.packageName}".toUri()
 
         try {
             context.startActivity(intent)

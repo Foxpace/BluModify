@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Gradle 9.7 is currently a release candidate; stay on stable 9.6.0. -->
+    <issue id="AndroidGradlePluginVersion">
+        <ignore path="../gradle/wrapper/gradle-wrapper.properties" />
+    </issue>
+
+    <!-- Preserve the existing legacy launcher artwork for pre-adaptive-icon devices. -->
+    <issue id="IconLauncherShape">
+        <ignore regexp="mipmap-.*/ic_launcher\.png" />
+    </issue>
+</lint>

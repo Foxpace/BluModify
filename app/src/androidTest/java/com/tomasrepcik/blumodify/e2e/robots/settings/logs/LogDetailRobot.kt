@@ -22,6 +22,7 @@ class LogDetailRobot(composeRule: ComposeTestRule) : Robot(composeRule) {
         assertText("Connected devices")
         logReportUi.connectedDevices.forEach {
             composeRule.onNode(hasText(it.deviceName).and(hasAnySibling(hasText(it.macAddress))))
+                .assertExists()
         }
 
         if (logReportUi.stackTrace.isNotBlank()) {

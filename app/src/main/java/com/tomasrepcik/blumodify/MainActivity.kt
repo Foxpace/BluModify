@@ -1,16 +1,19 @@
 package com.tomasrepcik.blumodify
 
 import android.animation.ObjectAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.tomasrepcik.blumodify.intro.IntroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +25,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+        )
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -44,4 +52,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
